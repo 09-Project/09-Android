@@ -23,9 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="310dp"
-        android:layout_marginBottom="409dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_splash_lore_text" />
@@ -35,8 +34,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="340dp"
-        android:layout_marginBottom="374dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -46,35 +43,34 @@
     <FrameLayout
         android:layout_width="92dp"
         android:layout_height="14dp"
-        android:layout_marginTop="676dp"
         android:layout_marginBottom="50dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
+
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_gravity="left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
             app:srcCompat="@drawable/ic_splash_loading_on"
             tools:layout_editor_absoluteX="161dp"
             tools:layout_editor_absoluteY="648dp" />
 
         <ImageView
             android:id="@+id/imageView8"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_splash_loading_off"
             tools:layout_editor_absoluteY="304dp" />
 
         <ImageView
-            android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_splash_loading_off"
             tools:layout_editor_absoluteY="304dp" />
