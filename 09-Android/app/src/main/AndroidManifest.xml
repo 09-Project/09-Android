@@ -11,10 +11,11 @@
         android:theme="@style/Theme.09Android">
         <activity android:name=".ui.activity.RegisterActivity"></activity>
         <activity android:name=".ui.activity.LoginActivity" />
-        <activity android:name=".ui.activity.SplashActivity">
+        <activity android:name=".ui.activity.SplashActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
