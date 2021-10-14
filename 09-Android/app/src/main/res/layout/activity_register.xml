@@ -4,6 +4,153 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.RegisterActivity">
+    tools:context=".ui.activity.LoginActivity">
+
+    <ImageView
+        android:id="@+id/rimageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_login_logo" />
+
+    <ImageView
+        android:id="@+id/rimageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="160dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_login_login_box" />
+
+    <ImageView
+        android:id="@+id/rimageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/reditText"
+        app:layout_constraintEnd_toEndOf="@+id/reditText"
+        app:layout_constraintTop_toTopOf="@+id/reditText"
+        app:layout_constraintVertical_bias="0.511"
+        app:srcCompat="@drawable/ic_login_feather_eye" />
+
+    <TextView
+        android:id="@+id/rtextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="124dp"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:text="JOIN US"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="286dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="254dp"
+        android:ems="10"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:hint="Nickname"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        android:textColorHint="#6C6C6C"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/reditTextTextPersonName"
+        android:layout_width="286dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:hint="ID"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        android:textColorHint="#6C6C6C"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+
+    <EditText
+        android:id="@+id/reditText"
+        android:layout_width="286dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:hint="PASSWORD"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        android:textColorHint="#6C6C6C"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reditTextTextPersonName" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="287dp"
+        android:layout_height="44dp"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:gravity="center"
+        android:text="JOIN US"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rimageView3"
+        app:layout_constraintEnd_toEndOf="@+id/rimageView3"
+        app:layout_constraintStart_toStartOf="@+id/rimageView3"
+        app:layout_constraintTop_toTopOf="@+id/rimageView3" />
+
+    <TextView
+        android:id="@+id/rtextView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:text="이미 계정이 있으신가요?"
+        android:textColor="#707070"
+        android:textSize="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.422"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rimageView3" />
+
+    <TextView
+        android:id="@+id/rtextView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:text="로그인하기"
+        android:textColor="#4A55B5"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rtextView4"
+        app:layout_constraintStart_toEndOf="@+id/rtextView4"
+        app:layout_constraintTop_toTopOf="@+id/rtextView4" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="#4A55B5"
+        app:layout_constraintEnd_toEndOf="@+id/rtextView5"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/rtextView5"
+        app:layout_constraintTop_toTopOf="@+id/rtextView5" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
