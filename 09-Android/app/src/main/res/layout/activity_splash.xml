@@ -6,23 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.SplashActivity">
 
+
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:layout_marginBottom="460dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.566"
         app:srcCompat="@drawable/ic_splash_symbol09" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/tvLore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="310dp"
+        android:layout_marginTop="248dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,50 +30,13 @@
         app:srcCompat="@drawable/ic_splash_lore_text" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/tvLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="340dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLore"
         app:srcCompat="@drawable/ic_splash_logo_09" />
-
-
-    <FrameLayout
-        android:layout_width="92dp"
-        android:layout_height="14dp"
-        android:layout_marginBottom="50dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            app:srcCompat="@drawable/ic_splash_loading_on"
-            tools:layout_editor_absoluteX="161dp"
-            tools:layout_editor_absoluteY="648dp" />
-
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_splash_loading_off"
-            tools:layout_editor_absoluteY="304dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_splash_loading_off"
-            tools:layout_editor_absoluteY="304dp" />
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
