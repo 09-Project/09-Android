@@ -1,5 +1,6 @@
 package com.saehyun.a09_android.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.saehyun.a09_android.R
@@ -13,5 +14,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.loginTvRegister.setOnClickListener {
+            startActivity(Intent(applicationContext, RegisterActivity::class.java))
+        }
     }
 }
