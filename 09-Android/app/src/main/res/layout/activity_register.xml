@@ -102,7 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/reditTextTextPersonName" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tvLogin"
         android:layout_width="287dp"
         android:layout_height="44dp"
         android:fontFamily="@font/noto_sans_kr_medium"
