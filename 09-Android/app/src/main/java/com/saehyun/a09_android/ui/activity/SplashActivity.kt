@@ -3,8 +3,6 @@ package com.saehyun.a09_android.ui.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.UiThread
