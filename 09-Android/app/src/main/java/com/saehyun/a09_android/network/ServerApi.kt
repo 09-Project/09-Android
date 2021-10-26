@@ -1,4 +1,4 @@
-package com.saehyun.a09_android.remote
+package com.saehyun.a09_android.network
 
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest

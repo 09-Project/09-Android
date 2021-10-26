@@ -20,6 +20,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(applicationContext, RegisterActivity::class.java))
         }
 
+        binding.tvBtnJoinUs.setOnClickListener {
+            startActivity(Intent(applicationContext, RegisterActivity::class.java))
+        }
+
         // Temp
         binding.tvLogin.setOnClickListener {
             startActivity(Intent(applicationContext, MainActivity::class.java))

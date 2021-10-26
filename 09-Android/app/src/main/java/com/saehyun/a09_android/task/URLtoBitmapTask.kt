@@ -12,6 +12,7 @@ class URLtoBitmapTask() : AsyncTask<Void, Void, Bitmap>() {
         val bitmap = BitmapFactory.decodeStream(url.openStream())
         return bitmap
     }
+
     override fun onPreExecute() {
         super.onPreExecute()
 
