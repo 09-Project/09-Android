@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityLoginBinding
 import com.saehyun.a09_android.repository.Repository
+import com.saehyun.a09_android.util.ACCESS_TOKEN
+import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.LoginViewModel
 import com.saehyun.a09_android.viewModelFactory.LoginViewModelFactory
@@ -48,6 +50,9 @@ class LoginActivity : AppCompatActivity() {
             viewModel.authLogin(name, username)
             viewModel.authLoginResponse.observe(this, Observer {
                 if (it.isSuccessful) {
+                    ACCESS_TOKEN = it.body()?.accessToken.toString()
+                    REFRESH_TOKEN = it.body()?.refreshToken.toString()
+
                     successLogin()
                 } else {
                     when(it.code()) {
