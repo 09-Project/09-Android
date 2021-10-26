@@ -3,9 +3,12 @@ package com.saehyun.a09_android.network
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.response.AuthLoginResponse
+import com.saehyun.a09_android.model.response.AuthReissueResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 interface ServerApi {
 
@@ -23,4 +26,11 @@ interface ServerApi {
     suspend fun authLogin(
         @Body authLoginRequest: AuthLoginRequest
     ) : Response<AuthLoginResponse>
+
+    // 토큰 재발급
+    @PUT("auth/reissue")
+    suspend fun authReissue(
+        @Header("x-refresh-token") refreshToken: String
+    ) : Response<AuthReissueResponse>
+
 }
