@@ -14,8 +14,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ToastUtil.print(applicationContext, "test")
+        setContentView(binding.root))
     }
 }

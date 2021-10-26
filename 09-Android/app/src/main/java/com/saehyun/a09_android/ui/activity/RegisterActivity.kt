@@ -34,7 +34,7 @@ class RegisterActivity : AppCompatActivity() {
             val username = binding.registerEtId.text.toString()
             val password = binding.registerEtPassword.text.toString()
 
-            if (name.isEmpty() || username.isEmpty() || username.isEmpty()) {
+            if (name.isEmpty() || username.isEmpty() || password.isEmpty()) {
                 ToastUtil.print(applicationContext, "값을 모두 입력해주세요.")
                 return@setOnClickListener
             }
