@@ -19,5 +19,10 @@ class LoginActivity : AppCompatActivity() {
         binding.loginTvRegister.setOnClickListener {
             startActivity(Intent(applicationContext, RegisterActivity::class.java))
         }
+
+        // Temp
+        binding.tvLogin.setOnClickListener {
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+        }
     }
 }
