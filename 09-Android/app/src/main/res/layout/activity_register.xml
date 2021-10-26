@@ -31,9 +31,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/reditText"
-        app:layout_constraintEnd_toEndOf="@+id/reditText"
-        app:layout_constraintTop_toTopOf="@+id/reditText"
+        app:layout_constraintBottom_toBottomOf="@+id/registerEtPassword"
+        app:layout_constraintEnd_toEndOf="@+id/registerEtPassword"
+        app:layout_constraintTop_toTopOf="@+id/registerEtPassword"
         app:layout_constraintVertical_bias="0.511"
         app:srcCompat="@drawable/ic_login_feather_eye" />
 
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/registerEtName"
         android:layout_width="286dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="254dp"
@@ -68,7 +68,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/reditTextTextPersonName"
+        android:id="@+id/registerEtId"
         android:layout_width="286dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -82,10 +82,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/registerEtName" />
 
     <EditText
-        android:id="@+id/reditText"
+        android:id="@+id/registerEtPassword"
         android:layout_width="286dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -99,10 +99,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reditTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/registerEtId" />
 
     <TextView
-        android:id="@+id/tvLogin"
+        android:id="@+id/tvJoinUs"
         android:layout_width="287dp"
         android:layout_height="44dp"
         android:fontFamily="@font/noto_sans_kr_medium"
@@ -143,6 +143,7 @@
         app:layout_constraintTop_toTopOf="@+id/rtextView4" />
 
     <View
+        android:id="@+id/tvReturnLogin"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
