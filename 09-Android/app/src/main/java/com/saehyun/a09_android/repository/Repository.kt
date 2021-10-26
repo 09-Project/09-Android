@@ -3,6 +3,7 @@ package com.saehyun.a09_android.repository
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.response.AuthLoginResponse
+import com.saehyun.a09_android.model.response.AuthReissueResponse
 import com.saehyun.a09_android.network.ApiProvider
 import retrofit2.Response
 
@@ -15,5 +16,9 @@ class Repository {
     suspend fun authLogin(username : String, password : String) : Response<AuthLoginResponse> {
         val authLoginRequest = AuthLoginRequest(username, password)
         return ApiProvider.api.authLogin(authLoginRequest)
+    }
+
+    suspend fun authReissue(refreshToken: String) : Response<AuthReissueResponse> {
+        return ApiProvider.api.authReissue(refreshToken)
     }
 }
