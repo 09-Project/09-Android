@@ -4,6 +4,7 @@ import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.response.AuthLoginResponse
 import com.saehyun.a09_android.model.response.AuthReissueResponse
+import com.saehyun.a09_android.model.response.PostResponse
 import com.saehyun.a09_android.network.ApiProvider
 import retrofit2.Response
 
@@ -20,5 +21,9 @@ class Repository {
 
     suspend fun authReissue(refreshToken: String) : Response<AuthReissueResponse> {
         return ApiProvider.api.authReissue(refreshToken)
+    }
+
+    suspend fun post() : Response<List<PostResponse>> {
+        return ApiProvider.api.post()
     }
 }
