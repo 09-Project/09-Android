@@ -1,14 +1,13 @@
 package com.saehyun.a09_android.network
 
+import com.saehyun.a09_android.model.data.RcProductRvData
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.response.AuthLoginResponse
 import com.saehyun.a09_android.model.response.AuthReissueResponse
+import com.saehyun.a09_android.model.response.PostResponse
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 interface ServerApi {
 
@@ -19,7 +18,6 @@ interface ServerApi {
     suspend fun authSignUp(
         @Body authSignUpRequest: AuthSignUpRequest
     ) : Response<Void>
-
 
     // 로그인
     @POST("auth/login")
@@ -32,5 +30,9 @@ interface ServerApi {
     suspend fun authReissue(
         @Header("x-refresh-token") refreshToken: String
     ) : Response<AuthReissueResponse>
+
+    // Post
+    @GET("post")
+    suspend fun post() : Response<List<PostResponse>>
 
 }
