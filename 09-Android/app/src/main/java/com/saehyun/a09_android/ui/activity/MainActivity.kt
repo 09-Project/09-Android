@@ -9,20 +9,29 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityMainBinding
 import com.saehyun.a09_android.model.data.RcProductRvData
+import com.saehyun.a09_android.model.response.PostResponse
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
+import com.saehyun.a09_android.viewModel.PostViewModel
 import com.saehyun.a09_android.viewModel.ReissueViewModel
+import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
     private lateinit var binding: ActivityMainBinding
+
     private lateinit var reissueViewModel: ReissueViewModel
 
-    private var productList = arrayListOf<RcProductRvData>()
+    private lateinit var postViewModel: PostViewModel
+
+    private lateinit var postViewModelFactory: PostViewModelFactory
+
+    private var productList = arrayListOf<PostResponse>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +39,31 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.rvMainRcProduct.adapter = RcProductRvAdapter(applicationContext, productList)
+        val repository = Repository()
+
+
         binding.rvMainRcProduct.layoutManager = GridLayoutManager(this, 2)
         binding.rvMainRcProduct.setHasFixedSize(true)
-        binding.rvMainRcProduct.adapter?.notifyDataSetChanged()
+        binding.rvMainRcProduct.adapter = RcProductRvAdapter(applicationContext, productList)
 
-        val repository = Repository()
+        postViewModelFactory = PostViewModelFactory(repository)
+        postViewModel = ViewModelProvider(this, postViewModelFactory).get(PostViewModel::class.java)
+
+
+        postViewModel.authPost()
+        postViewModel.authPostResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                for(i: Int in 0 until it.body()!!.size) {
+                    productList.add(it.body()!!.get(i))
+                    binding.rvMainRcProduct.adapter?.notifyDataSetChanged()
+                }
+            } else {
+                Log.d(TAG, "onResume: 실패")
+            }
+        })
+
+
+
         val reissueViewModelFactory = ReissueViewModelFactory(repository)
         reissueViewModel = ViewModelProvider(this, reissueViewModelFactory).get(ReissueViewModel::class.java)
 
@@ -52,5 +80,10 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 }
