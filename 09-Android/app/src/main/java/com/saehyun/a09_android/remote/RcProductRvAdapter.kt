@@ -3,6 +3,7 @@ package com.saehyun.a09_android.remote
 import android.app.ActionBar
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,8 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostRespons
     RecyclerView.Adapter<RcProductRvAdapter.Holder>() {
 
 
+    private val TAG = "RcProductRvAdapter"
+
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val clRecommendedProduct =
             itemView?.findViewById<ConstraintLayout>(R.id.clRecommendedProduct)
@@ -32,12 +35,12 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostRespons
         val tvTransactionRegion = itemView?.findViewById<TextView>(R.id.tvTransactionRegion)
         val tvPrice = itemView?.findViewById<TextView>(R.id.tvPrice)
 
-
-        fun bind(postResponse: PostResponse, context: Context) {
-            tvTitle?.text = postResponse.title
-            tvTransactionRegion?.text = postResponse.transaction_region
-            tvPrice?.text = postResponse.price
-        }
+//
+//        fun bind(postResponse: PostResponse, context: Context) {
+//            tvTitle?.text = postResponse.title
+//            tvTransactionRegion?.text = postResponse.transaction_region
+//            tvPrice?.text = postResponse.price
+//        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -47,7 +50,22 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostRespons
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(productData[position], context)
+
+//
+//        holder.bind(productData[position], context)
+
+        var data: PostResponse = productData.get(position)
+
+        Log.d(TAG, "onBindViewHolder: " + data.image)
+
+        Glide.with(holder.itemView.context)
+                .load("https://beomjin-bucket.s3.ap-northeast-2.amazonaws.com/static/fccd670d-38fe-4b18-b13a-290eaf156f00check.png")
+                .into(holder.ivImage)
+
+        holder.tvTitle?.text = data.title
+        holder.tvTransactionRegion?.text = data.transaction_region
+        holder.tvPrice?.text = data.price
+
     }
 
     override fun getItemCount(): Int {
