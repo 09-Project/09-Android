@@ -1,23 +1,32 @@
 package com.saehyun.a09_android.ui.activity
 
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.api.load
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityMainBinding
 import com.saehyun.a09_android.model.data.RcProductRvData
 import com.saehyun.a09_android.model.response.PostResponse
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
+import com.saehyun.a09_android.task.ImageLoader
+import com.saehyun.a09_android.task.URLtoBitmapTask
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.PostViewModel
 import com.saehyun.a09_android.viewModel.ReissueViewModel
 import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,8 +48,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val repository = Repository()
+        binding.testImage.load("https://img.icons8.com/ios/50/000000/small-axe.png")
 
+        val repository = Repository()
 
         binding.rvMainRcProduct.layoutManager = GridLayoutManager(this, 2)
         binding.rvMainRcProduct.setHasFixedSize(true)
