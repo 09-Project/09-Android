@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -57,22 +58,29 @@ class MainActivity : AppCompatActivity() {
 
         // Page Set
         binding.MainibBack.setOnClickListener {
-            if(currentPage < 0) {
+            --currentPage
+            if(currentPage <= 1) {
                 ToastUtil.print(applicationContext, "첫 페이지 입니다.")
                 return@setOnClickListener
             }
-            currentPage--
+            postViewModel.authPost(currentPage, VIEW_SIZE)
         }
 
         binding.MainibNext.setOnClickListener {
-            currentPage++
+            ++currentPage
+            if(currentPage >= maxPage) {
+                ToastUtil.print(applicationContext, "마지막 페이지 입니다.")
+                return@setOnClickListener
+            }
+            postViewModel.authPost(currentPage, VIEW_SIZE)
         }
 
-        // Get Post (Default) % getMaxPage
+        // Get Post
         postViewModelFactory = PostViewModelFactory(repository)
         postViewModel = ViewModelProvider(this, postViewModelFactory).get(PostViewModel::class.java)
 
         postViewModel.authPost(currentPage, VIEW_SIZE)
+
         postViewModel.authPostResponse.observe(this, Observer {
             if (it.isSuccessful) {
                 val size = it.body()!!.posts.size
@@ -80,15 +88,19 @@ class MainActivity : AppCompatActivity() {
                 val count = it.body()!!.count
                 maxPage = count / 16
                 if(count % 16 != 0) maxPage++
+                binding.tvCurrentPage.text = "${currentPage+1}"
                 binding.tvMaxPage.text = " / ${maxPage}"
 
-                for(i: Int in 1 until size) {
+                productList.clear()
+                for(i: Int in 0 until size) {
                     val postValue: PostValue = it.body()!!.posts.get(i)
                     productList.add(postValue)
                     binding.rvMainRcProduct.adapter?.notifyDataSetChanged()
                 }
             } else {
-                Log.d(TAG, "onResume: 실패")
+                when(it.code()) {
+                    404 -> ToastUtil.print(applicationContext,"이미지가 존재하지 않습니다")
+                }
             }
         })
 
