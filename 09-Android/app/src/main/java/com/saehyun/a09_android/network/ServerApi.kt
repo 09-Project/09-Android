@@ -31,10 +31,18 @@ interface ServerApi {
         @Header("x-refresh-token") refreshToken: String
     ) : Response<AuthReissueResponse>
 
-    // Post
+    // 전체 상품 보기
     @GET("post")
     suspend fun post(
         @Query("page") page: Int,
         @Query("size") size: Int
+    ) : Response<PostResponse>
+
+    // 상품 검색하기
+    @GET("post/search")
+    suspend fun searchPost(
+            @Query("keyword") keyword: String,
+            @Query("page") page: Int,
+            @Query("size") size: Int
     ) : Response<PostResponse>
 }
