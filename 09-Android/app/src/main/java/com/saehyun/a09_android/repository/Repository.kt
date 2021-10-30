@@ -2,6 +2,7 @@ package com.saehyun.a09_android.repository
 
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
+import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.AuthLoginResponse
 import com.saehyun.a09_android.model.response.AuthReissueResponse
 import com.saehyun.a09_android.model.response.PostResponse
@@ -23,7 +24,7 @@ class Repository {
         return ApiProvider.api.authReissue(refreshToken)
     }
 
-    suspend fun post() : Response<List<PostResponse>> {
-        return ApiProvider.api.post()
+    suspend fun post(page: Int, size: Int) : Response<PostResponse> {
+        return ApiProvider.api.post(page, size)
     }
 }

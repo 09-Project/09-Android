@@ -1,8 +1,8 @@
 package com.saehyun.a09_android.network
 
-import com.saehyun.a09_android.model.data.RcProductRvData
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
+import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.AuthLoginResponse
 import com.saehyun.a09_android.model.response.AuthReissueResponse
 import com.saehyun.a09_android.model.response.PostResponse
@@ -33,6 +33,8 @@ interface ServerApi {
 
     // Post
     @GET("post")
-    suspend fun post() : Response<List<PostResponse>>
-
+    suspend fun post(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ) : Response<PostResponse>
 }
