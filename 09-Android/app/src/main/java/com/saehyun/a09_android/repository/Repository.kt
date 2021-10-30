@@ -27,4 +27,8 @@ class Repository {
     suspend fun post(page: Int, size: Int) : Response<PostResponse> {
         return ApiProvider.api.post(page, size)
     }
+
+    suspend fun searchPost(keyword: String, page: Int, size: Int) : Response<PostResponse> {
+        return ApiProvider.api.searchPost(keyword, page, size)
+    }
 }
