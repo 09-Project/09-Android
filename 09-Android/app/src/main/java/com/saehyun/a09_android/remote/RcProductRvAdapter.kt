@@ -1,25 +1,16 @@
 package com.saehyun.a09_android.remote
 
-import android.app.ActionBar
 import android.content.Context
-import android.graphics.Bitmap
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatDrawableManager.preload
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.saehyun.a09_android.R
-import com.saehyun.a09_android.model.data.RcProductRvData
-import com.saehyun.a09_android.model.response.PostResponse
-import com.saehyun.a09_android.model.response.PostValue
-import com.saehyun.a09_android.task.URLtoBitmapTask
-import java.net.URL
+import com.saehyun.a09_android.model.data.PostValue
 
 class RcProductRvAdapter(val context: Context, val productData: List<PostValue>):
     RecyclerView.Adapter<RcProductRvAdapter.Holder>() {
