@@ -17,10 +17,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.model.data.RcProductRvData
 import com.saehyun.a09_android.model.response.PostResponse
+import com.saehyun.a09_android.model.response.PostValue
 import com.saehyun.a09_android.task.URLtoBitmapTask
 import java.net.URL
 
-class RcProductRvAdapter(val context: Context, val productData: List<PostResponse>):
+class RcProductRvAdapter(val context: Context, val productData: List<PostValue>):
     RecyclerView.Adapter<RcProductRvAdapter.Holder>() {
 
 
@@ -34,13 +35,6 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostRespons
         val tvTitle = itemView?.findViewById<TextView>(R.id.tvTitle)
         val tvTransactionRegion = itemView?.findViewById<TextView>(R.id.tvTransactionRegion)
         val tvPrice = itemView?.findViewById<TextView>(R.id.tvPrice)
-
-//
-//        fun bind(postResponse: PostResponse, context: Context) {
-//            tvTitle?.text = postResponse.title
-//            tvTransactionRegion?.text = postResponse.transaction_region
-//            tvPrice?.text = postResponse.price
-//        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -51,15 +45,10 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostRespons
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-//
-//        holder.bind(productData[position], context)
-
-        var data: PostResponse = productData.get(position)
-
-        Log.d(TAG, "onBindViewHolder: " + data.image)
+        var data: PostValue = productData.get(position)
 
         Glide.with(holder.itemView.context)
-                .load("https://beomjin-bucket.s3.ap-northeast-2.amazonaws.com/static/fccd670d-38fe-4b18-b13a-290eaf156f00check.png")
+                .load(data.image)
                 .into(holder.ivImage)
 
         holder.tvTitle?.text = data.title
