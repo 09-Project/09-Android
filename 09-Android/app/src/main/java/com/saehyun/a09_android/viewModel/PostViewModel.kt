@@ -11,11 +11,11 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class PostViewModel(private val repository: Repository) : ViewModel() {
-    val authPostResponse : MutableLiveData<Response<List<PostResponse>>> = MutableLiveData()
+    val authPostResponse : MutableLiveData<Response<PostResponse>> = MutableLiveData()
 
-    fun authPost() {
+    fun authPost(page: Int, size: Int) {
         viewModelScope.launch {
-            val response = repository.post()
+            val response = repository.post(page, size)
             authPostResponse.value = response
         }
     }
