@@ -1,22 +1,14 @@
 package com.saehyun.a09_android.ui.activity
 
-import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityMainBinding
-import com.saehyun.a09_android.model.data.RcProductRvData
-import com.saehyun.a09_android.model.response.PostResponse
-import com.saehyun.a09_android.model.response.PostValue
+import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
-import com.saehyun.a09_android.task.ImageLoader
-import com.saehyun.a09_android.task.URLtoBitmapTask
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.util.VIEW_SIZE
@@ -24,7 +16,6 @@ import com.saehyun.a09_android.viewModel.PostViewModel
 import com.saehyun.a09_android.viewModel.ReissueViewModel
 import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
-import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 

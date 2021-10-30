@@ -1,4 +1,4 @@
-package com.saehyun.a09_android.model.response
+package com.saehyun.a09_android.model.data
 
 data class PostValue(
     val id: String,
