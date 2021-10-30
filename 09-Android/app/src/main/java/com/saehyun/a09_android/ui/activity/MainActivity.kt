@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     private var productList = arrayListOf<PostValue>()
 
-    private var currentPage = 1
+    private var currentPage = 0
     private var maxPage = 1
 
 
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         // Page Set
         binding.MainibBack.setOnClickListener {
-            if(currentPage < 1) {
+            if(currentPage < 0) {
                 ToastUtil.print(applicationContext, "첫 페이지 입니다.")
                 return@setOnClickListener
             }
@@ -68,32 +68,20 @@ class MainActivity : AppCompatActivity() {
             currentPage++
         }
 
-        // Get Post (Default)
+        // Get Post (Default) % getMaxPage
         postViewModelFactory = PostViewModelFactory(repository)
         postViewModel = ViewModelProvider(this, postViewModelFactory).get(PostViewModel::class.java)
 
         postViewModel.authPost(currentPage, VIEW_SIZE)
         postViewModel.authPostResponse.observe(this, Observer {
             if (it.isSuccessful) {
-                var size = it.body()!!.posts.size
-                for(i: Int in 1 until size) {
-                    val postValue: PostValue = it.body()!!.posts.get(i)
-                    productList.add(postValue)
-                    binding.rvMainRcProduct.adapter?.notifyDataSetChanged()
-                }
-            } else {
-                Log.d(TAG, "onResume: 실패")
-            }
-        })
+                val size = it.body()!!.posts.size
 
-        // Get MaxPost
-        postViewModelFactory = PostViewModelFactory(repository)
-        postViewModel = ViewModelProvider(this, postViewModelFactory).get(PostViewModel::class.java)
+                val count = it.body()!!.count
+                maxPage = count / 16
+                if(count % 16 != 0) maxPage++
+                binding.tvMaxPage.text = " / ${maxPage}"
 
-        postViewModel.authPost(currentPage, VIEW_SIZE)
-        postViewModel.authPostResponse.observe(this, Observer {
-            if (it.isSuccessful) {
-                var size = it.body()!!.posts.size
                 for(i: Int in 1 until size) {
                     val postValue: PostValue = it.body()!!.posts.get(i)
                     productList.add(postValue)
