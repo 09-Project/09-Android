@@ -7,25 +7,22 @@ import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import coil.api.load
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityMainBinding
 import com.saehyun.a09_android.model.data.RcProductRvData
 import com.saehyun.a09_android.model.response.PostResponse
+import com.saehyun.a09_android.model.response.PostValue
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.task.ImageLoader
 import com.saehyun.a09_android.task.URLtoBitmapTask
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
+import com.saehyun.a09_android.util.VIEW_SIZE
 import com.saehyun.a09_android.viewModel.PostViewModel
 import com.saehyun.a09_android.viewModel.ReissueViewModel
 import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.net.URL
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +36,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var postViewModelFactory: PostViewModelFactory
 
-    private var productList = arrayListOf<PostResponse>()
+    private var productList = arrayListOf<PostValue>()
+
+    private var currentPage = 1
+    private var maxPage = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,23 +48,37 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.testImage.load("https://img.icons8.com/ios/50/000000/small-axe.png")
-
         val repository = Repository()
 
+        // Recyclerview Set
         binding.rvMainRcProduct.layoutManager = GridLayoutManager(this, 2)
         binding.rvMainRcProduct.setHasFixedSize(true)
         binding.rvMainRcProduct.adapter = RcProductRvAdapter(applicationContext, productList)
 
+        // Page Set
+        binding.MainibBack.setOnClickListener {
+            if(currentPage < 1) {
+                ToastUtil.print(applicationContext, "첫 페이지 입니다.")
+                return@setOnClickListener
+            }
+            currentPage--
+        }
+
+        binding.MainibNext.setOnClickListener {
+            currentPage++
+        }
+
+        // Get Post (Default)
         postViewModelFactory = PostViewModelFactory(repository)
         postViewModel = ViewModelProvider(this, postViewModelFactory).get(PostViewModel::class.java)
 
-
-        postViewModel.authPost()
+        postViewModel.authPost(currentPage, VIEW_SIZE)
         postViewModel.authPostResponse.observe(this, Observer {
             if (it.isSuccessful) {
-                for(i: Int in 0 until it.body()!!.size) {
-                    productList.add(it.body()!!.get(i))
+                var size = it.body()!!.posts.size
+                for(i: Int in 1 until size) {
+                    val postValue: PostValue = it.body()!!.posts.get(i)
+                    productList.add(postValue)
                     binding.rvMainRcProduct.adapter?.notifyDataSetChanged()
                 }
             } else {
@@ -72,8 +86,25 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // Get MaxPost
+        postViewModelFactory = PostViewModelFactory(repository)
+        postViewModel = ViewModelProvider(this, postViewModelFactory).get(PostViewModel::class.java)
 
+        postViewModel.authPost(currentPage, VIEW_SIZE)
+        postViewModel.authPostResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                var size = it.body()!!.posts.size
+                for(i: Int in 1 until size) {
+                    val postValue: PostValue = it.body()!!.posts.get(i)
+                    productList.add(postValue)
+                    binding.rvMainRcProduct.adapter?.notifyDataSetChanged()
+                }
+            } else {
+                Log.d(TAG, "onResume: 실패")
+            }
+        })
 
+        // Token Reissue
         val reissueViewModelFactory = ReissueViewModelFactory(repository)
         reissueViewModel = ViewModelProvider(this, reissueViewModelFactory).get(ReissueViewModel::class.java)
 
