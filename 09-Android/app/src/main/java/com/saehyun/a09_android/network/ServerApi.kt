@@ -5,6 +5,7 @@ import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.AuthLoginResponse
 import com.saehyun.a09_android.model.response.AuthReissueResponse
+import com.saehyun.a09_android.model.response.PostOtherResponse
 import com.saehyun.a09_android.model.response.PostResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -45,4 +46,8 @@ interface ServerApi {
             @Query("page") page: Int,
             @Query("size") size: Int
     ) : Response<PostResponse>
+
+    // 다른 추천 상품 보기
+    @GET("post/other")
+    suspend fun otherPost() : Response<PostOtherResponse>
 }
