@@ -5,6 +5,7 @@ import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.AuthLoginResponse
 import com.saehyun.a09_android.model.response.AuthReissueResponse
+import com.saehyun.a09_android.model.response.PostOtherResponse
 import com.saehyun.a09_android.model.response.PostResponse
 import com.saehyun.a09_android.network.ApiProvider
 import retrofit2.Response
@@ -30,5 +31,9 @@ class Repository {
 
     suspend fun searchPost(keyword: String, page: Int, size: Int) : Response<PostResponse> {
         return ApiProvider.api.searchPost(keyword, page, size)
+    }
+
+    suspend fun postOther() : Response<PostOtherResponse> {
+        return ApiProvider.api.otherPost()
     }
 }
