@@ -2,6 +2,8 @@ package com.saehyun.a09_android.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -23,6 +25,18 @@ class RegisterActivity : AppCompatActivity() {
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        var showPw: Boolean = false
+
+        binding.ibRegisterShowPw.setOnClickListener {
+            showPw = !showPw
+
+            if(showPw) {
+                binding.registerEtPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            } else {
+                binding.registerEtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
+        }
 
         val repository = Repository()
         val viewModelFactory = RegisterViewModelFactory(repository)
