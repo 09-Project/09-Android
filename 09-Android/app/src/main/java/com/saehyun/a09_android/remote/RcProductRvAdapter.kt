@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.model.data.PostValue
+import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.ui.activity.PostActivity
 
 class RcProductRvAdapter(val context: Context, val productData: List<PostValue>):
@@ -30,6 +31,7 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>)
         val tvTitle = itemView?.findViewById<TextView>(R.id.tvTitle)
         val tvTransactionRegion = itemView?.findViewById<TextView>(R.id.tvTransactionRegion)
         val tvPrice = itemView?.findViewById<TextView>(R.id.tvPrice)
+        val ivHeart = itemView?.findViewById<ImageView>(R.id.ivHeart)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -50,12 +52,17 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>)
         holder.tvTransactionRegion?.text = data.transaction_region
         holder.tvPrice?.text = data.price
 
+        holder.ivHeart?.setOnClickListener {
+            val repository = Repository()
+        }
+
         holder.clRecommendedProduct?.setOnClickListener {
             var intent = Intent(holder.itemView?.context, PostActivity::class.java)
             intent.putExtra("postId", data.id)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
+
 
     }
 
