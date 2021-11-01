@@ -30,8 +30,8 @@ class Repository {
         return ApiProvider.api.searchPost(keyword, page, size)
     }
 
-    suspend fun postOther() : Response<PostOtherResponse> {
-        return ApiProvider.api.otherPost()
+    suspend fun postOther(refreshToken: String) : Response<List<PostOtherResponse>> {
+        return ApiProvider.api.otherPost(refreshToken)
     }
 
     suspend fun postGet(pageId: Int) : Response<PostGetResponse> {
