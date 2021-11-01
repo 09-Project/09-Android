@@ -13,7 +13,7 @@ import retrofit2.Response
 class PostSearchViewModel(private val repository: Repository) : ViewModel() {
     val authPostSearchResponse : MutableLiveData<Response<PostResponse>> = MutableLiveData()
 
-    fun authPost(keyword: String, page: Int, size: Int) {
+    fun authPostSearch(keyword: String, page: Int, size: Int) {
         viewModelScope.launch {
             val response = repository.searchPost(keyword, page, size)
             authPostSearchResponse.value = response
