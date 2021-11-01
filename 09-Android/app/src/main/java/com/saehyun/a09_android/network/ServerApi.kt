@@ -2,6 +2,7 @@ package com.saehyun.a09_android.network
 
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
+import com.saehyun.a09_android.model.request.PostPostRequest
 import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.*
 import retrofit2.Response
@@ -55,4 +56,11 @@ interface ServerApi {
     suspend fun getPost(
             @Path("post-id") postId :Int
     ) : Response<PostGetResponse>
+
+    // 상품 올리기
+    @POST("post")
+    suspend fun postPost(
+            @Header("x-refresh-token") refreshToken: String,
+            @Body postPostRequest: PostPostRequest
+    ) : Response<Void>
 }
