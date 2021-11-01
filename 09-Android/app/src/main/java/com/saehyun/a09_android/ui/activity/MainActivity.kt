@@ -1,10 +1,15 @@
 package com.saehyun.a09_android.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
+import android.view.MenuItem
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityMainBinding
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.remote.RcProductRvAdapter
@@ -60,8 +65,7 @@ class MainActivity : AppCompatActivity() {
         binding.MainibNext.setOnClickListener {
             ++currentPage
             if(currentPage >= maxPage) {
-                ToastUtil.print(applicationContext, "마지막 페이지 입니다.")
-                return@setOnClickListener
+                currentPage = 0
             }
             postViewModel.authPost(currentPage, VIEW_SIZE)
         }
@@ -111,6 +115,39 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
+        }
+
+        // Drawer Menu
+        binding.ibMainMenu.setOnClickListener {
+            if(binding.mainDrawer.isDrawerOpen(Gravity.RIGHT)) {
+                binding.mainDrawer.closeDrawer(Gravity.RIGHT)
+            } else {
+                binding.mainDrawer.openDrawer(Gravity.RIGHT)
+            }
+        }
+
+        binding.mainNavi.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.menuHome -> ToastUtil.print(applicationContext, "1")
+                R.id.menuMyPage -> ToastUtil.print(applicationContext, "2")
+                R.id.menuPost -> ToastUtil.print(applicationContext, "3")
+            }
+
+            binding.mainDrawer.closeDrawer(GravityCompat.END)
+            true
+        }
+
+        binding.ibMainSearch.setOnClickListener {
+            val keyword = binding.etMainSearch.text.toString()
+
+            if(keyword.isEmpty()) {
+                ToastUtil.print(applicationContext, "검색어를 입력해주세요")
+                return@setOnClickListener
+            }
+
+            val intent: Intent = Intent(this, SearchActivity::class.java)
+            intent.putExtra("keyword", keyword)
+            startActivity(intent)
         }
     }
 }
