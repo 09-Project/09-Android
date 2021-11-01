@@ -4,6 +4,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.saehyun.a09_android.R
@@ -35,8 +37,16 @@ class LoginActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("auto", MODE_PRIVATE)
         editor = sharedPreferences.edit()
 
-        binding.loginTvRegister.setOnClickListener {
-            startActivity(Intent(applicationContext, RegisterActivity::class.java))
+        var showPw: Boolean = false
+
+        binding.ibLoginShowPassword.setOnClickListener {
+            showPw = !showPw
+
+            if(showPw) {
+                binding.etPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            } else {
+                binding.etPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
         }
 
         binding.tvBtnJoinUs.setOnClickListener {
