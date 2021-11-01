@@ -2,9 +2,11 @@ package com.saehyun.a09_android.repository
 
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
+import com.saehyun.a09_android.model.request.PostPostRequest
 import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.*
 import com.saehyun.a09_android.network.ApiProvider
+import com.saehyun.a09_android.util.REFRESH_TOKEN
 import retrofit2.Response
 
 class Repository {
@@ -36,5 +38,10 @@ class Repository {
 
     suspend fun postGet(pageId: Int) : Response<PostGetResponse> {
         return ApiProvider.api.getPost(pageId)
+    }
+
+    suspend fun postPost(title: String, content: String, price: Int, transactionRegion: String, openChatLink: String, image: String) : Response<Void> {
+        val postPostRequest = PostPostRequest(title, content, price, transactionRegion, openChatLink, image)
+        return ApiProvider.api.postPost(REFRESH_TOKEN, postPostRequest)
     }
 }
