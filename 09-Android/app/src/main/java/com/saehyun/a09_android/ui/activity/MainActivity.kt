@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                 val count = it.body()!!.count
                 maxPage = count / 16
                 if(count % 16 != 0) maxPage++
+                if(maxPage == 0) maxPage = 1
                 binding.tvCurrentPage.text = "${currentPage+1}"
                 binding.tvMaxPage.text = " / ${maxPage}"
 
