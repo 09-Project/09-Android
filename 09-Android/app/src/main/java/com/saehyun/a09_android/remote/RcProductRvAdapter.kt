@@ -1,16 +1,20 @@
 package com.saehyun.a09_android.remote
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.model.data.PostValue
+import com.saehyun.a09_android.ui.activity.PostActivity
 
 class RcProductRvAdapter(val context: Context, val productData: List<PostValue>):
     RecyclerView.Adapter<RcProductRvAdapter.Holder>() {
@@ -45,6 +49,13 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>)
         holder.tvTitle?.text = data.title
         holder.tvTransactionRegion?.text = data.transaction_region
         holder.tvPrice?.text = data.price
+
+        holder.clRecommendedProduct?.setOnClickListener {
+            var intent = Intent(holder.itemView?.context, PostActivity::class.java)
+            intent.putExtra("postId", data.id)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            ContextCompat.startActivity(holder.itemView.context, intent, null)
+        }
 
     }
 
