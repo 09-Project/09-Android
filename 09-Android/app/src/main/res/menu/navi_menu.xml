@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuHome"
+        android:icon="@drawable/ic_navi_ionic_md_home"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:title="홈" />
+    <item
+        android:id="@+id/menuMyPage"
+        android:icon="@drawable/ic_navi_ionic_md_person"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:title="마이페이지" />
+    <item
+        android:id="@+id/menuPost"
+        android:icon="@drawable/ic_navi_awesome_pen"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:title="게시물 작성" />
+</menu>
