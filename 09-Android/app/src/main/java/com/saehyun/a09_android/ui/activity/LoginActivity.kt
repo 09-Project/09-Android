@@ -1,6 +1,7 @@
 package com.saehyun.a09_android.ui.activity
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -19,11 +20,23 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: LoginViewModel
 
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
+
+    private lateinit var name: String
+    private lateinit var username: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPreferences = getSharedPreferences("auto", MODE_PRIVATE)
+        editor = sharedPreferences.edit()
+
+        autoLogin()
+
 
         binding.loginTvRegister.setOnClickListener {
             startActivity(Intent(applicationContext, RegisterActivity::class.java))
@@ -38,9 +51,26 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
+        viewModel.authLoginResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                saveID(name, username)
+
+                ACCESS_TOKEN = it.body()?.accessToken.toString()
+                REFRESH_TOKEN = it.body()?.refreshToken.toString()
+
+                successLogin()
+            } else {
+                when(it.code()) {
+                    401 -> ToastUtil.print(applicationContext, "비밀번호가 일치하지 않습니다.\n다시 시도해주세요.")
+                    404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.\n다시 시도해주세요.")
+                    else -> ToastUtil.print(applicationContext, "예기지 못한 오류가 발생했습니다.\n지속될 시 고객센터에 문의해주세요.")
+                }
+            }
+        })
+
         binding.tvLogin.setOnClickListener {
-            val name = binding.etName.text.toString()
-            val username = binding.etPassword.text.toString()
+            name = binding.etName.text.toString()
+            username = binding.etPassword.text.toString()
 
             if (name.isEmpty() || username.isEmpty()) {
                 ToastUtil.print(applicationContext, "값을 모두 입력해주세요.")
@@ -48,25 +78,29 @@ class LoginActivity : AppCompatActivity() {
             }
 
             viewModel.authLogin(name, username)
-            viewModel.authLoginResponse.observe(this, Observer {
-                if (it.isSuccessful) {
-                    ACCESS_TOKEN = it.body()?.accessToken.toString()
-                    REFRESH_TOKEN = it.body()?.refreshToken.toString()
-
-                    successLogin()
-                } else {
-                    when(it.code()) {
-                        401 -> ToastUtil.print(applicationContext, "비밀번호가 일치하지 않습니다.\n다시 시도해주세요.")
-                        404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.\n다시 시도해주세요.")
-                        else -> ToastUtil.print(applicationContext, "예기지 못한 오류가 발생했습니다.\n지속될 시 고객센터에 문의해주세요.")
-                    }
-                }
-            })
         }
     }
 
     private fun successLogin() {
         ToastUtil.print(applicationContext, "로그인에 성공하셨습니다.")
         startActivity(Intent(applicationContext, MainActivity::class.java))
+    }
+
+    private fun autoLogin() {
+        val autoId = sharedPreferences.getString("id", "")
+        val autoPw = sharedPreferences.getString("pw", "")
+
+        if(!(autoId.isNullOrBlank() || autoPw.isNullOrBlank())) {
+            viewModel.authLogin(autoId, autoPw)
+        }
+    }
+
+    private fun saveID(id: String, pw: String) {
+        if(binding.cbSaveAccount.isChecked) {
+            editor.putString("id", id)
+            editor.putString("pw", pw)
+
+            editor.commit()
+        }
     }
 }
