@@ -26,16 +26,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_login_login_box" />
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/etPassword"
-        app:layout_constraintEnd_toEndOf="@+id/etPassword"
-        app:layout_constraintTop_toTopOf="@+id/etPassword"
-        app:srcCompat="@drawable/ic_login_feather_eye" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -147,16 +137,18 @@
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/textView4" />
 
-    <View
-        android:id="@+id/loginTvRegister"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="#4A55B5"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+    <ImageButton
+        android:id="@+id/ibLoginShowPassword"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@android:color/transparent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etPassword"
+        app:layout_constraintEnd_toEndOf="@+id/etPassword"
+        app:layout_constraintTop_toTopOf="@+id/etPassword"
+        app:srcCompat="@drawable/ic_login_feather_eye" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
