@@ -46,11 +46,13 @@ interface ServerApi {
 
     // 다른 추천 상품 보기
     @GET("post/other")
-    suspend fun otherPost() : Response<PostOtherResponse>
+    suspend fun otherPost(
+            @Header("x-refresh-token") refreshToken: String
+    ) : Response<List<PostOtherResponse>>
 
     // 상품 보기
     @GET("post/{post-id}")
     suspend fun getPost(
-        @Path("post-id") postId :Int
+            @Path("post-id") postId :Int
     ) : Response<PostGetResponse>
 }
