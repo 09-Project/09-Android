@@ -8,15 +8,16 @@ import com.saehyun.a09_android.model.response.AuthLoginResponse
 import com.saehyun.a09_android.model.response.PostOtherResponse
 import com.saehyun.a09_android.model.response.PostResponse
 import com.saehyun.a09_android.repository.Repository
+import com.saehyun.a09_android.util.REFRESH_TOKEN
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class PostOtherViewModel(private val repository: Repository) : ViewModel() {
-    val authPostOtherResponse : MutableLiveData<Response<PostOtherResponse>> = MutableLiveData()
+    val authPostOtherResponse : MutableLiveData<Response<List<PostOtherResponse>>> = MutableLiveData()
 
-    fun authPostOther(page: Int, size: Int) {
+    fun authPostOther() {
         viewModelScope.launch {
-            val response = repository.postOther()
+            val response = repository.postOther(REFRESH_TOKEN)
             authPostOtherResponse.value = response
         }
     }
