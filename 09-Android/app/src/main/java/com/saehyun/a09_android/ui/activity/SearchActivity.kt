@@ -49,8 +49,7 @@ class SearchActivity : AppCompatActivity() {
         binding.ibSearchPageBack.setOnClickListener {
             --currentPage
             if(currentPage <= 1) {
-                ToastUtil.print(applicationContext, "첫 페이지 입니다.")
-                return@setOnClickListener
+                currentPage = maxPage
             }
             searchViewModel.authPostSearch(keyword, currentPage, VIEW_SIZE)
         }

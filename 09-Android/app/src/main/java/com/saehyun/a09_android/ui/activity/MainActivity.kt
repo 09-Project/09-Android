@@ -56,8 +56,7 @@ class MainActivity : AppCompatActivity() {
         binding.MainibBack.setOnClickListener {
             --currentPage
             if(currentPage <= 1) {
-                ToastUtil.print(applicationContext, "첫 페이지 입니다.")
-                return@setOnClickListener
+                currentPage = maxPage
             }
             postViewModel.authPost(currentPage, VIEW_SIZE)
         }
