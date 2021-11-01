@@ -34,8 +34,13 @@ class PostActivity : AppCompatActivity() {
             if(it.isSuccessful) {
                 Glide.with(applicationContext)
                     .load(it.body()!!.image)
-                    .into(binding.ivMemberProfile)
+                    .into(binding.ivProduct)
                 binding.tvMemberName.text = it.body()!!.member_name
+
+                Glide.with(applicationContext)
+                        .load(it.body()!!.member_profile)
+                        .into(binding.ivMemberProfile)
+
                 binding.tvPostTItle.text = it.body()!!.title
                 binding.tvPostContent.text = it.body()!!.content
                 binding.tvPostTransactionRegion.text = it.body()!!.transaction_region
