@@ -88,13 +88,6 @@
                 android:text="&quot;"
                 android:textSize="15dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/noto_sans_kr_bold"
-                android:text="검색 결과"
-                android:textColor="#4A55B5"
-                android:textSize="15dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -108,7 +101,7 @@
             app:layout_constraintTop_toTopOf="@+id/linearLayout2">
 
             <TextView
-                android:id="@+id/stextView8"
+                android:id="@+id/tvSearchCurrentPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/noto_sans_kr_medium"
@@ -118,7 +111,7 @@
                 tools:layout_editor_absoluteY="320dp" />
 
             <TextView
-                android:id="@+id/stextView9"
+                android:id="@+id/tvSearchMaxPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/noto_sans_kr_medium"
@@ -128,7 +121,7 @@
                 tools:layout_editor_absoluteY="311dp" />
 
             <ImageButton
-                android:id="@+id/simageView8"
+                android:id="@+id/ibSearchPageBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -139,7 +132,7 @@
                 app:srcCompat="@drawable/ic_main_back" />
 
             <ImageButton
-                android:id="@+id/simageView9"
+                android:id="@+id/ibSearchPageNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -190,6 +183,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_kr_bold"
+            android:text="검색 결과"
+            android:textColor="#4A55B5"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout2"
+            tools:layout_editor_absoluteX="79dp"
+            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
