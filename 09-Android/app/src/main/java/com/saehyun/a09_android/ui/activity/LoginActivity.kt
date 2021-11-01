@@ -23,8 +23,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
-    private lateinit var name: String
-    private lateinit var username: String
+    private var name: String = "default"
+    private var username: String = "default"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +34,6 @@ class LoginActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("auto", MODE_PRIVATE)
         editor = sharedPreferences.edit()
-
-        autoLogin()
-
 
         binding.loginTvRegister.setOnClickListener {
             startActivity(Intent(applicationContext, RegisterActivity::class.java))
@@ -68,11 +65,13 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
+        autoLogin()
+
         binding.tvLogin.setOnClickListener {
             name = binding.etName.text.toString()
             username = binding.etPassword.text.toString()
 
-            if (name.isEmpty() || username.isEmpty()) {
+            if (name == "default" || username == "default") {
                 ToastUtil.print(applicationContext, "값을 모두 입력해주세요.")
                 return@setOnClickListener
             }
