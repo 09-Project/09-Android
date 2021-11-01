@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
 
         // Token Reissue
         val reissueViewModelFactory = ReissueViewModelFactory(repository)
-        reissueViewModel = ViewModelProvider(this, reissueViewModelFactory).get(ReissueViewModel::class.java)
+        val reissueViewModel: ReissueViewModel = ViewModelProvider(this, reissueViewModelFactory).get(ReissueViewModel::class.java)
 
         binding.button.setOnClickListener {
             reissueViewModel.authReissue(REFRESH_TOKEN)
