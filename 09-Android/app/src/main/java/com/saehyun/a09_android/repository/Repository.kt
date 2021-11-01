@@ -3,10 +3,7 @@ package com.saehyun.a09_android.repository
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.request.PostRequest
-import com.saehyun.a09_android.model.response.AuthLoginResponse
-import com.saehyun.a09_android.model.response.AuthReissueResponse
-import com.saehyun.a09_android.model.response.PostOtherResponse
-import com.saehyun.a09_android.model.response.PostResponse
+import com.saehyun.a09_android.model.response.*
 import com.saehyun.a09_android.network.ApiProvider
 import retrofit2.Response
 
@@ -35,5 +32,9 @@ class Repository {
 
     suspend fun postOther() : Response<PostOtherResponse> {
         return ApiProvider.api.otherPost()
+    }
+
+    suspend fun postGet(pageId: Int) : Response<PostGetResponse> {
+        return ApiProvider.api.getPost(pageId)
     }
 }
