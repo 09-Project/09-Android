@@ -1,14 +1,19 @@
 package com.saehyun.a09_android.ui.activity
 
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
-import android.view.MenuItem
-import androidx.core.view.GravityCompat
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.navigation.NavigationView
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityMainBinding
 import com.saehyun.a09_android.model.data.PostValue
@@ -21,6 +26,7 @@ import com.saehyun.a09_android.viewModel.PostViewModel
 import com.saehyun.a09_android.viewModel.ReissueViewModel
 import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +43,8 @@ class MainActivity : AppCompatActivity() {
 
     private var currentPage = 0
     private var maxPage = 1
+
+    private var doubleBackToExit = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,20 +89,20 @@ class MainActivity : AppCompatActivity() {
 
                 val count = it.body()!!.count
                 maxPage = count / 16
-                if(count % 16 != 0) maxPage++
-                if(maxPage == 0) maxPage = 1
-                binding.tvCurrentPage.text = "${currentPage+1}"
+                if (count % 16 != 0) maxPage++
+                if (maxPage == 0) maxPage = 1
+                binding.tvCurrentPage.text = "${currentPage + 1}"
                 binding.tvMaxPage.text = " / ${maxPage}"
 
                 productList.clear()
-                for(i: Int in 0 until size) {
+                for (i: Int in 0 until size) {
                     val postValue: PostValue = it.body()!!.posts.get(i)
                     productList.add(postValue)
                     binding.rvMainRcProduct.adapter?.notifyDataSetChanged()
                 }
             } else {
-                when(it.code()) {
-                    404 -> ToastUtil.print(applicationContext,"이미지가 존재하지 않습니다")
+                when (it.code()) {
+                    404 -> ToastUtil.print(applicationContext, "이미지가 존재하지 않습니다")
                 }
             }
         })
@@ -106,10 +114,10 @@ class MainActivity : AppCompatActivity() {
         binding.button.setOnClickListener {
             reissueViewModel.authReissue(REFRESH_TOKEN)
             reissueViewModel.authReissueResponse.observe(this, Observer {
-                if(it.isSuccessful) {
-                    ToastUtil.print(applicationContext,"토큰 재발급에 성공하셨습니다.")
+                if (it.isSuccessful) {
+                    ToastUtil.print(applicationContext, "토큰 재발급에 성공하셨습니다.")
                 } else {
-                    when(it.code()) {
+                    when (it.code()) {
                         401 -> ToastUtil.print(applicationContext, "비밀번호가 일치하지 않습니다.")
                         404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
                     }
@@ -126,17 +134,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.mainNavi.setNavigationItemSelectedListener {
-            when(it.itemId) {
-                R.id.menuHome -> ToastUtil.print(applicationContext, "1")
-                R.id.menuMyPage -> ToastUtil.print(applicationContext, "2")
-                R.id.menuPost -> ToastUtil.print(applicationContext, "3")
-            }
-
-            binding.mainDrawer.closeDrawer(GravityCompat.END)
-            true
-        }
-
         binding.ibMainSearch.setOnClickListener {
             val keyword = binding.etMainSearch.text.toString()
 
@@ -149,5 +146,21 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("keyword", keyword)
             startActivity(intent)
         }
+    }
+
+    override fun onBackPressed() {
+        if (doubleBackToExit) {
+            finishAffinity()
+        } else {
+            Toast.makeText(this, "종료하시려면 뒤로가기를 한번 더 눌러주세요.", Toast.LENGTH_SHORT).show()
+            doubleBackToExit = true
+            runDelayed(1500L) {
+                doubleBackToExit = false
+            }
+        }
+    }
+
+    fun runDelayed(millis: Long, function: () -> Unit) {
+        Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
 }
