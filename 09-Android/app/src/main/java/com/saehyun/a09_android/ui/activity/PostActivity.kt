@@ -52,11 +52,14 @@ class PostActivity : AppCompatActivity() {
                 Glide.with(applicationContext)
                     .load(it.body()!!.image)
                     .into(binding.ivProduct)
+
                 binding.tvMemberName.text = it.body()!!.member_name
 
-                Glide.with(applicationContext)
-                        .load(it.body()!!.member_profile)
-                        .into(binding.ivMemberProfile)
+                if(!(it.body()!!.member_profile.isNullOrBlank())) {
+                    Glide.with(applicationContext)
+                            .load(it.body()!!.member_profile)
+                            .into(binding.ivMemberProfile)
+                }
 
                 binding.tvPostTItle.text = it.body()!!.title
                 binding.tvPostContent.text = it.body()!!.content
