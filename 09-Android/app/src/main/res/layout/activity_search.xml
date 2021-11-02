@@ -72,7 +72,7 @@
                 android:textSize="15dp" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/tvKeyword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/noto_sans_kr_bold"
