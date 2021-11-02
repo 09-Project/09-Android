@@ -40,6 +40,9 @@ class SearchActivity : AppCompatActivity() {
 
         keyword = intent.getStringExtra("keyword").toString()
 
+        binding.tvKeyword.text = keyword
+        binding.seditText.setText(keyword)
+
         // Recyclerview Set
         binding.srvMainRcProduct.layoutManager = GridLayoutManager(this, 2)
         binding.srvMainRcProduct.setHasFixedSize(true)
@@ -49,7 +52,7 @@ class SearchActivity : AppCompatActivity() {
         binding.ibSearchPageBack.setOnClickListener {
             --currentPage
             if(currentPage <= 1) {
-                currentPage = maxPage
+                currentPage = maxPage-1
             }
             searchViewModel.authPostSearch(keyword, currentPage, VIEW_SIZE)
         }
