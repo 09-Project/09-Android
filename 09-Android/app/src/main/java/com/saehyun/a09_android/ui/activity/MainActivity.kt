@@ -8,8 +8,8 @@ import android.os.Looper
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -128,9 +128,19 @@ class MainActivity : AppCompatActivity() {
         // Drawer Menu
         binding.ibMainMenu.setOnClickListener {
             if(binding.mainDrawer.isDrawerOpen(Gravity.RIGHT)) {
-                binding.mainDrawer.closeDrawer(Gravity.RIGHT)
+//                binding.mainDrawer.closeDrawer(Gravity.RIGHT)
             } else {
                 binding.mainDrawer.openDrawer(Gravity.RIGHT)
+            }
+        }
+
+        binding.mainNavi.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.menuPost -> {
+                    startActivity(Intent(applicationContext, CreatePostActivity::class.java))
+                    return@setNavigationItemSelectedListener true
+                }
+                else -> return@setNavigationItemSelectedListener false
             }
         }
 
