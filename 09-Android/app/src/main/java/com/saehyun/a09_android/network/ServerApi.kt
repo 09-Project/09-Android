@@ -5,6 +5,8 @@ import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.request.PostPostRequest
 import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -58,9 +60,11 @@ interface ServerApi {
     ) : Response<PostGetResponse>
 
     // 상품 올리기
+    @Multipart
     @POST("post")
     suspend fun postPost(
             @Header("x-refresh-token") refreshToken: String,
-            @Body postPostRequest: PostPostRequest
+            @Part image: MultipartBody.Part,
+            @PartMap data: HashMap<String, RequestBody>
     ) : Response<Void>
 }
