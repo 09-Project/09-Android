@@ -3,6 +3,7 @@ package com.saehyun.a09_android.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -80,6 +81,14 @@ class SearchActivity : AppCompatActivity() {
                 binding.tvSearchMaxPage.text = " / ${maxPage}"
 
                 productList.clear()
+
+                if(count == 0) {
+                    binding.clNoResult.visibility = View.VISIBLE
+                    return@Observer
+                } else {
+                    binding.clNoResult.visibility = View.GONE
+                }
+
                 for(i: Int in 0 until size) {
                     val postValue: PostValue = it.body()!!.posts.get(i)
                     productList.add(postValue)
@@ -93,25 +102,5 @@ class SearchActivity : AppCompatActivity() {
         })
 
         searchViewModel.authPostSearch(keyword, currentPage, VIEW_SIZE)
-
-//        // Drawer Menu
-//        binding.ibMainMenu.setOnClickListener {
-//            if(binding.mainDrawer.isDrawerOpen(Gravity.RIGHT)) {
-//                binding.mainDrawer.closeDrawer(Gravity.RIGHT)
-//            } else {
-//                binding.mainDrawer.openDrawer(Gravity.RIGHT)
-//            }
-//        }
-//
-//        binding.mainNavi.setNavigationItemSelectedListener {
-//            when(it.itemId) {
-//                R.id.menuHome -> ToastUtil.print(applicationContext, "1")
-//                R.id.menuMyPage -> ToastUtil.print(applicationContext, "2")
-//                R.id.menuPost -> ToastUtil.print(applicationContext, "3")
-//            }
-//
-//            binding.mainDrawer.closeDrawer(GravityCompat.END)
-//            true
-//        }
     }
 }
