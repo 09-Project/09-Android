@@ -8,14 +8,17 @@ import com.saehyun.a09_android.model.response.AuthLoginResponse
 import com.saehyun.a09_android.model.response.PostResponse
 import com.saehyun.a09_android.repository.Repository
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
+import java.io.File
 
 class PostPostViewModel(private val repository: Repository) : ViewModel() {
     val authPostResponse : MutableLiveData<Response<Void>> = MutableLiveData()
 
-    fun authPostSearch(title: String, content: String, price: Int, transactionRegion: String, openChatLink: String, image: String) {
+    fun authPost(postImg: MultipartBody.Part, data: HashMap<String, RequestBody>) {
         viewModelScope.launch {
-            val response = repository.postPost(title, content, price, transactionRegion, openChatLink, image)
+            val response = repository.postPost(postImg, data)
             authPostResponse.value = response
         }
     }
