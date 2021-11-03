@@ -15,6 +15,7 @@ import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import com.saehyun.a09_android.databinding.ActivityCreatePostBinding
@@ -22,7 +23,9 @@ import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ACCESS_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.PostGroupBuyViewModel
+import com.saehyun.a09_android.viewModel.PostSharingViewModel
 import com.saehyun.a09_android.viewModelFactory.PostGroupBuyViewModelFactory
+import com.saehyun.a09_android.viewModelFactory.PostSharingViewModelFactory
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -35,18 +38,16 @@ class CreatePostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreatePostBinding
 
     private lateinit var postGroupBuyViewModel: PostGroupBuyViewModel
-
     private lateinit var postGroupBuyViewModelFactory: PostGroupBuyViewModelFactory
+
+    private lateinit var postSharingViewModel: PostSharingViewModel
+    private lateinit var postSharingViewModelFactory: PostSharingViewModelFactory
 
     private val OPEN_GALLERY = 1
 
     private var productImage: Boolean = false
 
     private lateinit var filetoUpload: MultipartBody.Part
-
-    private var map: HashMap<String, RequestBody> = HashMap()
-
-    private val TAG = "CreatePostActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +63,25 @@ class CreatePostActivity : AppCompatActivity() {
         postGroupBuyViewModel =
             ViewModelProvider(this, postGroupBuyViewModelFactory).get(PostGroupBuyViewModel::class.java)
 
+        postSharingViewModelFactory = PostSharingViewModelFactory(repository)
+        postSharingViewModel =
+                ViewModelProvider(this, postSharingViewModelFactory).get(PostSharingViewModel::class.java)
+
         postGroupBuyViewModel.authPostResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                ToastUtil.print(applicationContext, "글쓰기 등록이 완료되었습니다!")
+                finish()
+            } else {
+                when (it.code()) {
+                    400 -> ToastUtil.print(applicationContext, "토큰의 형태가 잘못되었습니다.")
+                    401 -> ToastUtil.print(applicationContext, "토큰이 유효하지 않습니다.")
+                    404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
+                    500 -> ToastUtil.print(applicationContext, "S3와의 연결이 실패되었습니다.")
+                }
+            }
+        })
+
+        postSharingViewModel.authPostResponse.observe(this, Observer {
             if (it.isSuccessful) {
                 ToastUtil.print(applicationContext, "글쓰기 등록이 완료되었습니다!")
                 finish()
@@ -135,31 +154,19 @@ class CreatePostActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val title = binding.etCreatePostTitle.text.toString()
-            val content = binding.etCreatePostContent.text.toString()
-            val price = binding.etCreatePostPrice.text.toString().toInt()
-            val transactionRegion = binding.etCreatePostTransactionRegion.text.toString()
-            val openChatLink = binding.etCreatePostOpenLink.text.toString()
 
-            var rTitle: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), title)
-            var rContent: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), content)
-            var rPrice: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), price.toString())
-            var rTransactionRegion: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), transactionRegion)
-            var rOpenChatLink: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), openChatLink)
-
-            map.put("title", rTitle)
-            map.put("content", rContent)
-            map.put("price", rPrice)
-            map.put("transactionRegion", rTransactionRegion)
-            map.put("openChatLink", rOpenChatLink)
-
+            val title: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.etCreatePostTitle.text.toString())
+            val content: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.etCreatePostContent.text.toString())
+            val price: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.etCreatePostPrice.text.toString())
+            val transactionRegion: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.etCreatePostTransactionRegion.text.toString())
+            val openChatLink: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.etCreatePostOpenLink.text.toString())
 
             if(binding.cbGroupBuy.isChecked) {
-                Log.d(TAG, "onCreate: ${ACCESS_TOKEN}")
-                postGroupBuyViewModel.authPost(rTitle, rContent, rPrice, rTransactionRegion, rOpenChatLink, filetoUpload)
+                postGroupBuyViewModel.authPost(title, content, price, transactionRegion, openChatLink, filetoUpload)
+            } else {
+                postSharingViewModel.authPostSharing(title, content, transactionRegion, openChatLink, filetoUpload)
             }
         }
-
     }
 
     private fun openGallery() {
@@ -174,7 +181,6 @@ class CreatePostActivity : AppCompatActivity() {
         if(resultCode == Activity.RESULT_OK)  {
 
             val selectedImage = data?.data
-
             val photoUri = data?.data
 
             try {
@@ -206,7 +212,7 @@ class CreatePostActivity : AppCompatActivity() {
         filetoUpload = MultipartBody.Part.createFormData("image", file.name, requestBody)
     }
 
-    // Storage Permissions
+
     private val REQUEST_EXTERNAL_STORAGE = 1
     private val PERMISSIONS_STORAGE = arrayOf<String>(
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -214,10 +220,8 @@ class CreatePostActivity : AppCompatActivity() {
     )
 
     fun verifyStoragePermissions(activity: Activity?) {
-        // Check if we have write permission
         val permission = ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
                     activity,
                     PERMISSIONS_STORAGE,
