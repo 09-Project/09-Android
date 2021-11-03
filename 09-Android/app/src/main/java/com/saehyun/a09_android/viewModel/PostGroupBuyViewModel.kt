@@ -14,7 +14,7 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import java.io.File
 
-class PostPostViewModel(private val repository: Repository) : ViewModel() {
+class PostGroupBuyViewModel(private val repository: Repository) : ViewModel() {
     val authPostResponse : MutableLiveData<Response<Void>> = MutableLiveData()
 
     fun authPost(title: RequestBody, content: RequestBody, price: RequestBody, transactionRegion: RequestBody,

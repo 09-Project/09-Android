@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.viewModel.*
 
-class PostPostViewModelFactory(
+class PostGroupBuyViewModelFactory(
     private val repository : Repository
     ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return PostPostViewModel(repository) as T
+        return PostGroupBuyViewModel(repository) as T
     }
 }

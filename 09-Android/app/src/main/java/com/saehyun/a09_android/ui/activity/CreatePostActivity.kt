@@ -21,8 +21,8 @@ import com.saehyun.a09_android.databinding.ActivityCreatePostBinding
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ACCESS_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
-import com.saehyun.a09_android.viewModel.PostPostViewModel
-import com.saehyun.a09_android.viewModelFactory.PostPostViewModelFactory
+import com.saehyun.a09_android.viewModel.PostGroupBuyViewModel
+import com.saehyun.a09_android.viewModelFactory.PostGroupBuyViewModelFactory
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -34,9 +34,9 @@ class CreatePostActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreatePostBinding
 
-    private lateinit var postPostViewModel: PostPostViewModel
+    private lateinit var postGroupBuyViewModel: PostGroupBuyViewModel
 
-    private lateinit var postPostViewModelFactory: PostPostViewModelFactory
+    private lateinit var postGroupBuyViewModelFactory: PostGroupBuyViewModelFactory
 
     private val OPEN_GALLERY = 1
 
@@ -58,11 +58,11 @@ class CreatePostActivity : AppCompatActivity() {
 
         val repository = Repository()
 
-        postPostViewModelFactory = PostPostViewModelFactory(repository)
-        postPostViewModel =
-            ViewModelProvider(this, postPostViewModelFactory).get(PostPostViewModel::class.java)
+        postGroupBuyViewModelFactory = PostGroupBuyViewModelFactory(repository)
+        postGroupBuyViewModel =
+            ViewModelProvider(this, postGroupBuyViewModelFactory).get(PostGroupBuyViewModel::class.java)
 
-        postPostViewModel.authPostResponse.observe(this, Observer {
+        postGroupBuyViewModel.authPostResponse.observe(this, Observer {
             if (it.isSuccessful) {
                 ToastUtil.print(applicationContext, "글쓰기 등록이 완료되었습니다!")
                 finish()
@@ -156,7 +156,7 @@ class CreatePostActivity : AppCompatActivity() {
 
             if(binding.cbGroupBuy.isChecked) {
                 Log.d(TAG, "onCreate: ${ACCESS_TOKEN}")
-                postPostViewModel.authPost(rTitle, rContent, rPrice, rTransactionRegion, rOpenChatLink, filetoUpload)
+                postGroupBuyViewModel.authPost(rTitle, rContent, rPrice, rTransactionRegion, rOpenChatLink, filetoUpload)
             }
         }
 
