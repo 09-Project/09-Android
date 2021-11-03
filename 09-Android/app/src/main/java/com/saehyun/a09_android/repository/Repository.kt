@@ -1,18 +1,23 @@
 package com.saehyun.a09_android.repository
 
+import android.util.Log
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.request.PostPostRequest
 import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.*
 import com.saehyun.a09_android.network.ApiProvider
+import com.saehyun.a09_android.util.ACCESS_TOKEN
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import okhttp3.MultipartBody
+import okhttp3.Request
 import okhttp3.RequestBody
 import retrofit2.Response
 import java.io.File
 
 class Repository {
+    private val TAG = "Repository"
+
     suspend fun authSignUP(name: String, username: String, password: String) : Response<Void> {
         val authSignUpRequest = AuthSignUpRequest(name, username, password)
         return ApiProvider.api.authSignUp(authSignUpRequest)
@@ -43,7 +48,9 @@ class Repository {
         return ApiProvider.api.getPost(pageId)
     }
 
-    suspend fun postPost(image: MultipartBody.Part, data: HashMap<String, RequestBody>) : Response<Void> {
-        return ApiProvider.api.postPost(REFRESH_TOKEN, image, data)
+    suspend fun postGroupBuy(title: RequestBody, content: RequestBody, price: RequestBody, transactionRegion: RequestBody,
+                         openChatLink: RequestBody, image: MultipartBody.Part) : Response<Void> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.postGroupBuy(tempToken, title, content, price, transactionRegion, openChatLink, image)
     }
 }
