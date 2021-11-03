@@ -71,7 +71,6 @@ interface ServerApi {
             @Part("transactionRegion") transactionRegion: RequestBody?,
             @Part("openChatLink") openChatLink: RequestBody?,
             @Part image: MultipartBody.Part?
-//            @PartMap data: HashMap<String, RequestBody>
     ) : Response<Void>
 
     @Multipart
@@ -80,10 +79,8 @@ interface ServerApi {
             @Header("Authorization") accessToken: String,
             @Part("title") title: RequestBody?,
             @Part("content") content: RequestBody?,
-            @Part("price") price: RequestBody?,
             @Part("transactionRegion") transactionRegion: RequestBody?,
             @Part("openChatLink") openChatLink: RequestBody?,
             @Part image: MultipartBody.Part?
-//            @PartMap data: HashMap<String, RequestBody>
     ) : Response<Void>
 }
