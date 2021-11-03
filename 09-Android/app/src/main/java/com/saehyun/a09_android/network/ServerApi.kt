@@ -6,6 +6,7 @@ import com.saehyun.a09_android.model.request.PostPostRequest
 import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.*
 import okhttp3.MultipartBody
+import okhttp3.Request
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -50,7 +51,7 @@ interface ServerApi {
     // 다른 추천 상품 보기
     @GET("post/other")
     suspend fun otherPost(
-            @Header("x-refresh-token") refreshToken: String
+            @Header("Authorization") refreshToken: String
     ) : Response<List<PostOtherResponse>>
 
     // 상품 보기
@@ -62,9 +63,27 @@ interface ServerApi {
     // 상품 올리기
     @Multipart
     @POST("post")
-    suspend fun postPost(
-            @Header("x-refresh-token") refreshToken: String,
-            @Part image: MultipartBody.Part,
-            @PartMap data: HashMap<String, RequestBody>
+    suspend fun postGroupBuy(
+            @Header("Authorization") accessToken: String,
+            @Part("title") title: RequestBody?,
+            @Part("content") content: RequestBody?,
+            @Part("price") price: RequestBody?,
+            @Part("transactionRegion") transactionRegion: RequestBody?,
+            @Part("openChatLink") openChatLink: RequestBody?,
+            @Part image: MultipartBody.Part?
+//            @PartMap data: HashMap<String, RequestBody>
+    ) : Response<Void>
+
+    @Multipart
+    @POST("post")
+    suspend fun postSharing(
+            @Header("Authorization") accessToken: String,
+            @Part("title") title: RequestBody?,
+            @Part("content") content: RequestBody?,
+            @Part("price") price: RequestBody?,
+            @Part("transactionRegion") transactionRegion: RequestBody?,
+            @Part("openChatLink") openChatLink: RequestBody?,
+            @Part image: MultipartBody.Part?
+//            @PartMap data: HashMap<String, RequestBody>
     ) : Response<Void>
 }
