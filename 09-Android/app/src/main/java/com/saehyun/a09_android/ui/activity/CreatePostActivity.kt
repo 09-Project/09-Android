@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import com.saehyun.a09_android.databinding.ActivityCreatePostBinding
 import com.saehyun.a09_android.repository.Repository
+import com.saehyun.a09_android.util.ACCESS_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.PostPostViewModel
 import com.saehyun.a09_android.viewModelFactory.PostPostViewModelFactory
@@ -80,12 +83,18 @@ class CreatePostActivity : AppCompatActivity() {
         binding.cbFree.setOnClickListener {
             if(binding.cbFree.isChecked) {
                 binding.cbGroupBuy.isChecked = false
+                binding.fmPrice.visibility = View.GONE
+                binding.viewPrice.visibility = View.GONE
+                binding.tvCreatePostPrice.visibility = View.GONE
             }
         }
 
         binding.cbGroupBuy.setOnClickListener {
             if(binding.cbGroupBuy.isChecked) {
                 binding.cbFree.isChecked = false
+                binding.fmPrice.visibility = View.VISIBLE
+                binding.viewPrice.visibility = View.VISIBLE
+                binding.tvCreatePostPrice.visibility = View.VISIBLE
             }
         }
 
@@ -146,13 +155,11 @@ class CreatePostActivity : AppCompatActivity() {
 
 
             if(binding.cbGroupBuy.isChecked) {
-                postPostViewModel.authPost(filetoUpload, map)
+                Log.d(TAG, "onCreate: ${ACCESS_TOKEN}")
+                postPostViewModel.authPost(rTitle, rContent, rPrice, rTransactionRegion, rOpenChatLink, filetoUpload)
             }
         }
 
-        binding.button2.setOnClickListener {
-            postPostViewModel.authPost(filetoUpload, map)
-        }
     }
 
     private fun openGallery() {
@@ -196,7 +203,7 @@ class CreatePostActivity : AppCompatActivity() {
         val file: File = File(mediaPath)
 
         val requestBody: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
-        filetoUpload = MultipartBody.Part.createFormData("postImg", file.name, requestBody)
+        filetoUpload = MultipartBody.Part.createFormData("image", file.name, requestBody)
     }
 
     // Storage Permissions
