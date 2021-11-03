@@ -182,7 +182,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cbGroupBuy">
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/tvCreatePostPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -194,11 +194,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/cbGroupBuy" />
 
             <View
+                android:id="@+id/viewPrice"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#E3E3E3" />
 
             <FrameLayout
+                android:id="@+id/fmPrice"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical|center_horizontal"
@@ -226,7 +228,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/noto_sans_kr_medium"
-                android:text="거래가격"
+                android:text="거래지역"
                 android:textColor="@color/black"
                 android:textSize="13dp"
                 app:layout_constraintStart_toStartOf="@+id/cbGroupBuy"
