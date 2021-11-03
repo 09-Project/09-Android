@@ -49,8 +49,14 @@ class Repository {
     }
 
     suspend fun postGroupBuy(title: RequestBody, content: RequestBody, price: RequestBody, transactionRegion: RequestBody,
-                         openChatLink: RequestBody, image: MultipartBody.Part) : Response<Void> {
+                              openChatLink: RequestBody, image: MultipartBody.Part) : Response<Void> {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
         return ApiProvider.api.postGroupBuy(tempToken, title, content, price, transactionRegion, openChatLink, image)
+    }
+
+    suspend fun postSharing(title: RequestBody, content: RequestBody, transactionRegion: RequestBody,
+                             openChatLink: RequestBody, image: MultipartBody.Part) : Response<Void> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.postSharing(tempToken, title, content, transactionRegion, openChatLink, image)
     }
 }
