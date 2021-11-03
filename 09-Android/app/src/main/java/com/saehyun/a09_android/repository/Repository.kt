@@ -7,7 +7,10 @@ import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.*
 import com.saehyun.a09_android.network.ApiProvider
 import com.saehyun.a09_android.util.REFRESH_TOKEN
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
+import java.io.File
 
 class Repository {
     suspend fun authSignUP(name: String, username: String, password: String) : Response<Void> {
@@ -40,8 +43,7 @@ class Repository {
         return ApiProvider.api.getPost(pageId)
     }
 
-    suspend fun postPost(title: String, content: String, price: Int, transactionRegion: String, openChatLink: String, image: String) : Response<Void> {
-        val postPostRequest = PostPostRequest(title, content, price, transactionRegion, openChatLink, image)
-        return ApiProvider.api.postPost(REFRESH_TOKEN, postPostRequest)
+    suspend fun postPost(image: MultipartBody.Part, data: HashMap<String, RequestBody>) : Response<Void> {
+        return ApiProvider.api.postPost(REFRESH_TOKEN, image, data)
     }
 }
