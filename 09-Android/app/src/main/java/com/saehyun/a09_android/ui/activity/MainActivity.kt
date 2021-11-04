@@ -22,8 +22,10 @@ import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.util.VIEW_SIZE
+import com.saehyun.a09_android.viewModel.PostLikeViewModel
 import com.saehyun.a09_android.viewModel.PostViewModel
 import com.saehyun.a09_android.viewModel.ReissueViewModel
+import com.saehyun.a09_android.viewModelFactory.PostLikeViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
 
@@ -36,8 +38,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var reissueViewModel: ReissueViewModel
 
     private lateinit var postViewModel: PostViewModel
-
     private lateinit var postViewModelFactory: PostViewModelFactory
+
+    private lateinit var postLikeViewModel: PostLikeViewModel
+    private lateinit var postLikeViewModelFactory: PostLikeViewModelFactory
 
     private var productList = arrayListOf<PostValue>()
 
@@ -55,11 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         val repository = Repository()
 
-        // Recyclerview Set
-        binding.rvMainRcProduct.layoutManager = GridLayoutManager(this, 2)
-        binding.rvMainRcProduct.setHasFixedSize(true)
-        binding.rvMainRcProduct.adapter = RcProductRvAdapter(applicationContext, productList)
-
         // Page Set
         binding.MainibBack.setOnClickListener {
             --currentPage
@@ -76,6 +75,28 @@ class MainActivity : AppCompatActivity() {
             }
             postViewModel.authPost(currentPage, VIEW_SIZE)
         }
+
+        // Like Post
+        postLikeViewModelFactory = PostLikeViewModelFactory(repository)
+        postLikeViewModel = ViewModelProvider(this, postLikeViewModelFactory).get(PostLikeViewModel::class.java)
+
+        postLikeViewModel.authPostLikeResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                ToastUtil.print(applicationContext, "찜하기 성공!")
+            } else {
+                when(it.code()) {
+                    400 -> ToastUtil.print(applicationContext, "Access 토큰의 형태가 잘못되었습니다.")
+                    401 -> ToastUtil.print(applicationContext, "Access 토큰이 유효하지 않습니다.")
+                    404 -> ToastUtil.print(applicationContext, "상품이나 회원이 존재하지 않습니다.")
+                    409 -> ToastUtil.print(applicationContext, "찜이 이미 존재합니다.")
+                }
+            }
+        })
+
+        // Recyclerview Set
+        binding.rvMainRcProduct.layoutManager = GridLayoutManager(this, 2)
+        binding.rvMainRcProduct.setHasFixedSize(true)
+        binding.rvMainRcProduct.adapter = RcProductRvAdapter(applicationContext, productList, postLikeViewModel)
 
         // Get Post
         postViewModelFactory = PostViewModelFactory(repository)
@@ -95,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                 binding.tvMaxPage.text = " / ${maxPage}"
 
                 productList.clear()
+
                 for (i: Int in 0 until size) {
                     val postValue: PostValue = it.body()!!.posts.get(i)
                     productList.add(postValue)
@@ -128,7 +150,7 @@ class MainActivity : AppCompatActivity() {
         // Drawer Menu
         binding.ibMainMenu.setOnClickListener {
             if(binding.mainDrawer.isDrawerOpen(Gravity.RIGHT)) {
-//                binding.mainDrawer.closeDrawer(Gravity.RIGHT)
+                binding.mainDrawer.closeDrawer(Gravity.RIGHT)
             } else {
                 binding.mainDrawer.openDrawer(Gravity.RIGHT)
             }
@@ -138,6 +160,10 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.menuPost -> {
                     startActivity(Intent(applicationContext, CreatePostActivity::class.java))
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.menuMyPage -> {
+                    startActivity(Intent(applicationContext, MyPageActivity::class.java))
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener false

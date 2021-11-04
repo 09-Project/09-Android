@@ -10,14 +10,22 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.ui.activity.PostActivity
+import com.saehyun.a09_android.viewModel.PostLikeViewModel
+import com.saehyun.a09_android.viewModel.PostViewModel
+import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
+import kotlinx.coroutines.launch
+import retrofit2.Response
 
-class RcProductRvAdapter(val context: Context, val productData: List<PostValue>):
+class RcProductRvAdapter(val context: Context, val productData: List<PostValue>, val postLikeViewModel: PostLikeViewModel):
     RecyclerView.Adapter<RcProductRvAdapter.Holder>() {
 
 
@@ -27,7 +35,6 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>)
         val clRecommendedProduct =
             itemView?.findViewById<ConstraintLayout>(R.id.clRecommendedProduct)
         val ivImage = itemView?.findViewById<ImageView>(R.id.ivImage)
-        val ivPurpose = itemView?.findViewById<ImageView>(R.id.ivPurpose)
         val tvTitle = itemView?.findViewById<TextView>(R.id.tvTitle)
         val tvTransactionRegion = itemView?.findViewById<TextView>(R.id.tvTransactionRegion)
         val tvPrice = itemView?.findViewById<TextView>(R.id.tvPrice)
@@ -53,7 +60,7 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>)
         holder.tvPrice?.text = data.price
 
         holder.ivHeart?.setOnClickListener {
-            val repository = Repository()
+            postLikeViewModel.authPostLikeSearch(data.id.toInt())
         }
 
         holder.clRecommendedProduct?.setOnClickListener {
