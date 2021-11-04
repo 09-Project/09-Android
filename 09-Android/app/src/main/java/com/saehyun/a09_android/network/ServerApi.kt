@@ -60,7 +60,7 @@ interface ServerApi {
             @Path("post-id") postId :Int
     ) : Response<PostGetResponse>
 
-    // 상품 올리기
+    // 상품 올리기 (공동구매)
     @Multipart
     @POST("post")
     suspend fun postGroupBuy(
@@ -73,6 +73,7 @@ interface ServerApi {
             @Part image: MultipartBody.Part?
     ) : Response<Void>
 
+    // 상품 올리기 (무료나눔)
     @Multipart
     @POST("post")
     suspend fun postSharing(
@@ -82,5 +83,18 @@ interface ServerApi {
             @Part("transactionRegion") transactionRegion: RequestBody?,
             @Part("openChatLink") openChatLink: RequestBody?,
             @Part image: MultipartBody.Part?
+    ) : Response<Void>
+
+    // 마이페이지 보기
+    @GET("member/my-page")
+    suspend fun myPage(
+        @Header("Authorization") accessToken: String,
+    ) : Response<MyPageResponse>
+
+    // 찜하기
+    @POST("like/{post-id}")
+    suspend fun likePost(
+        @Header("Authorization") accessToken: String,
+        @Path("post-id") postId: Int
     ) : Response<Void>
 }
