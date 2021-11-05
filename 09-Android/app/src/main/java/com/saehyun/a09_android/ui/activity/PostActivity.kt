@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityPostBinding
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.model.response.PostOtherResponse
@@ -15,8 +16,10 @@ import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.PostGetViewModel
+import com.saehyun.a09_android.viewModel.PostLikeViewModel
 import com.saehyun.a09_android.viewModel.PostOtherViewModel
 import com.saehyun.a09_android.viewModelFactory.PostGetViewModelFactory
+import com.saehyun.a09_android.viewModelFactory.PostLikeViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.PostOtherViewModelFactory
 
 class PostActivity : AppCompatActivity() {
@@ -24,12 +27,13 @@ class PostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPostBinding
 
     private lateinit var postGetViewModel: PostGetViewModel
-
     private lateinit var postGetViewModelFactory: PostGetViewModelFactory
 
     private lateinit var postOtherViewModel: PostOtherViewModel
-
     private lateinit var postOtherViewModelFactory: PostOtherViewModelFactory
+
+    private lateinit var postLikeViewModel: PostLikeViewModel
+    private lateinit var postLikeViewModelFactory: PostLikeViewModelFactory
 
     private var productList = arrayListOf<PostOtherResponse>()
 
@@ -41,9 +45,34 @@ class PostActivity : AppCompatActivity() {
         binding = ActivityPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // PostGet
+        // Default Setting
         var repository = Repository()
 
+        val postId = intent.getStringExtra("postId").toString().toInt()
+
+        // Like Post
+        postLikeViewModelFactory = PostLikeViewModelFactory(repository)
+        postLikeViewModel = ViewModelProvider(this, postLikeViewModelFactory).get(PostLikeViewModel::class.java)
+
+        postLikeViewModel.authPostLikeResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                ToastUtil.print(applicationContext, "찜하기 성공!")
+                binding.ivPostHeart.setImageBitmap(R.drawable.ic_heart_on)
+            } else {
+                when(it.code()) {
+                    400 -> ToastUtil.print(applicationContext, "Access 토큰의 형태가 잘못되었습니다.")
+                    401 -> ToastUtil.print(applicationContext, "Access 토큰이 유효하지 않습니다.")
+                    404 -> ToastUtil.print(applicationContext, "상품이나 회원이 존재하지 않습니다.")
+                    409 -> ToastUtil.print(applicationContext, "찜이 이미 존재합니다.")
+                }
+            }
+        })
+
+        binding.viewLike.setOnClickListener {
+            postLikeViewModel.authPostLikeSearch(postId.toInt())
+        }
+
+        // Post Get
         postGetViewModelFactory = PostGetViewModelFactory(repository)
         postGetViewModel = ViewModelProvider(this, postGetViewModelFactory).get(PostGetViewModel::class.java)
 
@@ -61,6 +90,8 @@ class PostActivity : AppCompatActivity() {
                             .into(binding.ivMemberProfile)
                 }
 
+                it.body()!!.liked
+
                 binding.tvPostTItle.text = it.body()!!.title
                 binding.tvPostContent.text = it.body()!!.content
                 binding.tvPostTransactionRegion.text = it.body()!!.transaction_region
@@ -71,7 +102,6 @@ class PostActivity : AppCompatActivity() {
             }
         })
 
-        val postId = intent.getStringExtra("postId").toString().toInt()
         postGetViewModel.authGetPost(postId)
 
         // Recyclerview set
