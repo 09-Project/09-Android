@@ -153,26 +153,6 @@
             app:srcCompat="@drawable/ic_post_border" />
 
         <ImageView
-            android:id="@+id/ibPostLiked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
-            app:layout_constraintEnd_toStartOf="@+id/imageView17"
-            app:layout_constraintStart_toStartOf="@+id/imageView14"
-            app:layout_constraintTop_toTopOf="@+id/imageView14"
-            app:srcCompat="@drawable/ic_post_bookmark" />
-
-        <ImageView
-            android:id="@+id/ibPostChat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
-            app:layout_constraintEnd_toEndOf="@+id/imageView14"
-            app:layout_constraintStart_toStartOf="@+id/imageView17"
-            app:layout_constraintTop_toTopOf="@+id/imageView14"
-            app:srcCompat="@drawable/ic_post_chat" />
-
-        <ImageView
             android:id="@+id/imageView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -225,5 +205,70 @@
             android:text="다른 상품 보기"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:text="찜하기"
+            android:textColor="#818181"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivPostHeart"
+            app:layout_constraintStart_toEndOf="@+id/ivPostHeart"
+            app:layout_constraintTop_toTopOf="@+id/ivPostHeart" />
+
+        <ImageView
+            android:id="@+id/ivPostHeart"
+            android:layout_width="11dp"
+            android:layout_height="9dp"
+            android:layout_marginStart="56dp"
+            android:src="@drawable/ic_post_heart_off"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+            app:layout_constraintStart_toStartOf="@+id/imageView14"
+            app:layout_constraintTop_toTopOf="@+id/imageView14" />
+
+        <ImageView
+            android:id="@+id/imageView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="47dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+            app:layout_constraintStart_toEndOf="@+id/imageView17"
+            app:layout_constraintTop_toTopOf="@+id/imageView14"
+            app:srcCompat="@drawable/ic_post_chat_" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:text="채팅하기"
+            android:textColor="#818181"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView18"
+            app:layout_constraintStart_toEndOf="@+id/imageView18"
+            app:layout_constraintTop_toTopOf="@+id/imageView18" />
+
+        <View
+            android:id="@+id/viewLike"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+            app:layout_constraintEnd_toStartOf="@+id/imageView17"
+            app:layout_constraintStart_toStartOf="@+id/imageView14"
+            app:layout_constraintTop_toTopOf="@+id/imageView14" />
+
+        <View
+            android:id="@+id/viewChat"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+            app:layout_constraintEnd_toEndOf="@+id/imageView14"
+            app:layout_constraintStart_toEndOf="@+id/imageView17"
+            app:layout_constraintTop_toTopOf="@+id/imageView14" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
