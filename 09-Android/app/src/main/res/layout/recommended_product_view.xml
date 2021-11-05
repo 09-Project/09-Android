@@ -72,13 +72,13 @@
 
     <ImageView
         android:id="@+id/ivHeart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_heart_off"
         app:layout_constraintEnd_toEndOf="@+id/ivImage"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_heart_off" />
+        app:layout_constraintTop_toTopOf="@+id/ivImage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
