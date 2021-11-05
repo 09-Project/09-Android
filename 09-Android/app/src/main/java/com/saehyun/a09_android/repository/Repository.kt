@@ -59,4 +59,9 @@ class Repository {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
         return ApiProvider.api.postSharing(tempToken, title, content, transactionRegion, openChatLink, image)
     }
+
+    suspend fun postLike(postId: Int) : Response<Void> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.likePost(tempToken, postId)
+    }
 }
