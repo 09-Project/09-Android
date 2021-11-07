@@ -57,7 +57,7 @@ class PostActivity : AppCompatActivity() {
         postLikeViewModel.authPostLikeResponse.observe(this, Observer {
             if (it.isSuccessful) {
                 ToastUtil.print(applicationContext, "찜하기 성공!")
-                binding.ivPostHeart.setImageBitmap(R.drawable.ic_heart_on)
+                binding.ivPostHeart.setImageResource(R.drawable.ic_heart_on)
             } else {
                 when(it.code()) {
                     400 -> ToastUtil.print(applicationContext, "Access 토큰의 형태가 잘못되었습니다.")
@@ -86,11 +86,15 @@ class PostActivity : AppCompatActivity() {
 
                 if(!(it.body()!!.member_profile.isNullOrBlank())) {
                     Glide.with(applicationContext)
-                            .load(it.body()!!.member_profile)
-                            .into(binding.ivMemberProfile)
+                        .load(it.body()!!.member_profile)
+                        .into(binding.ivMemberProfile)
                 }
 
-                it.body()!!.liked
+                if(it.body()!!.liked) {
+                    Glide.with(applicationContext)
+                        .load(R.drawable.ic_heart_on)
+                        .into(binding.ivPostHeart)
+                }
 
                 binding.tvPostTItle.text = it.body()!!.title
                 binding.tvPostContent.text = it.body()!!.content
