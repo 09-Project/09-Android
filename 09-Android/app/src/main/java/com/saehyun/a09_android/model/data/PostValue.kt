@@ -9,5 +9,6 @@ data class PostValue(
     val completed: String,
     val created_date: String,
     val updated_date: String,
-    val image: String
+    val image: String,
+    val liked: Boolean
 )
