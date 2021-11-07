@@ -63,6 +63,12 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>,
             postLikeViewModel.authPostLikeSearch(data.id.toInt())
         }
 
+        if(data.liked) {
+            Glide.with(holder.itemView.context)
+                .load(R.drawable.ic_heart_on)
+                .into(holder.ivHeart)
+        }
+
         holder.clRecommendedProduct?.setOnClickListener {
             var intent = Intent(holder.itemView?.context, PostActivity::class.java)
             intent.putExtra("postId", data.id)
