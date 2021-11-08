@@ -77,4 +77,14 @@ class Repository {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
         return ApiProvider.api.membertLike(tempToken)
     }
+
+    suspend fun myPage() : Response<MyPageResponse> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.myPage(tempToken)
+    }
+
+    suspend fun memberInProgress(memberId: String) : Response<List<PostValue>> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.memberInProgress(tempToken, memberId)
+    }
 }
