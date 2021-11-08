@@ -1,6 +1,7 @@
 package com.saehyun.a09_android.repository
 
 import android.util.Log
+import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.request.PostPostRequest
@@ -70,5 +71,10 @@ class Repository {
     suspend fun deleteLikePost(postId: Int) : Response<Void> {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
         return ApiProvider.api.deleteLikePost(tempToken, postId)
+    }
+
+    suspend fun membertLike() : Response<List<PostValue>> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.membertLike(tempToken)
     }
 }
