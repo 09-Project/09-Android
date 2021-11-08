@@ -36,6 +36,7 @@ interface ServerApi {
     // 전체 상품 보기
     @GET("post")
     suspend fun post(
+        @Header("Authorization") accessToken: String,
         @Query("page") page: Int,
         @Query("size") size: Int
     ) : Response<PostResponse>
@@ -51,12 +52,13 @@ interface ServerApi {
     // 다른 추천 상품 보기
     @GET("post/other")
     suspend fun otherPost(
-            @Header("Authorization") refreshToken: String
+            @Header("Authorization") accessToken: String
     ) : Response<List<PostOtherResponse>>
 
     // 상품 보기
     @GET("post/{post-id}")
     suspend fun getPost(
+            @Header("Authorization") accessToken: String,
             @Path("post-id") postId :Int
     ) : Response<PostGetResponse>
 
@@ -94,6 +96,13 @@ interface ServerApi {
     // 찜하기
     @POST("like/{post-id}")
     suspend fun likePost(
+        @Header("Authorization") accessToken: String,
+        @Path("post-id") postId: Int
+    ) : Response<Void>
+
+    // 찜하기 취소
+    @DELETE("like/{post-id}")
+    suspend fun deleteLikePost(
         @Header("Authorization") accessToken: String,
         @Path("post-id") postId: Int
     ) : Response<Void>
