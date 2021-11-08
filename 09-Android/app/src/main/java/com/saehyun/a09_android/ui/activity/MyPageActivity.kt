@@ -10,21 +10,30 @@ import com.google.android.material.tabs.TabLayout
 import com.saehyun.a09_android.databinding.ActivityMyPageBinding
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.model.response.MyPageResponse
+import com.saehyun.a09_android.remote.MemberLikeRvAdapter
 import com.saehyun.a09_android.remote.RcOtherRvAdapter
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ToastUtil
+import com.saehyun.a09_android.viewModel.MemberLikeViewModel
 import com.saehyun.a09_android.viewModel.PostLikeViewModel
+import com.saehyun.a09_android.viewModel.ReissueViewModel
+import com.saehyun.a09_android.viewModelFactory.MemberLikeViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.PostLikeViewModelFactory
+import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
 
 class MyPageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMyPageBinding
 
     private var productList = arrayListOf<PostValue>()
+    private var memberLikeList = arrayListOf<PostValue>()
 
     private lateinit var postLikeViewModel: PostLikeViewModel
     private lateinit var postLikeViewModelFactory: PostLikeViewModelFactory
+
+    private lateinit var memberLikeViewModel: MemberLikeViewModel
+    private lateinit var memberLikeViewModelFactory: MemberLikeViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +60,30 @@ class MyPageActivity : AppCompatActivity() {
             }
         })
 
+        // MemberLike
+        val memberLikeViewModelFactory = MemberLikeViewModelFactory(repository)
+        val memberLikeViewModel: MemberLikeViewModel = ViewModelProvider(this, memberLikeViewModelFactory).get(MemberLikeViewModel::class.java)
+
+        memberLikeViewModel.memberLikeResponse.observe(this, Observer {
+            if(it.isSuccessful) {
+                val size = it.body()!!.size
+
+                for(i: Int in 0 until size) {
+                    val postValue: PostValue = it.body()!!.get(i)
+                    memberLikeList.add(postValue)
+
+                    binding.rvMyPage.adapter?.notifyDataSetChanged()
+                }
+            }
+        })
+
         // Set Tab
         binding.tabMyPage.addTab(binding.tabMyPage.newTab().setText("상품"))
         binding.tabMyPage.addTab(binding.tabMyPage.newTab().setText("찜한 상품"))
         binding.tabMyPage.addTab(binding.tabMyPage.newTab().setText("거래 내역"))
 
 
-        binding.rvMyPage.layoutManager = GridLayoutManager(this, 3)
+        binding.rvMyPage.layoutManager = GridLayoutManager(this, 2)
         binding.rvMyPage.setHasFixedSize(true)
 
         binding.tabMyPage.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -65,11 +91,10 @@ class MyPageActivity : AppCompatActivity() {
                 when(tab!!.position) {
                     0 -> {
                         binding.rvMyPage.adapter = RcProductRvAdapter(applicationContext, productList, postLikeViewModel)
-
-
                     }
                     1 -> {
-                        ToastUtil.print(applicationContext, "click 2")
+                        binding.rvMyPage.adapter = MemberLikeRvAdapter(applicationContext, memberLikeList)
+                        memberLikeViewModel.memberLike()
                     }
                     2 -> {
                         ToastUtil.print(applicationContext, "click 3")
