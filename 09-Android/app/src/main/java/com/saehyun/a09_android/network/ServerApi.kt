@@ -114,10 +114,10 @@ interface ServerApi {
         @Header("Authorization") accessToken: String,
     ) : Response<List<PostValue>>
 
-    // 진행중인 게시글 보기
+    // 진행중인 게시글
     @GET("/member/in-progress/{member-id}")
     suspend fun memberInProgress(
         @Header("Authorization") accessToken: String,
         @Path("member-id") memberId: String
-    ) : Response<List<PostPostRequest>>
+    ) : Response<List<PostValue>>
 }
