@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/ivMyPageProfile"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="25dp"
@@ -68,36 +68,36 @@
     <TextView
         android:textSize="13dp"
         android:fontFamily="@font/noto_sans_kr_bold"
-        android:id="@+id/textView14"
+        android:id="@+id/tvMyPageName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="34dp"
-        android:text="Name"
-        app:layout_constraintStart_toEndOf="@+id/imageView7"
+        android:text="이름이 없습니다."
+        app:layout_constraintStart_toEndOf="@+id/ivMyPageProfile"
         app:layout_constraintTop_toBottomOf="@+id/view4" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/tvMyPageContent"
         android:layout_width="240dp"
         android:layout_height="44dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/noto_sans_kr_regular"
-        android:text="introduce"
+        android:text="소개가 없습니다."
         android:textColor="#818181"
         android:textSize="13dp"
-        app:layout_constraintStart_toEndOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="@+id/textView14" />
+        app:layout_constraintStart_toEndOf="@+id/ivMyPageProfile"
+        app:layout_constraintTop_toTopOf="@+id/tvMyPageName" />
 
     <ImageView
         android:id="@+id/imageView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView14"
-        app:layout_constraintStart_toEndOf="@+id/textView14"
-        app:layout_constraintTop_toTopOf="@+id/textView14"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMyPageName"
+        app:layout_constraintStart_toEndOf="@+id/tvMyPageName"
+        app:layout_constraintTop_toTopOf="@+id/tvMyPageName"
         app:srcCompat="@drawable/ic_mypage_setting" />
 
     <ImageView
@@ -107,7 +107,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="29dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/ivMyPageProfile"
         app:srcCompat="@drawable/ic_mypage_allpostscount_box" />
 
     <ImageView
@@ -153,6 +153,7 @@
         app:layout_constraintTop_toTopOf="@+id/ivMypageAllpostscount" />
 
     <TextView
+        android:id="@+id/tvLikePostsCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/noto_sans_kr_bold"
