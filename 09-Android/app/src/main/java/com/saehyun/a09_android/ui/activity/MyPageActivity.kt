@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.get
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.saehyun.a09_android.databinding.ActivityMyPageBinding
 import com.saehyun.a09_android.model.data.PostValue
@@ -15,18 +17,15 @@ import com.saehyun.a09_android.remote.RcOtherRvAdapter
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ToastUtil
-import com.saehyun.a09_android.viewModel.MemberLikeViewModel
-import com.saehyun.a09_android.viewModel.PostLikeViewModel
-import com.saehyun.a09_android.viewModel.ReissueViewModel
-import com.saehyun.a09_android.viewModelFactory.MemberLikeViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.PostLikeViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
+import com.saehyun.a09_android.viewModel.*
+import com.saehyun.a09_android.viewModelFactory.*
+import okhttp3.internal.wait
 
 class MyPageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMyPageBinding
 
-    private var productList = arrayListOf<PostValue>()
+    private var memberInProgressList = arrayListOf<PostValue>()
     private var memberLikeList = arrayListOf<PostValue>()
 
     private lateinit var postLikeViewModel: PostLikeViewModel
@@ -35,6 +34,14 @@ class MyPageActivity : AppCompatActivity() {
     private lateinit var memberLikeViewModel: MemberLikeViewModel
     private lateinit var memberLikeViewModelFactory: MemberLikeViewModelFactory
 
+    private lateinit var myPageViewModel: MyPageViewModel
+    private lateinit var myPageViewModelFactory: MyPageViewModelFactory
+
+    private lateinit var memberInProgressViewModel: MemberInProgressViewModel
+    private lateinit var memberInProgressViewModelFactory: MemberInProgressViewModelFactory
+
+    private var memberId: Int ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,6 +49,50 @@ class MyPageActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val repository = Repository()
+
+        // MyPage
+        myPageViewModelFactory = MyPageViewModelFactory(repository)
+        myPageViewModel = ViewModelProvider(this, myPageViewModelFactory).get(MyPageViewModel::class.java)
+
+        myPageViewModel.myPageResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                memberId = it.body()!!.member_id.toInt()
+
+                binding.tvMyPageName.text = it.body()!!.name
+
+                if(!(it.body()!!.profile_url.isNullOrEmpty())) {
+                    Glide.with(applicationContext)
+                        .load(it.body()!!.profile_url)
+                        .into(binding.ivMyPageProfile)
+                }
+
+                if(!(it.body()!!.introduction.isNullOrEmpty())) {
+                    binding.tvMyPageContent.text = it.body()!!.introduction
+                }
+
+                binding.tvMypageAllpostscount.text = it.body()!!.all_posts_count
+
+                binding.tvLikePostsCount.text = it.body()!!.like_posts_count
+
+                binding.tvMypageGetlikescount.text = it.body()!!.get_likes_count
+
+                binding.tvMypageCompletedpostscount.text = it.body()!!.completed_posts_count
+            } else {
+                when(it.code()) {
+                    400 -> {
+                        ToastUtil.print(applicationContext, "토큰의 형태가 잘못되었습니다.")
+                    }
+                    401 -> {
+                        ToastUtil.print(applicationContext, "Access 토큰이 만료되었습니다.")
+                    }
+                    404 -> {
+                        ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
+                    }
+                }
+            }
+        })
+
+        myPageViewModel.myPage()
 
         // Like Post
         postLikeViewModelFactory = PostLikeViewModelFactory(repository)
@@ -61,8 +112,8 @@ class MyPageActivity : AppCompatActivity() {
         })
 
         // MemberLike
-        val memberLikeViewModelFactory = MemberLikeViewModelFactory(repository)
-        val memberLikeViewModel: MemberLikeViewModel = ViewModelProvider(this, memberLikeViewModelFactory).get(MemberLikeViewModel::class.java)
+        memberLikeViewModelFactory = MemberLikeViewModelFactory(repository)
+        memberLikeViewModel = ViewModelProvider(this, memberLikeViewModelFactory).get(MemberLikeViewModel::class.java)
 
         memberLikeViewModel.memberLikeResponse.observe(this, Observer {
             if(it.isSuccessful) {
@@ -77,6 +128,27 @@ class MyPageActivity : AppCompatActivity() {
             }
         })
 
+        // MemberInProgress
+        memberInProgressViewModelFactory = MemberInProgressViewModelFactory(repository)
+        memberInProgressViewModel = ViewModelProvider(this, memberInProgressViewModelFactory).get(MemberInProgressViewModel::class.java)
+
+        memberInProgressViewModel.memberInProgressResponse.observe(this, Observer {
+            if(it.isSuccessful) {
+                val size = it.body()!!.size
+
+                for(i: Int in 0 until size) {
+                    val postValue: PostValue = it.body()!!.get(i)
+                    memberInProgressList.add(postValue)
+
+                    binding.rvMyPage.adapter?.notifyDataSetChanged()
+                }
+            }
+        })
+
+        // Default RvSet
+        binding.rvMyPage.adapter = RcProductRvAdapter(applicationContext, memberInProgressList, postLikeViewModel)
+        memberInProgressViewModel.memberInProgress(memberId.toString())
+
         // Set Tab
         binding.tabMyPage.addTab(binding.tabMyPage.newTab().setText("상품"))
         binding.tabMyPage.addTab(binding.tabMyPage.newTab().setText("찜한 상품"))
@@ -90,7 +162,8 @@ class MyPageActivity : AppCompatActivity() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab!!.position) {
                     0 -> {
-                        binding.rvMyPage.adapter = RcProductRvAdapter(applicationContext, productList, postLikeViewModel)
+                        binding.rvMyPage.adapter = RcProductRvAdapter(applicationContext, memberInProgressList, postLikeViewModel)
+                        memberInProgressViewModel.memberInProgress(memberId.toString())
                     }
                     1 -> {
                         binding.rvMyPage.adapter = MemberLikeRvAdapter(applicationContext, memberLikeList)
