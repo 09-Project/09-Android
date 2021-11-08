@@ -28,6 +28,7 @@ class MemberLikeRvAdapter(val context: Context, val productData: List<PostValue>
         val ivImage = itemView?.findViewById<ImageView>(R.id.ivImage)
         val tvTitle = itemView?.findViewById<TextView>(R.id.tvTitle)
         val ivHeart = itemView?.findViewById<TextView>(R.id.ivHeart)
+        val clOtherProductView = itemView?.findViewById<ConstraintLayout>(R.id.clOtherProductView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -45,6 +46,13 @@ class MemberLikeRvAdapter(val context: Context, val productData: List<PostValue>
                 .into(holder.ivImage)
 
         holder.tvTitle?.text = data.title
+
+        holder.clOtherProductView?.setOnClickListener {
+            var intent = Intent(holder.itemView.context, PostActivity::class.java)
+            intent.putExtra("postId", data.id)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            ContextCompat.startActivity(holder.itemView.context, intent, null)
+        }
     }
 
     override fun getItemCount(): Int {
