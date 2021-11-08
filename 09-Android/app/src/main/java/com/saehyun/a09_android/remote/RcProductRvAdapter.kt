@@ -60,6 +60,7 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>,
         holder.tvPrice?.text = data.price
 
         holder.ivHeart?.setOnClickListener {
+            holder.ivHeart.setImageResource(R.drawable.ic_heart_on)
             postLikeViewModel.authPostLikeSearch(data.id.toInt())
         }
 
