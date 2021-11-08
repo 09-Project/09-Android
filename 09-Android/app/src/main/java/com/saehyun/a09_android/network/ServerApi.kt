@@ -1,5 +1,6 @@
 package com.saehyun.a09_android.network
 
+import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
 import com.saehyun.a09_android.model.request.PostPostRequest
@@ -106,4 +107,17 @@ interface ServerApi {
         @Header("Authorization") accessToken: String,
         @Path("post-id") postId: Int
     ) : Response<Void>
+
+    // 찜한 게시글 보기
+    @GET("member/like")
+    suspend fun membertLike(
+        @Header("Authorization") accessToken: String,
+    ) : Response<List<PostValue>>
+
+    // 진행중인 게시글 보기
+    @GET("/member/in-progress/{member-id}")
+    suspend fun memberInProgress(
+        @Header("Authorization") accessToken: String,
+        @Path("member-id") memberId: String
+    ) : Response<List<PostPostRequest>>
 }
