@@ -106,7 +106,6 @@ class MainActivity : AppCompatActivity() {
 
         postViewModel.authPostResponse.observe(this, Observer {
             if (it.isSuccessful) {
-                println("${it.body()}")
                 val size = it.body()!!.posts.size
 
                 val count = it.body()!!.count
