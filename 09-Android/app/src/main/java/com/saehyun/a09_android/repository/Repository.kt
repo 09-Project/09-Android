@@ -33,7 +33,8 @@ class Repository {
     }
 
     suspend fun post(page: Int, size: Int) : Response<PostResponse> {
-        return ApiProvider.api.post(page, size)
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.post(tempToken, page, size)
     }
 
     suspend fun searchPost(keyword: String, page: Int, size: Int) : Response<PostResponse> {
@@ -45,7 +46,8 @@ class Repository {
     }
 
     suspend fun postGet(pageId: Int) : Response<PostGetResponse> {
-        return ApiProvider.api.getPost(pageId)
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.getPost(tempToken, pageId)
     }
 
     suspend fun postGroupBuy(title: RequestBody, content: RequestBody, price: RequestBody, transactionRegion: RequestBody,
@@ -63,5 +65,10 @@ class Repository {
     suspend fun postLike(postId: Int) : Response<Void> {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
         return ApiProvider.api.likePost(tempToken, postId)
+    }
+
+    suspend fun deleteLikePost(postId: Int) : Response<Void> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.deleteLikePost(tempToken, postId)
     }
 }
