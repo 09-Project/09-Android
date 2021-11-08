@@ -1,5 +1,8 @@
 package com.saehyun.a09_android.model.data
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
 data class PostValue(
     val id: String,
     val title: String,

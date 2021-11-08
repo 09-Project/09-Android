@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.09Android"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.MyPageActivity"></activity>
+        <activity android:name=".ui.activity.MyPageActivity" />
         <activity android:name=".ui.activity.CreatePostActivity" />
         <activity android:name=".ui.activity.PostActivity" />
         <activity android:name=".ui.activity.SearchActivity" />

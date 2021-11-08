@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         binding.MainibBack.setOnClickListener {
             --currentPage
             if(currentPage <= 1) {
-                currentPage = maxPage
+                currentPage = maxPage-1
             }
             postViewModel.authPost(currentPage, VIEW_SIZE)
         }
@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity() {
 
         postViewModel.authPostResponse.observe(this, Observer {
             if (it.isSuccessful) {
+                println("${it.body()}")
                 val size = it.body()!!.posts.size
 
                 val count = it.body()!!.count
