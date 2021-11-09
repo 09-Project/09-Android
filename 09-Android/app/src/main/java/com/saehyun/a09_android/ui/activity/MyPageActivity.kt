@@ -50,6 +50,9 @@ class MyPageActivity : AppCompatActivity() {
     private lateinit var memberCompletedViewModel: MemberCompletedViewModel
     private lateinit var memberCompletedViewModelFactory: MemberCompletedViewModelFactory
 
+    private lateinit var postDeleteLikeViewModel: PostDeleteLikeViewModel
+    private lateinit var postDeleteLikeViewModelFactory: PostDeleteLikeViewModelFactory
+
     private var memberId: Int ?= null
 
     private val TAG = "MyPageActivity"
@@ -123,6 +126,25 @@ class MyPageActivity : AppCompatActivity() {
             }
         })
 
+        // DeleteLike Post
+        postDeleteLikeViewModelFactory = PostDeleteLikeViewModelFactory(repository)
+        postDeleteLikeViewModel = ViewModelProvider(this, postDeleteLikeViewModelFactory).get(PostDeleteLikeViewModel::class.java)
+
+        postDeleteLikeViewModel.memberDeleteLikeResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                ToastUtil.print(applicationContext, "찜 취소하기 성공")
+            } else {
+                when(it.code()) {
+                    401 -> {
+                        // 토큰 만료
+                    }
+                    404 -> {
+                        ToastUtil.print(applicationContext, "상품 또는 회원이 존재하지 않습니다.")
+                    }
+                }
+            }
+        })
+
         // MemberLike
         memberLikeViewModelFactory = MemberLikeViewModelFactory(repository)
         memberLikeViewModel = ViewModelProvider(this, memberLikeViewModelFactory).get(MemberLikeViewModel::class.java)
@@ -176,7 +198,7 @@ class MyPageActivity : AppCompatActivity() {
         })
 
         // Default RvSet
-        binding.rvMyPage.adapter = RcProductRvAdapter(applicationContext, memberInProgressList, postLikeViewModel)
+        binding.rvMyPage.adapter = RcProductRvAdapter(applicationContext, memberInProgressList, postLikeViewModel, postDeleteLikeViewModel)
         memberInProgressViewModel.memberInProgress(memberId.toString())
 
         // LogOut
@@ -212,7 +234,7 @@ class MyPageActivity : AppCompatActivity() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab!!.position) {
                     0 -> {
-                        binding.rvMyPage.adapter = RcProductRvAdapter(applicationContext, memberInProgressList, postLikeViewModel)
+                        binding.rvMyPage.adapter = RcProductRvAdapter(applicationContext, memberInProgressList, postLikeViewModel, postDeleteLikeViewModel)
                         memberInProgressViewModel.memberInProgress(memberId.toString())
                     }
                     1 -> {
