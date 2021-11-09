@@ -1,5 +1,7 @@
 package com.saehyun.a09_android.ui.activity
 
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +20,8 @@ import com.saehyun.a09_android.remote.RcCompletedRvAdapter
 import com.saehyun.a09_android.remote.RcOtherRvAdapter
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
+import com.saehyun.a09_android.util.ACCESS_TOKEN
+import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.*
 import com.saehyun.a09_android.viewModelFactory.*
@@ -174,6 +178,26 @@ class MyPageActivity : AppCompatActivity() {
         // Default RvSet
         binding.rvMyPage.adapter = RcProductRvAdapter(applicationContext, memberInProgressList, postLikeViewModel)
         memberInProgressViewModel.memberInProgress(memberId.toString())
+
+        // LogOut
+        binding.tvLogOut.setOnClickListener {
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+            ACCESS_TOKEN = "default"
+            REFRESH_TOKEN = "default"
+
+            val sharedPreferences: SharedPreferences = getSharedPreferences("auto", MODE_PRIVATE)
+            val editor:SharedPreferences.Editor = sharedPreferences.edit()
+
+            editor.remove("id")
+            editor.remove("pw")
+            editor.commit()
+
+            ToastUtil.print(applicationContext, "success")
+
+            startActivity(intent)
+        }
 
         // Set Tab
         binding.tabMyPage.addTab(binding.tabMyPage.newTab().setText("상품"))
