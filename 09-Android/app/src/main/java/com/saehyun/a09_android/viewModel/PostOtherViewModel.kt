@@ -17,7 +17,7 @@ class PostOtherViewModel(private val repository: Repository) : ViewModel() {
 
     fun authPostOther() {
         viewModelScope.launch {
-            val response = repository.postOther(REFRESH_TOKEN)
+            val response = repository.postOther()
             authPostOtherResponse.value = response
         }
     }

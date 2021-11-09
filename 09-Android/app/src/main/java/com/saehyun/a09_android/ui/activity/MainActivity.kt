@@ -30,7 +30,7 @@ import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
 
 
-class MainActivity : AppCompatActivity() {
+class   MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
     private lateinit var binding: ActivityMainBinding

@@ -122,6 +122,7 @@ class PostActivity : AppCompatActivity() {
                 productList.clear()
                 for (i: Int in 0..5) {
                     productList.add(it.body()!!.get(i))
+                    Log.d(TAG, "onCreate: ${it.body()}")
                     binding.rvPostOtherProduct.adapter?.notifyDataSetChanged()
                 }
             } else {

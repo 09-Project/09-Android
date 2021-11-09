@@ -77,7 +77,6 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>,
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
 
-
     }
 
     override fun getItemCount(): Int {

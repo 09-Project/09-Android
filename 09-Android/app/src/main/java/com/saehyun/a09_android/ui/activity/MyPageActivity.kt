@@ -2,6 +2,7 @@ package com.saehyun.a09_android.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -46,6 +47,8 @@ class MyPageActivity : AppCompatActivity() {
     private lateinit var memberCompletedViewModelFactory: MemberCompletedViewModelFactory
 
     private var memberId: Int ?= null
+
+    private val TAG = "MyPageActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,6 +125,7 @@ class MyPageActivity : AppCompatActivity() {
 
         memberLikeViewModel.memberLikeResponse.observe(this, Observer {
             if(it.isSuccessful) {
+                Log.d(TAG, "onCreate: ${it.body()}")
                 val size = it.body()!!.size
 
                 for(i: Int in 0 until size) {
