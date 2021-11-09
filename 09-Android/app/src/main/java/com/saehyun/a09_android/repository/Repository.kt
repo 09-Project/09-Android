@@ -93,4 +93,9 @@ class Repository {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
         return ApiProvider.api.memberCompleted(tempToken, memberId)
     }
+
+    suspend fun postDelete() : Response<Void> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.postDelete(tempToken)
+    }
 }
