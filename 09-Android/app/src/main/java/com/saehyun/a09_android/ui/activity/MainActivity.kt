@@ -1,19 +1,15 @@
 package com.saehyun.a09_android.ui.activity
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.navigation.NavigationView
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityMainBinding
 import com.saehyun.a09_android.model.data.PostValue
@@ -22,12 +18,8 @@ import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.util.VIEW_SIZE
-import com.saehyun.a09_android.viewModel.PostLikeViewModel
-import com.saehyun.a09_android.viewModel.PostViewModel
-import com.saehyun.a09_android.viewModel.ReissueViewModel
-import com.saehyun.a09_android.viewModelFactory.PostLikeViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
+import com.saehyun.a09_android.viewModel.*
+import com.saehyun.a09_android.viewModelFactory.*
 
 
 class   MainActivity : AppCompatActivity() {
@@ -42,6 +34,9 @@ class   MainActivity : AppCompatActivity() {
 
     private lateinit var postLikeViewModel: PostLikeViewModel
     private lateinit var postLikeViewModelFactory: PostLikeViewModelFactory
+
+    private lateinit var postDeleteLikeViewModel: PostDeleteLikeViewModel
+    private lateinit var postDeleteLikeViewModelFactory: PostDeleteLikeViewModelFactory
 
     private var productList = arrayListOf<PostValue>()
 
@@ -93,10 +88,29 @@ class   MainActivity : AppCompatActivity() {
             }
         })
 
+        // DeleteLike Post
+        postDeleteLikeViewModelFactory = PostDeleteLikeViewModelFactory(repository)
+        postDeleteLikeViewModel = ViewModelProvider(this, postDeleteLikeViewModelFactory).get(PostDeleteLikeViewModel::class.java)
+
+        postDeleteLikeViewModel.memberDeleteLikeResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                ToastUtil.print(applicationContext, "찜 취소하기 성공")
+            } else {
+                when(it.code()) {
+                    401 -> {
+                        // 토큰 만료
+                    }
+                    404 -> {
+                        ToastUtil.print(applicationContext, "상품 또는 회원이 존재하지 않습니다.")
+                    }
+                }
+            }
+       })
+
         // Recyclerview Set
         binding.rvMainRcProduct.layoutManager = GridLayoutManager(this, 2)
         binding.rvMainRcProduct.setHasFixedSize(true)
-        binding.rvMainRcProduct.adapter = RcProductRvAdapter(applicationContext, productList, postLikeViewModel)
+        binding.rvMainRcProduct.adapter = RcProductRvAdapter(applicationContext, productList, postLikeViewModel, postDeleteLikeViewModel)
 
         // Get Post
         postViewModelFactory = PostViewModelFactory(repository)
