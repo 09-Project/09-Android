@@ -230,7 +230,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView14" />
 
         <ImageView
-            android:id="@+id/imageView18"
+            android:id="@+id/ivSecond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="47dp"
@@ -240,7 +240,7 @@
             app:srcCompat="@drawable/ic_post_chat_" />
 
         <TextView
-            android:id="@+id/textView23"
+            android:id="@+id/tvSecond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
@@ -248,9 +248,9 @@
             android:text="채팅하기"
             android:textColor="#818181"
             android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView18"
-            app:layout_constraintStart_toEndOf="@+id/imageView18"
-            app:layout_constraintTop_toTopOf="@+id/imageView18" />
+            app:layout_constraintBottom_toBottomOf="@+id/ivSecond"
+            app:layout_constraintStart_toEndOf="@+id/ivSecond"
+            app:layout_constraintTop_toTopOf="@+id/ivSecond" />
 
         <View
             android:id="@+id/viewLike"

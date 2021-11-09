@@ -37,7 +37,7 @@
         android:fontFamily="@font/noto_sans_kr_medium"
         android:textSize="13dp"
         android:textColor="#D0463B"
-        android:id="@+id/textView13"
+        android:id="@+id/tvLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="18dp"
