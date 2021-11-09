@@ -4,5 +4,6 @@ data class PostOtherResponse(
         val id: Int,
         val title: String,
         val image: String,
-        val completed: String
+        val completed: String,
+        val liked: Boolean
 )
