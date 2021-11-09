@@ -16,14 +16,8 @@ import com.saehyun.a09_android.remote.RcOtherRvAdapter
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ToastUtil
-import com.saehyun.a09_android.viewModel.PostDeleteViewModel
-import com.saehyun.a09_android.viewModel.PostGetViewModel
-import com.saehyun.a09_android.viewModel.PostLikeViewModel
-import com.saehyun.a09_android.viewModel.PostOtherViewModel
-import com.saehyun.a09_android.viewModelFactory.PostDeleteViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.PostGetViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.PostLikeViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.PostOtherViewModelFactory
+import com.saehyun.a09_android.viewModel.*
+import com.saehyun.a09_android.viewModelFactory.*
 
 class PostActivity : AppCompatActivity() {
 
@@ -41,6 +35,9 @@ class PostActivity : AppCompatActivity() {
     private lateinit var postDeleteViewModel: PostDeleteViewModel
     private lateinit var postDeleteViewModelFactory: PostDeleteViewModelFactory
 
+    private lateinit var postDeleteLikeViewModel: PostDeleteLikeViewModel
+    private lateinit var postDeleteLikeViewModelFactory: PostDeleteLikeViewModelFactory
+
     private var productList = arrayListOf<PostOtherResponse>()
 
     private val repository: Repository = Repository()
@@ -57,6 +54,25 @@ class PostActivity : AppCompatActivity() {
 
         val postId = intent.getStringExtra("postId").toString().toInt()
 
+        // DeleteLike Post
+        postDeleteLikeViewModelFactory = PostDeleteLikeViewModelFactory(repository)
+        postDeleteLikeViewModel = ViewModelProvider(this, postDeleteLikeViewModelFactory).get(PostDeleteLikeViewModel::class.java)
+
+        postDeleteLikeViewModel.memberDeleteLikeResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                ToastUtil.print(applicationContext, "찜 취소하기 성공")
+            } else {
+                when(it.code()) {
+                    401 -> {
+                        // 토큰 만료
+                    }
+                    404 -> {
+                        ToastUtil.print(applicationContext, "상품 또는 회원이 존재하지 않습니다.")
+                    }
+                }
+            }
+        })
+
         // Like Post
         postLikeViewModelFactory = PostLikeViewModelFactory(repository)
         postLikeViewModel = ViewModelProvider(this, postLikeViewModelFactory).get(PostLikeViewModel::class.java)
@@ -70,7 +86,11 @@ class PostActivity : AppCompatActivity() {
                     400 -> ToastUtil.print(applicationContext, "Access 토큰의 형태가 잘못되었습니다.")
                     401 -> ToastUtil.print(applicationContext, "Access 토큰이 유효하지 않습니다.")
                     404 -> ToastUtil.print(applicationContext, "상품이나 회원이 존재하지 않습니다.")
-                    409 -> ToastUtil.print(applicationContext, "찜이 이미 존재합니다.")
+                    409 -> {
+                        ToastUtil.print(applicationContext, "찜 취소하기 성공!")
+                        postDeleteLikeViewModel.memberDeleteLike(postId.toInt())
+                        binding.ivPostHeart.setImageResource(R.drawable.ic_heart_off)
+                    }
                 }
             }
         })
