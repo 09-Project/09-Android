@@ -15,8 +15,10 @@ import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.util.VIEW_SIZE
+import com.saehyun.a09_android.viewModel.PostDeleteLikeViewModel
 import com.saehyun.a09_android.viewModel.PostLikeViewModel
 import com.saehyun.a09_android.viewModel.PostSearchViewModel
+import com.saehyun.a09_android.viewModelFactory.PostDeleteLikeViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.PostLikeViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.PostSearchViewModelFactory
 
@@ -35,6 +37,9 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var postLikeViewModel: PostLikeViewModel
     private lateinit var postLikeViewModelFactory: PostLikeViewModelFactory
+
+    private lateinit var postDeleteLikeViewModel: PostDeleteLikeViewModel
+    private lateinit var postDeleteLikeViewModelFactory: PostDeleteLikeViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,10 +71,30 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
+        // DeleteLike Post
+        postDeleteLikeViewModelFactory = PostDeleteLikeViewModelFactory(repository)
+        postDeleteLikeViewModel = ViewModelProvider(this, postDeleteLikeViewModelFactory).get(
+            PostDeleteLikeViewModel::class.java)
+
+        postDeleteLikeViewModel.memberDeleteLikeResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                ToastUtil.print(applicationContext, "찜 취소하기 성공")
+            } else {
+                when(it.code()) {
+                    401 -> {
+                        // 토큰 만료
+                    }
+                    404 -> {
+                        ToastUtil.print(applicationContext, "상품 또는 회원이 존재하지 않습니다.")
+                    }
+                }
+            }
+        })
+
         // Recyclerview Set
         binding.srvMainRcProduct.layoutManager = GridLayoutManager(this, 2)
         binding.srvMainRcProduct.setHasFixedSize(true)
-        binding.srvMainRcProduct.adapter = RcProductRvAdapter(applicationContext, productList, postLikeViewModel)
+        binding.srvMainRcProduct.adapter = RcProductRvAdapter(applicationContext, productList, postLikeViewModel, postDeleteLikeViewModel)
 
         // Page Set
         binding.ibSearchPageBack.setOnClickListener {
@@ -88,7 +113,7 @@ class SearchActivity : AppCompatActivity() {
             searchViewModel.authPostSearch(keyword, currentPage, VIEW_SIZE)
         }
 
-
+        // Post Search
         val postSearchViewModelFactory = PostSearchViewModelFactory(repository)
         searchViewModel = ViewModelProvider(this, postSearchViewModelFactory).get(PostSearchViewModel::class.java)
 
