@@ -120,4 +120,11 @@ interface ServerApi {
         @Header("Authorization") accessToken: String,
         @Path("member-id") memberId: String
     ) : Response<List<PostValue>>
+
+    // 진행중인 게시글
+    @GET("/member/completed/{member-id}")
+    suspend fun memberCompleted(
+        @Header("Authorization") accessToken: String,
+        @Path("member-id") memberId: String
+    ) : Response<List<PostValue>>
 }
