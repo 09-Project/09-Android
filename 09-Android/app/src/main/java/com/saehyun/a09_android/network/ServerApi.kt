@@ -127,4 +127,10 @@ interface ServerApi {
         @Header("Authorization") accessToken: String,
         @Path("member-id") memberId: String
     ) : Response<List<PostValue>>
+
+    // 상품 삭제하기
+    @DELETE("post/{post-id}")
+    suspend fun postDelete(
+        @Header("Authorization") accessToken: String
+    ) : Response<Void>
 }
