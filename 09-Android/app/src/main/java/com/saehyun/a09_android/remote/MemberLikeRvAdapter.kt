@@ -2,6 +2,7 @@ package com.saehyun.a09_android.remote
 
 import android.content.Context
 import android.content.Intent
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ class MemberLikeRvAdapter(val context: Context, val productData: List<PostValue>
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val ivImage = itemView?.findViewById<ImageView>(R.id.ivImage)
         val tvTitle = itemView?.findViewById<TextView>(R.id.tvTitle)
-        val ivHeart = itemView?.findViewById<TextView>(R.id.ivHeart)
+        val ivHeart = itemView?.findViewById<ImageView>(R.id.ivOtherHeart)
         val clOtherProductView = itemView?.findViewById<ConstraintLayout>(R.id.clOtherProductView)
     }
 
@@ -52,6 +53,12 @@ class MemberLikeRvAdapter(val context: Context, val productData: List<PostValue>
             intent.putExtra("postId", data.id)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ContextCompat.startActivity(holder.itemView.context, intent, null)
+        }
+
+        if(data.liked) {
+            Glide.with(holder.itemView.context)
+                .load(R.drawable.ic_heart_on)
+                .into(holder.ivHeart)
         }
     }
 
