@@ -42,8 +42,9 @@ class Repository {
         return ApiProvider.api.searchPost(keyword, page, size)
     }
 
-    suspend fun postOther(refreshToken: String) : Response<List<PostOtherResponse>> {
-        return ApiProvider.api.otherPost(refreshToken)
+    suspend fun postOther() : Response<List<PostOtherResponse>> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.otherPost(tempToken)
     }
 
     suspend fun postGet(pageId: Int) : Response<PostGetResponse> {
