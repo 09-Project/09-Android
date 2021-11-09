@@ -19,13 +19,15 @@ import com.saehyun.a09_android.R
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.ui.activity.PostActivity
+import com.saehyun.a09_android.viewModel.PostDeleteLikeViewModel
+import com.saehyun.a09_android.viewModel.PostDeleteViewModel
 import com.saehyun.a09_android.viewModel.PostLikeViewModel
 import com.saehyun.a09_android.viewModel.PostViewModel
 import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class RcProductRvAdapter(val context: Context, val productData: List<PostValue>, val postLikeViewModel: PostLikeViewModel):
+class RcProductRvAdapter(val context: Context, val productData: List<PostValue>, val postLikeViewModel: PostLikeViewModel, val postDeleteLikeViewModel: PostDeleteLikeViewModel):
     RecyclerView.Adapter<RcProductRvAdapter.Holder>() {
 
 
@@ -60,8 +62,15 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>,
         holder.tvPrice?.text = data.price
 
         holder.ivHeart?.setOnClickListener {
-            holder.ivHeart.setImageResource(R.drawable.ic_heart_on)
-            postLikeViewModel.authPostLikeSearch(data.id.toInt())
+            if(data.liked) {
+                holder.ivHeart.setImageResource(R.drawable.ic_heart_off)
+                postDeleteLikeViewModel.memberDeleteLike(data.id.toInt())
+                data.liked = false
+            } else {
+                holder.ivHeart.setImageResource(R.drawable.ic_heart_on)
+                postLikeViewModel.authPostLikeSearch(data.id.toInt())
+                data.liked = true
+            }
         }
 
         if(data.liked) {
