@@ -13,6 +13,7 @@ import com.saehyun.a09_android.databinding.ActivityMyPageBinding
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.model.response.MyPageResponse
 import com.saehyun.a09_android.remote.MemberLikeRvAdapter
+import com.saehyun.a09_android.remote.RcCompletedRvAdapter
 import com.saehyun.a09_android.remote.RcOtherRvAdapter
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
@@ -25,6 +26,7 @@ class MyPageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMyPageBinding
 
+    private var memberCompletedList = arrayListOf<PostValue>()
     private var memberInProgressList = arrayListOf<PostValue>()
     private var memberLikeList = arrayListOf<PostValue>()
 
@@ -39,6 +41,9 @@ class MyPageActivity : AppCompatActivity() {
 
     private lateinit var memberInProgressViewModel: MemberInProgressViewModel
     private lateinit var memberInProgressViewModelFactory: MemberInProgressViewModelFactory
+
+    private lateinit var memberCompletedViewModel: MemberCompletedViewModel
+    private lateinit var memberCompletedViewModelFactory: MemberCompletedViewModelFactory
 
     private var memberId: Int ?= null
 
@@ -145,6 +150,23 @@ class MyPageActivity : AppCompatActivity() {
             }
         })
 
+        // MemberCompleted
+        memberCompletedViewModelFactory = MemberCompletedViewModelFactory(repository)
+        memberCompletedViewModel = ViewModelProvider(this, memberCompletedViewModelFactory).get(MemberCompletedViewModel::class.java)
+
+        memberCompletedViewModel.memberCompletedResponse.observe(this, Observer {
+            if(it.isSuccessful) {
+                val size = it.body()!!.size
+
+                for(i: Int in 0 until size) {
+                    val postValue: PostValue = it.body()!!.get(i)
+                    memberCompletedList.add(postValue)
+
+                    binding.rvMyPage.adapter?.notifyDataSetChanged()
+                }
+            }
+        })
+
         // Default RvSet
         binding.rvMyPage.adapter = RcProductRvAdapter(applicationContext, memberInProgressList, postLikeViewModel)
         memberInProgressViewModel.memberInProgress(memberId.toString())
@@ -170,16 +192,18 @@ class MyPageActivity : AppCompatActivity() {
                         memberLikeViewModel.memberLike()
                     }
                     2 -> {
-                        ToastUtil.print(applicationContext, "click 3")
+                        binding.rvMyPage.adapter = RcCompletedRvAdapter(applicationContext, memberLikeList, postLikeViewModel)
+                        memberCompletedViewModel.memberCompleted(memberId.toString())
+                    }
+                    else -> {
+                        ToastUtil.print(applicationContext, "예기지 못한 오류입니다.")
                     }
                 }
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
 
         })
     }
