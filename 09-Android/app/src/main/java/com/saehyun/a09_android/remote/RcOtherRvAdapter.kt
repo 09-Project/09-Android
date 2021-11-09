@@ -26,7 +26,7 @@ class RcOtherRvAdapter(val context: Context, val productData: List<PostOtherResp
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val ivImage = itemView?.findViewById<ImageView>(R.id.ivImage)
         val tvTitle = itemView?.findViewById<TextView>(R.id.tvTitle)
-        val ivHeart = itemView?.findViewById<ImageView>(R.id.ivOHeart)
+        val ivHeart = itemView?.findViewById<ImageView>(R.id.ivOtherHeart)
         val clOtherProductView = itemView?.findViewById<ConstraintLayout>(R.id.clOtherProductView)
     }
 
@@ -53,11 +53,11 @@ class RcOtherRvAdapter(val context: Context, val productData: List<PostOtherResp
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
 
-//        if(data.liked) {
-//            Glide.with(holder.itemView.context)
-//                .load(R.drawable.ic_heart_on)
-//                .into(holder.ivHeart)
-//        }
+        if(data.liked) {
+            Glide.with(holder.itemView.context)
+                .load(R.drawable.ic_heart_on)
+                .into(holder.ivHeart)
+        }
     }
 
     override fun getItemCount(): Int {
