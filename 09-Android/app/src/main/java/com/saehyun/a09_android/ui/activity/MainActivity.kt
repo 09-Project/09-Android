@@ -158,6 +158,12 @@ class   MainActivity : AppCompatActivity() {
 
         binding.mainNavi.setNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.menuHome -> {
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                    return@setNavigationItemSelectedListener true
+                }
                 R.id.menuPost -> {
                     startActivity(Intent(applicationContext, CreatePostActivity::class.java))
                     return@setNavigationItemSelectedListener true
