@@ -87,4 +87,9 @@ class Repository {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
         return ApiProvider.api.memberInProgress(tempToken, memberId)
     }
+
+    suspend fun memberCompleted(memberId: String) : Response<List<PostValue>> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.memberCompleted(tempToken, memberId)
+    }
 }
