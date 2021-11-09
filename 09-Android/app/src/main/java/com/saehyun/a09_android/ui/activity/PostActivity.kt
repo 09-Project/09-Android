@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -15,9 +16,11 @@ import com.saehyun.a09_android.remote.RcOtherRvAdapter
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ToastUtil
+import com.saehyun.a09_android.viewModel.PostDeleteViewModel
 import com.saehyun.a09_android.viewModel.PostGetViewModel
 import com.saehyun.a09_android.viewModel.PostLikeViewModel
 import com.saehyun.a09_android.viewModel.PostOtherViewModel
+import com.saehyun.a09_android.viewModelFactory.PostDeleteViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.PostGetViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.PostLikeViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.PostOtherViewModelFactory
@@ -35,7 +38,12 @@ class PostActivity : AppCompatActivity() {
     private lateinit var postLikeViewModel: PostLikeViewModel
     private lateinit var postLikeViewModelFactory: PostLikeViewModelFactory
 
+    private lateinit var postDeleteViewModel: PostDeleteViewModel
+    private lateinit var postDeleteViewModelFactory: PostDeleteViewModelFactory
+
     private var productList = arrayListOf<PostOtherResponse>()
+
+    private val repository: Repository = Repository()
 
     private val TAG = "PostActivity"
 
@@ -46,7 +54,6 @@ class PostActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Default Setting
-        var repository = Repository()
 
         val postId = intent.getStringExtra("postId").toString().toInt()
 
@@ -134,7 +141,36 @@ class PostActivity : AppCompatActivity() {
         })
 
         postOtherViewModel.authPostOther()
-
-
     }
+
+    private fun myPost() {
+
+        postDeleteViewModelFactory = PostDeleteViewModelFactory(repository)
+        postDeleteViewModel = ViewModelProvider(this, postDeleteViewModelFactory).get(PostDeleteViewModel::class.java)
+
+        postDeleteViewModel.postDeleteResponse.observe(this, Observer {
+            if (it.isSuccessful) {
+                ToastUtil.print(applicationContext, "삭제가 완료되었습니다.")
+                finish()
+            } else {
+                when (it.code()) {
+                    401 -> {
+                        // 토큰 재발급
+                    }
+                    404 -> {
+                        ToastUtil.print(applicationContext, "존재하지 않는 상품입니다.")
+                    }
+                }
+            }
+        })
+
+        binding.tvSecond.text = "삭제하기"
+
+        binding.ivSecond.setImageResource(R.drawable.ic_post_delete_circle)
+
+        binding.viewChat.setOnClickListener {
+            postDeleteViewModel.postDelete()
+        }
+    }
+
 }
