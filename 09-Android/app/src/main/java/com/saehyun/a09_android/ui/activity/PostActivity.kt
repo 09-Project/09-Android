@@ -1,23 +1,23 @@
 package com.saehyun.a09_android.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityPostBinding
-import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.model.response.PostOtherResponse
 import com.saehyun.a09_android.remote.RcOtherRvAdapter
-import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.*
 import com.saehyun.a09_android.viewModelFactory.*
+
 
 class PostActivity : AppCompatActivity() {
 
@@ -51,7 +51,6 @@ class PostActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Default Setting
-
         val postId = intent.getStringExtra("postId").toString().toInt()
 
         // DeleteLike Post
@@ -161,10 +160,29 @@ class PostActivity : AppCompatActivity() {
         })
 
         postOtherViewModel.authPostOther()
+
+
+        // Post
+        otherPost()
+    }
+
+    private fun otherPost() {
+        binding.viewChat.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("오픈채팅방으로 이동합니다.")
+
+            builder.setPositiveButton("네"){dialogInterface, which ->
+                ToastUtil.print(applicationContext, "123")
+            }
+            builder.setNegativeButton("아니오") { dialog, id ->
+                ToastUtil.print(applicationContext, "cancel")
+            }
+
+            builder.show()
+        }
     }
 
     private fun myPost() {
-
         postDeleteViewModelFactory = PostDeleteViewModelFactory(repository)
         postDeleteViewModel = ViewModelProvider(this, postDeleteViewModelFactory).get(PostDeleteViewModel::class.java)
 
