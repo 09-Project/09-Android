@@ -1,5 +1,7 @@
 package com.saehyun.a09_android.ui.activity
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextThemeWrapper
@@ -41,6 +43,8 @@ class PostActivity : AppCompatActivity() {
     private var productList = arrayListOf<PostOtherResponse>()
 
     private val repository: Repository = Repository()
+
+    private var openChatLink: String ?= null
 
     private val TAG = "PostActivity"
 
@@ -104,6 +108,8 @@ class PostActivity : AppCompatActivity() {
 
         postGetViewModel.authPostGetResponse.observe(this, Observer {
             if(it.isSuccessful) {
+                openChatLink = it.body()!!.open_chat_link
+
                 Glide.with(applicationContext)
                     .load(it.body()!!.image)
                     .into(binding.ivProduct)
@@ -172,7 +178,8 @@ class PostActivity : AppCompatActivity() {
             builder.setMessage("오픈채팅방으로 이동합니다.")
 
             builder.setPositiveButton("네"){dialogInterface, which ->
-                ToastUtil.print(applicationContext, "123")
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(openChatLink))
+                startActivity(intent)
             }
             builder.setNegativeButton("아니오") { dialog, id ->
                 ToastUtil.print(applicationContext, "cancel")
