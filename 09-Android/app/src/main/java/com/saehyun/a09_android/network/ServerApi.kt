@@ -131,6 +131,7 @@ interface ServerApi {
     // 상품 삭제하기
     @DELETE("post/{post-id}")
     suspend fun postDelete(
-        @Header("Authorization") accessToken: String
+        @Header("Authorization") accessToken: String,
+        @Path("post-id") postId: String
     ) : Response<Void>
 }
