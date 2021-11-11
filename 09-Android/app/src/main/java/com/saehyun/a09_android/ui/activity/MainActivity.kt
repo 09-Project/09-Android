@@ -116,8 +116,6 @@ class   MainActivity : AppCompatActivity() {
         postViewModelFactory = PostViewModelFactory(repository)
         postViewModel = ViewModelProvider(this, postViewModelFactory).get(PostViewModel::class.java)
 
-        postViewModel.authPost(currentPage, VIEW_SIZE)
-
         postViewModel.authPostResponse.observe(this, Observer {
             if (it.isSuccessful) {
                 val size = it.body()!!.posts.size
@@ -202,6 +200,12 @@ class   MainActivity : AppCompatActivity() {
             intent.putExtra("keyword", keyword)
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        postViewModel.authPost(currentPage, VIEW_SIZE)
     }
 
     override fun onBackPressed() {
