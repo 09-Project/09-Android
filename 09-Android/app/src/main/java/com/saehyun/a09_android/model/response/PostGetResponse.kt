@@ -1,5 +1,7 @@
 package com.saehyun.a09_android.model.response
 
+import com.saehyun.a09_android.model.data.MemberInfo
+
 data class PostGetResponse(
     val title: String,
     val content: String,
@@ -11,12 +13,10 @@ data class PostGetResponse(
     val created_date: String,
     val updated_date: String,
     val image: String,
+
+    val member_info: MemberInfo,
+
     val get_likes: Int,
-    val member_id: Int,
-    val member_name: String,
-    val member_introduction: String,
-    val member_profile: String,
-    val posts_count: Int,
-    val every_like_counts: Int,
-    val liked: Boolean
+    val liked: Boolean,
+    val mine: Boolean
 )
