@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityPostBinding
+import com.saehyun.a09_android.model.data.MemberInfo
 import com.saehyun.a09_android.model.response.PostOtherResponse
 import com.saehyun.a09_android.remote.RcOtherRvAdapter
 import com.saehyun.a09_android.repository.Repository
@@ -48,6 +49,8 @@ class PostActivity : AppCompatActivity() {
 
     private val TAG = "PostActivity"
 
+    private var postId: Int ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,7 +58,7 @@ class PostActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Default Setting
-        val postId = intent.getStringExtra("postId").toString().toInt()
+        postId = intent.getStringExtra("postId").toString().toInt()
 
         // DeleteLike Post
         postDeleteLikeViewModelFactory = PostDeleteLikeViewModelFactory(repository)
@@ -91,7 +94,7 @@ class PostActivity : AppCompatActivity() {
                     404 -> ToastUtil.print(applicationContext, "상품이나 회원이 존재하지 않습니다.")
                     409 -> {
                         ToastUtil.print(applicationContext, "찜 취소하기 성공!")
-                        postDeleteLikeViewModel.memberDeleteLike(postId.toInt())
+                        postDeleteLikeViewModel.memberDeleteLike(postId!!)
                         binding.ivPostHeart.setImageResource(R.drawable.ic_heart_off)
                     }
                 }
@@ -99,7 +102,7 @@ class PostActivity : AppCompatActivity() {
         })
 
         binding.viewLike.setOnClickListener {
-            postLikeViewModel.authPostLikeSearch(postId.toInt())
+            postLikeViewModel.authPostLikeSearch(postId!!)
         }
 
         // Post Get
@@ -114,11 +117,11 @@ class PostActivity : AppCompatActivity() {
                     .load(it.body()!!.image)
                     .into(binding.ivProduct)
 
-                binding.tvMemberName.text = it.body()!!.member_name
+                binding.tvMemberName.text = it.body()!!.member_info.member_name
 
-                if(!(it.body()!!.member_profile.isNullOrBlank())) {
+                if(!(it.body()!!.member_info.member_profile.isNullOrBlank())) {
                     Glide.with(applicationContext)
-                        .load(it.body()!!.member_profile)
+                        .load(it.body()!!.member_info.member_profile)
                         .into(binding.ivMemberProfile)
                 }
 
@@ -126,6 +129,12 @@ class PostActivity : AppCompatActivity() {
                     Glide.with(applicationContext)
                         .load(R.drawable.ic_heart_on)
                         .into(binding.ivPostHeart)
+                }
+
+                if(it.body()!!.mine) {
+                    myPost()
+                } else {
+                    otherPost()
                 }
 
                 binding.tvPostTItle.text = it.body()!!.title
@@ -138,7 +147,7 @@ class PostActivity : AppCompatActivity() {
             }
         })
 
-        postGetViewModel.authGetPost(postId)
+        postGetViewModel.authGetPost(postId!!)
 
         // Recyclerview set
         binding.rvPostOtherProduct.layoutManager = GridLayoutManager(this, 3)
@@ -166,10 +175,6 @@ class PostActivity : AppCompatActivity() {
         })
 
         postOtherViewModel.authPostOther()
-
-
-        // Post
-        otherPost()
     }
 
     private fun otherPost() {
@@ -205,6 +210,9 @@ class PostActivity : AppCompatActivity() {
                     404 -> {
                         ToastUtil.print(applicationContext, "존재하지 않는 상품입니다.")
                     }
+                    else -> {
+                        ToastUtil.print(applicationContext, "Error!")
+                    }
                 }
             }
         })
@@ -214,7 +222,7 @@ class PostActivity : AppCompatActivity() {
         binding.ivSecond.setImageResource(R.drawable.ic_post_delete_circle)
 
         binding.viewChat.setOnClickListener {
-            postDeleteViewModel.postDelete()
+            postDeleteViewModel.postDelete(postId.toString())
         }
     }
 
