@@ -14,9 +14,9 @@ import retrofit2.Response
 class PostDeleteViewModel(private val repository: Repository) : ViewModel() {
     val postDeleteResponse : MutableLiveData<Response<Void>> = MutableLiveData()
 
-    fun postDelete() {
+    fun postDelete(postId: String) {
         viewModelScope.launch {
-            val response = repository.postDelete()
+            val response = repository.postDelete(postId)
             postDeleteResponse.value = response
         }
     }
