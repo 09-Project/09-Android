@@ -1,6 +1,7 @@
 package com.saehyun.a09_android.ui.activity
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +16,7 @@ import com.saehyun.a09_android.databinding.ActivityMainBinding
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
+import com.saehyun.a09_android.util.ACCESS_TOKEN
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.util.VIEW_SIZE
@@ -145,18 +147,24 @@ class   MainActivity : AppCompatActivity() {
         val reissueViewModelFactory = ReissueViewModelFactory(repository)
         val reissueViewModel: ReissueViewModel = ViewModelProvider(this, reissueViewModelFactory).get(ReissueViewModel::class.java)
 
+        reissueViewModel.refreshTokenExpiration.observe(this, {
+            if(it == true) {
+                ToastUtil.print(applicationContext, "토큰이 만료되어 로그아웃 됩니다.")
+
+                val intent = Intent(applicationContext, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                ACCESS_TOKEN = "default"
+                REFRESH_TOKEN = "default"
+                startActivity(intent)
+            }
+        })
+
+        reissueViewModel.toastMessage.observe(this, {
+            ToastUtil.print(applicationContext, "${it}")
+        })
+
         binding.button.setOnClickListener {
             reissueViewModel.authReissue(REFRESH_TOKEN)
-            reissueViewModel.authReissueResponse.observe(this, Observer {
-                if (it.isSuccessful) {
-                    ToastUtil.print(applicationContext, "토큰 재발급에 성공하셨습니다.")
-                } else {
-                    when (it.code()) {
-                        401 -> ToastUtil.print(applicationContext, "비밀번호가 일치하지 않습니다.")
-                        404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
-                    }
-                }
-            })
         }
 
         // Drawer Menu
