@@ -113,7 +113,7 @@ class MyPageActivity : AppCompatActivity() {
         postLikeViewModelFactory = PostLikeViewModelFactory(repository)
         postLikeViewModel = ViewModelProvider(this, postLikeViewModelFactory).get(PostLikeViewModel::class.java)
 
-        postLikeViewModel.authPostLikeResponse.observe(this, Observer {
+        postLikeViewModel.authPostLikeResponse.observe(this, {
             if (it.isSuccessful) {
                 ToastUtil.print(applicationContext, "찜하기 성공!")
             } else {
@@ -130,7 +130,7 @@ class MyPageActivity : AppCompatActivity() {
         postDeleteLikeViewModelFactory = PostDeleteLikeViewModelFactory(repository)
         postDeleteLikeViewModel = ViewModelProvider(this, postDeleteLikeViewModelFactory).get(PostDeleteLikeViewModel::class.java)
 
-        postDeleteLikeViewModel.memberDeleteLikeResponse.observe(this, Observer {
+        postDeleteLikeViewModel.memberDeleteLikeResponse.observe(this, {
             if (it.isSuccessful) {
                 ToastUtil.print(applicationContext, "찜 취소하기 성공")
             } else {
@@ -149,7 +149,7 @@ class MyPageActivity : AppCompatActivity() {
         memberLikeViewModelFactory = MemberLikeViewModelFactory(repository)
         memberLikeViewModel = ViewModelProvider(this, memberLikeViewModelFactory).get(MemberLikeViewModel::class.java)
 
-        memberLikeViewModel.memberLikeResponse.observe(this, Observer {
+        memberLikeViewModel.memberLikeResponse.observe(this, {
             if(it.isSuccessful) {
                 Log.d(TAG, "onCreate: ${it.body()}")
                 val size = it.body()!!.size
@@ -167,7 +167,7 @@ class MyPageActivity : AppCompatActivity() {
         memberInProgressViewModelFactory = MemberInProgressViewModelFactory(repository)
         memberInProgressViewModel = ViewModelProvider(this, memberInProgressViewModelFactory).get(MemberInProgressViewModel::class.java)
 
-        memberInProgressViewModel.memberInProgressResponse.observe(this, Observer {
+        memberInProgressViewModel.memberInProgressResponse.observe(this, {
             if(it.isSuccessful) {
                 val size = it.body()!!.size
 
@@ -184,7 +184,7 @@ class MyPageActivity : AppCompatActivity() {
         memberCompletedViewModelFactory = MemberCompletedViewModelFactory(repository)
         memberCompletedViewModel = ViewModelProvider(this, memberCompletedViewModelFactory).get(MemberCompletedViewModel::class.java)
 
-        memberCompletedViewModel.memberCompletedResponse.observe(this, Observer {
+        memberCompletedViewModel.memberCompletedResponse.observe(this, {
             if(it.isSuccessful) {
                 val size = it.body()!!.size
 
@@ -209,13 +209,6 @@ class MyPageActivity : AppCompatActivity() {
             ACCESS_TOKEN = "default"
             REFRESH_TOKEN = "default"
 
-            val sharedPreferences: SharedPreferences = getSharedPreferences("auto", MODE_PRIVATE)
-            val editor:SharedPreferences.Editor = sharedPreferences.edit()
-
-            editor.remove("id")
-            editor.remove("pw")
-            editor.commit()
-
             ToastUtil.print(applicationContext, "success")
 
             startActivity(intent)
@@ -225,7 +218,6 @@ class MyPageActivity : AppCompatActivity() {
         binding.tabMyPage.addTab(binding.tabMyPage.newTab().setText("상품"))
         binding.tabMyPage.addTab(binding.tabMyPage.newTab().setText("찜한 상품"))
         binding.tabMyPage.addTab(binding.tabMyPage.newTab().setText("거래 내역"))
-
 
         binding.rvMyPage.layoutManager = GridLayoutManager(this, 2)
         binding.rvMyPage.setHasFixedSize(true)
