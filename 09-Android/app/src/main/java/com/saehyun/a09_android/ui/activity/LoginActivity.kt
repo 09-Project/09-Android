@@ -100,7 +100,9 @@ class LoginActivity : AppCompatActivity() {
         val autoPw = sharedPreferences.getString("pw", "")
 
         if(!(autoId.isNullOrBlank() || autoPw.isNullOrBlank())) {
-            viewModel.authLogin(autoId, autoPw)
+            binding.cbSaveAccount.isChecked = true
+            binding.etName.setText(autoId)
+            binding.etPassword.setText(autoPw)
         }
     }
 
