@@ -134,4 +134,10 @@ interface ServerApi {
         @Header("Authorization") accessToken: String,
         @Path("post-id") postId: String
     ) : Response<Void>
+
+    @GET("member/{member-id}")
+    suspend fun memberShow(
+        @Header("Authorization") accessToken: String,
+        @Path("member-id") memberId: String
+    ) : Response<MyPageResponse>
 }
