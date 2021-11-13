@@ -41,6 +41,9 @@ class PostActivity : AppCompatActivity() {
     private lateinit var postDeleteLikeViewModel: PostDeleteLikeViewModel
     private lateinit var postDeleteLikeViewModelFactory: PostDeleteLikeViewModelFactory
 
+    private lateinit var memberShowViewModel: MemberShowViewModel
+    private lateinit var memberShowViewModelFactory: MemberShowViewModelFactory
+
     private var productList = arrayListOf<PostOtherResponse>()
 
     private val repository: Repository = Repository()
@@ -59,6 +62,12 @@ class PostActivity : AppCompatActivity() {
 
         // Default Setting
         postId = intent.getStringExtra("postId").toString().toInt()
+
+        // memberShow
+        memberShowViewModelFactory = MemberShowViewModelFactory(repository)
+        memberShowViewModel = ViewModelProvider(this, memberShowViewModelFactory).get(MemberShowViewModel::class.java)
+
+
 
         // DeleteLike Post
         postDeleteLikeViewModelFactory = PostDeleteLikeViewModelFactory(repository)
@@ -173,6 +182,10 @@ class PostActivity : AppCompatActivity() {
                 }
             }
         })
+
+        binding.viewMember.setOnClickListener {
+
+        }
 
         postOtherViewModel.authPostOther()
     }
