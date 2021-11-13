@@ -11,6 +11,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/viewMember"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMemberName"
+            app:layout_constraintEnd_toEndOf="@+id/imageView10"
+            app:layout_constraintStart_toStartOf="@+id/ivMemberProfile"
+            app:layout_constraintTop_toTopOf="@+id/tvMemberName" />
+
         <ImageView
             android:id="@+id/ivProduct"
             android:layout_width="360dp"
