@@ -1,7 +1,6 @@
 package com.saehyun.a09_android.ui.activity
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -167,7 +166,7 @@ class   MainActivity : AppCompatActivity() {
                     return@setNavigationItemSelectedListener true
                 }
                 R.id.menuMyPage -> {
-                    startActivity(Intent(applicationContext, MyPageActivity::class.java))
+                    startActivity(Intent(applicationContext, MemberShowActivity::class.java))
                     return@setNavigationItemSelectedListener true
                 }
                 else -> return@setNavigationItemSelectedListener false
