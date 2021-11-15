@@ -4,7 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.ContextThemeWrapper
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityPostBinding
-import com.saehyun.a09_android.model.data.MemberInfo
 import com.saehyun.a09_android.model.response.PostOtherResponse
 import com.saehyun.a09_android.remote.RcOtherRvAdapter
 import com.saehyun.a09_android.repository.Repository
+import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.*
 import com.saehyun.a09_android.viewModelFactory.*
@@ -54,20 +54,30 @@ class PostActivity : AppCompatActivity() {
 
     private var postId: Int ?= null
 
+    private var memberId: Int ?= null
+
+    private lateinit var reissueViewModelFactory: ReissueViewModelFactory
+    private lateinit var reissueViewModel: ReissueViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.imageView5.setOnClickListener {
+            finish()
+        }
+
         // Default Setting
         postId = intent.getStringExtra("postId").toString().toInt()
+
+        reissueViewModelFactory = ReissueViewModelFactory(repository,applicationContext)
+        reissueViewModel = ViewModelProvider(this,reissueViewModelFactory).get(ReissueViewModel::class.java)
 
         // memberShow
         memberShowViewModelFactory = MemberShowViewModelFactory(repository)
         memberShowViewModel = ViewModelProvider(this, memberShowViewModelFactory).get(MemberShowViewModel::class.java)
-
-
 
         // DeleteLike Post
         postDeleteLikeViewModelFactory = PostDeleteLikeViewModelFactory(repository)
@@ -79,7 +89,7 @@ class PostActivity : AppCompatActivity() {
             } else {
                 when(it.code()) {
                     401 -> {
-                        // 토큰 만료
+                        reissueViewModel.authReissue(REFRESH_TOKEN)
                     }
                     404 -> {
                         ToastUtil.print(applicationContext, "상품 또는 회원이 존재하지 않습니다.")
@@ -98,8 +108,7 @@ class PostActivity : AppCompatActivity() {
                 binding.ivPostHeart.setImageResource(R.drawable.ic_heart_on)
             } else {
                 when(it.code()) {
-                    400 -> ToastUtil.print(applicationContext, "Access 토큰의 형태가 잘못되었습니다.")
-                    401 -> ToastUtil.print(applicationContext, "Access 토큰이 유효하지 않습니다.")
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     404 -> ToastUtil.print(applicationContext, "상품이나 회원이 존재하지 않습니다.")
                     409 -> {
                         ToastUtil.print(applicationContext, "찜 취소하기 성공!")
@@ -121,6 +130,18 @@ class PostActivity : AppCompatActivity() {
         postGetViewModel.authPostGetResponse.observe(this, Observer {
             if(it.isSuccessful) {
                 openChatLink = it.body()!!.open_chat_link
+
+                memberId = it.body()!!.member_info.member_id
+
+                val price = it.body()!!.price
+                if(price == 0) {
+                    binding.tv092.visibility = View.GONE
+                    binding.iv091.visibility = View.GONE
+                    binding.textView16.visibility = View.GONE
+                    binding.tvPostPrice.text = "무료나눔"
+                } else {
+                    binding.tvPostPrice.text = it.body()!!.price.toString()
+                }
 
                 Glide.with(applicationContext)
                     .load(it.body()!!.image)
@@ -151,6 +172,7 @@ class PostActivity : AppCompatActivity() {
                 binding.tvPostTransactionRegion.text = it.body()!!.transaction_region
             } else {
                 when(it.code()) {
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     404 -> ToastUtil.print(applicationContext,"이미지가 존재하지 않습니다")
                 }
             }
@@ -177,14 +199,16 @@ class PostActivity : AppCompatActivity() {
                 }
             } else {
                 when (it.code()) {
-                    401 -> ToastUtil.print(applicationContext, "비밀번호가 일치하지 않습니다.")
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
                 }
             }
         })
 
         binding.viewMember.setOnClickListener {
-
+            val intent = Intent(this, MemberShowActivity::class.java)
+            intent.putExtra("memberId", memberId.toString())
+            startActivity(intent)
         }
 
         postOtherViewModel.authPostOther()
@@ -218,7 +242,7 @@ class PostActivity : AppCompatActivity() {
             } else {
                 when (it.code()) {
                     401 -> {
-                        // 토큰 재발급
+                        reissueViewModel.authReissue(REFRESH_TOKEN)
                     }
                     404 -> {
                         ToastUtil.print(applicationContext, "존재하지 않는 상품입니다.")
