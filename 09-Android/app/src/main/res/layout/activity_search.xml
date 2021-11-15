@@ -42,14 +42,14 @@
                 app:srcCompat="@drawable/ic_main_menu" />
 
             <EditText
-                android:paddingLeft="20dp"
                 android:id="@+id/seditText"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="77dp"
                 android:layout_marginEnd="22dp"
                 android:background="@drawable/bg_et_main"
+                android:paddingLeft="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

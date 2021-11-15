@@ -42,15 +42,16 @@
                 app:srcCompat="@drawable/ic_main_menu" />
 
             <EditText
-                android:paddingLeft="20dp"
                 android:id="@+id/etMainSearch"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="22dp"
-                android:layout_marginTop="77dp"
+                android:layout_marginTop="72dp"
                 android:layout_marginEnd="22dp"
                 android:background="@drawable/bg_et_main"
+                android:paddingLeft="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,10 +72,11 @@
                 android:id="@+id/imageView6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="116dp"
+                android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etMainSearch"
                 app:srcCompat="@drawable/bg_main_top" />
 
             <TextView
@@ -108,12 +110,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="300dp"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:text="추천 상품"
                 android:textSize="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
