@@ -24,11 +24,15 @@ import com.saehyun.a09_android.viewModel.like.PostDeleteLikeViewModel
 import com.saehyun.a09_android.viewModel.like.PostLikeViewModel
 import com.saehyun.a09_android.viewModel.like.viewModelFactory.PostDeleteLikeViewModelFactory
 import com.saehyun.a09_android.viewModel.like.viewModelFactory.PostLikeViewModelFactory
+import com.saehyun.a09_android.viewModel.member.MemberCompletedViewModel
 import com.saehyun.a09_android.viewModel.member.MemberShowViewModel
+import com.saehyun.a09_android.viewModel.member.viewModelFactory.MemberCompletedViewModelFactory
 import com.saehyun.a09_android.viewModel.member.viewModelFactory.MemberShowViewModelFactory
+import com.saehyun.a09_android.viewModel.post.PostCompleteViewModel
 import com.saehyun.a09_android.viewModel.post.PostDeleteViewModel
 import com.saehyun.a09_android.viewModel.post.PostGetViewModel
 import com.saehyun.a09_android.viewModel.post.PostOtherViewModel
+import com.saehyun.a09_android.viewModel.post.viewModelFactory.PostCompleteViewModelFactory
 import com.saehyun.a09_android.viewModel.post.viewModelFactory.PostDeleteViewModelFactory
 import com.saehyun.a09_android.viewModel.post.viewModelFactory.PostGetViewModelFactory
 import com.saehyun.a09_android.viewModel.post.viewModelFactory.PostOtherViewModelFactory
@@ -56,13 +60,14 @@ class PostActivity : AppCompatActivity() {
     private lateinit var memberShowViewModel: MemberShowViewModel
     private lateinit var memberShowViewModelFactory: MemberShowViewModelFactory
 
+    private lateinit var postCompletedViewModel: PostCompleteViewModel
+    private lateinit var postCompletedViewModelFactory: PostCompleteViewModelFactory
+
     private var productList = arrayListOf<PostOtherResponse>()
 
     private val repository: Repository = Repository()
 
     private var openChatLink: String ?= null
-
-    private val TAG = "PostActivity"
 
     private var postId: Int ?= null
 
@@ -86,6 +91,22 @@ class PostActivity : AppCompatActivity() {
 
         reissueViewModelFactory = ReissueViewModelFactory(repository,applicationContext)
         reissueViewModel = ViewModelProvider(this,reissueViewModelFactory).get(ReissueViewModel::class.java)
+
+
+        // member completed
+        postCompletedViewModelFactory = PostCompleteViewModelFactory(repository)
+        postCompletedViewModel = ViewModelProvider(this, postCompletedViewModelFactory).get(PostCompleteViewModel::class.java)
+
+        postCompletedViewModel.postCompleteResponse.observe(this, {
+            if(it.isSuccessful) {
+                ToastUtil.print(applicationContext, "success!")
+            } else {
+                when(it.code()) {
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
+                    else -> ToastUtil.errorPrint(applicationContext)
+                }
+            }
+        })
 
         // memberShow
         memberShowViewModelFactory = MemberShowViewModelFactory(repository)
@@ -264,7 +285,7 @@ class PostActivity : AppCompatActivity() {
         }
 
         binding.ll2.setOnClickListener {
-            ToastUtil.print(applicationContext, "완료")
+            postCompletedViewModel.postComplete(postId.toString())
         }
 
         binding.tvMenu3.text = "삭제하기"
