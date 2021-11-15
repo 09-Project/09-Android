@@ -3,11 +3,8 @@ package com.saehyun.a09_android.network
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
-import com.saehyun.a09_android.model.request.PostPostRequest
-import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.*
 import okhttp3.MultipartBody
-import okhttp3.Request
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -92,7 +89,7 @@ interface ServerApi {
     @GET("member/my-page")
     suspend fun myPage(
         @Header("Authorization") accessToken: String,
-    ) : Response<MyPageResponse>
+    ) : Response<MemberShowResponse>
 
     // 찜하기
     @POST("like/{post-id}")
@@ -139,5 +136,5 @@ interface ServerApi {
     suspend fun memberShow(
         @Header("Authorization") accessToken: String,
         @Path("member-id") memberId: String
-    ) : Response<MyPageResponse>
+    ) : Response<MemberShowResponse>
 }

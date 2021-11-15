@@ -1,20 +1,14 @@
 package com.saehyun.a09_android.repository
 
-import android.util.Log
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.model.request.AuthLoginRequest
 import com.saehyun.a09_android.model.request.AuthSignUpRequest
-import com.saehyun.a09_android.model.request.PostPostRequest
-import com.saehyun.a09_android.model.request.PostRequest
 import com.saehyun.a09_android.model.response.*
 import com.saehyun.a09_android.network.ApiProvider
 import com.saehyun.a09_android.util.ACCESS_TOKEN
-import com.saehyun.a09_android.util.REFRESH_TOKEN
 import okhttp3.MultipartBody
-import okhttp3.Request
 import okhttp3.RequestBody
 import retrofit2.Response
-import java.io.File
 
 class Repository {
     private val TAG = "Repository"
@@ -79,7 +73,7 @@ class Repository {
         return ApiProvider.api.membertLike(tempToken)
     }
 
-    suspend fun myPage() : Response<MyPageResponse> {
+    suspend fun myPage() : Response<MemberShowResponse> {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
         return ApiProvider.api.myPage(tempToken)
     }
@@ -99,7 +93,7 @@ class Repository {
         return ApiProvider.api.postDelete(tempToken, postId)
     }
 
-    suspend fun memberShow(memberId: String) : Response<MyPageResponse> {
+    suspend fun memberShow(memberId: String) : Response<MemberShowResponse> {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
         return ApiProvider.api.memberShow(tempToken, memberId)
     }

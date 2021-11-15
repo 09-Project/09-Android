@@ -1,6 +1,6 @@
 package com.saehyun.a09_android.model.response
 
-data class MyPageResponse(
+data class MemberShowResponse(
     val member_id: String,
     val name: String,
     val profile_url: String,

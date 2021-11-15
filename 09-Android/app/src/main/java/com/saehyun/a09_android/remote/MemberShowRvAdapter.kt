@@ -1,28 +1,17 @@
 package com.saehyun.a09_android.remote
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.saehyun.a09_android.R
-import com.saehyun.a09_android.model.data.PostValue
-import com.saehyun.a09_android.model.response.MyPageResponse
-import com.saehyun.a09_android.model.response.PostOtherResponse
-import com.saehyun.a09_android.model.response.PostResponse
-import com.saehyun.a09_android.ui.activity.PostActivity
-import retrofit2.Response
+import com.saehyun.a09_android.model.response.MemberShowResponse
 
-class MyPageRvAdapter(val context: Context, val productData: List<MyPageResponse>):
-    RecyclerView.Adapter<MyPageRvAdapter.Holder>() {
+class MemberShowRvAdapter(val context: Context, val productData: List<MemberShowResponse>):
+    RecyclerView.Adapter<MemberShowRvAdapter.Holder>() {
 
     private val TAG = "RcProductRvAdapter"
 
@@ -40,7 +29,7 @@ class MyPageRvAdapter(val context: Context, val productData: List<MyPageResponse
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-        var data: MyPageResponse = productData.get(position)
+        var data: MemberShowResponse = productData.get(position)
 //
 //        Glide.with(holder.itemView.context)
 //                .
