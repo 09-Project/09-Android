@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -21,11 +23,14 @@ import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import com.saehyun.a09_android.databinding.ActivityCreatePostBinding
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ACCESS_TOKEN
+import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.PostGroupBuyViewModel
 import com.saehyun.a09_android.viewModel.PostSharingViewModel
+import com.saehyun.a09_android.viewModel.ReissueViewModel
 import com.saehyun.a09_android.viewModelFactory.PostGroupBuyViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.PostSharingViewModelFactory
+import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -43,6 +48,9 @@ class CreatePostActivity : AppCompatActivity() {
     private lateinit var postSharingViewModel: PostSharingViewModel
     private lateinit var postSharingViewModelFactory: PostSharingViewModelFactory
 
+    private lateinit var reissueViewModelFactory: ReissueViewModelFactory
+    private lateinit var reissueViewModel: ReissueViewModel
+
     private val OPEN_GALLERY = 1
 
     private var productImage: Boolean = false
@@ -59,6 +67,13 @@ class CreatePostActivity : AppCompatActivity() {
 
         val repository = Repository()
 
+        val reissueViewModelFactory = ReissueViewModelFactory(repository,applicationContext)
+        val reissueViewModel = ViewModelProvider(this,reissueViewModelFactory).get(ReissueViewModel::class.java)
+
+        binding.ibCreatePostBack.setOnClickListener {
+            finish()
+        }
+
         postGroupBuyViewModelFactory = PostGroupBuyViewModelFactory(repository)
         postGroupBuyViewModel =
             ViewModelProvider(this, postGroupBuyViewModelFactory).get(PostGroupBuyViewModel::class.java)
@@ -73,8 +88,7 @@ class CreatePostActivity : AppCompatActivity() {
                 finish()
             } else {
                 when (it.code()) {
-                    400 -> ToastUtil.print(applicationContext, "토큰의 형태가 잘못되었습니다.")
-                    401 -> ToastUtil.print(applicationContext, "토큰이 유효하지 않습니다.")
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
                     500 -> ToastUtil.print(applicationContext, "S3와의 연결이 실패되었습니다.")
                 }
@@ -87,8 +101,7 @@ class CreatePostActivity : AppCompatActivity() {
                 finish()
             } else {
                 when (it.code()) {
-                    400 -> ToastUtil.print(applicationContext, "토큰의 형태가 잘못되었습니다.")
-                    401 -> ToastUtil.print(applicationContext, "토큰이 유효하지 않습니다.")
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
                     500 -> ToastUtil.print(applicationContext, "S3와의 연결이 실패되었습니다.")
                 }
@@ -116,6 +129,19 @@ class CreatePostActivity : AppCompatActivity() {
                 binding.tvCreatePostPrice.visibility = View.VISIBLE
             }
         }
+
+        binding.etCreatePostContent.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.tvContentSize.text = "(${binding.etCreatePostContent.text.length}/40)"
+            }
+        })
 
         binding.tvCreatePostFinish.setOnClickListener {
 
