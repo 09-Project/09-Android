@@ -2,6 +2,7 @@ package com.saehyun.a09_android.remote
 
 import android.content.Context
 import android.content.Intent
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +17,11 @@ import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.ui.activity.PostActivity
 import com.saehyun.a09_android.viewModel.like.PostDeleteLikeViewModel
 import com.saehyun.a09_android.viewModel.like.PostLikeViewModel
+import org.w3c.dom.Text
 
 class RcProductRvAdapter(val context: Context, val productData: List<PostValue>, val postLikeViewModel: PostLikeViewModel, val postDeleteLikeViewModel: PostDeleteLikeViewModel):
     RecyclerView.Adapter<RcProductRvAdapter.Holder>() {
-
-
-    private val TAG = "RcProductRvAdapter"
-
+    
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val clRecommendedProduct =
             itemView?.findViewById<ConstraintLayout>(R.id.clRecommendedProduct)
@@ -32,6 +31,8 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>,
         val tvPrice = itemView?.findViewById<TextView>(R.id.tvPrice)
         val ivHeart = itemView?.findViewById<ImageView>(R.id.ivHeart)
         val ivPurpose = itemView?.findViewById<ImageView>(R.id.ivPurpose)
+        val rvisible1 = itemView?.findViewById<View>(R.id.rvisible1)
+        val rvisible2 = itemView?.findViewById<TextView>(R.id.rvisible2)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -83,6 +84,10 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>,
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
 
+        if(data.completed == "COMPLETED") {
+            holder.rvisible1?.visibility = View.VISIBLE
+            holder.rvisible2?.visibility = View.VISIBLE
+        }
     }
 
     override fun getItemCount(): Int {
