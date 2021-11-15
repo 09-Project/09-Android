@@ -9,23 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.model.data.PostValue
-import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.ui.activity.PostActivity
-import com.saehyun.a09_android.viewModel.PostDeleteLikeViewModel
-import com.saehyun.a09_android.viewModel.PostDeleteViewModel
-import com.saehyun.a09_android.viewModel.PostLikeViewModel
-import com.saehyun.a09_android.viewModel.PostViewModel
-import com.saehyun.a09_android.viewModelFactory.PostViewModelFactory
-import kotlinx.coroutines.launch
-import retrofit2.Response
+import com.saehyun.a09_android.viewModel.like.PostDeleteLikeViewModel
+import com.saehyun.a09_android.viewModel.like.PostLikeViewModel
 
 class RcProductRvAdapter(val context: Context, val productData: List<PostValue>, val postLikeViewModel: PostLikeViewModel, val postDeleteLikeViewModel: PostDeleteLikeViewModel):
     RecyclerView.Adapter<RcProductRvAdapter.Holder>() {

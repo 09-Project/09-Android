@@ -16,14 +16,14 @@ import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.util.VIEW_SIZE
-import com.saehyun.a09_android.viewModel.PostDeleteLikeViewModel
-import com.saehyun.a09_android.viewModel.PostLikeViewModel
-import com.saehyun.a09_android.viewModel.PostSearchViewModel
-import com.saehyun.a09_android.viewModel.ReissueViewModel
-import com.saehyun.a09_android.viewModelFactory.PostDeleteLikeViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.PostLikeViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.PostSearchViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
+import com.saehyun.a09_android.viewModel.like.PostDeleteLikeViewModel
+import com.saehyun.a09_android.viewModel.like.PostLikeViewModel
+import com.saehyun.a09_android.viewModel.post.PostSearchViewModel
+import com.saehyun.a09_android.viewModel.auth.ReissueViewModel
+import com.saehyun.a09_android.viewModel.like.viewModelFactory.PostDeleteLikeViewModelFactory
+import com.saehyun.a09_android.viewModel.like.viewModelFactory.PostLikeViewModelFactory
+import com.saehyun.a09_android.viewModel.post.viewModelFactory.PostSearchViewModelFactory
+import com.saehyun.a09_android.viewModel.auth.viewModelFactory.ReissueViewModelFactory
 
 class SearchActivity : AppCompatActivity() {
 

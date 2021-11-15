@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.saehyun.a09_android.R
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.ui.activity.PostActivity
-import com.saehyun.a09_android.viewModel.PostLikeViewModel
+import com.saehyun.a09_android.viewModel.like.PostLikeViewModel
 
 class RcCompletedRvAdapter(val context: Context, val productData: List<PostValue>, val postLikeViewModel: PostLikeViewModel):
     RecyclerView.Adapter<RcCompletedRvAdapter.Holder>() {

@@ -4,18 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.saehyun.a09_android.R
 import com.saehyun.a09_android.databinding.ActivityRegisterBinding
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ToastUtil
-import com.saehyun.a09_android.viewModel.RegisterViewModel
-import com.saehyun.a09_android.viewModel.ReissueViewModel
-import com.saehyun.a09_android.viewModelFactory.RegisterViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
+import com.saehyun.a09_android.viewModel.auth.RegisterViewModel
+import com.saehyun.a09_android.viewModel.auth.viewModelFactory.RegisterViewModelFactory
 
 class RegisterActivity : AppCompatActivity() {
 

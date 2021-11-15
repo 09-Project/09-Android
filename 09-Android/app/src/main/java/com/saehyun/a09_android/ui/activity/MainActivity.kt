@@ -17,6 +17,14 @@ import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.*
 import com.saehyun.a09_android.viewModel.*
+import com.saehyun.a09_android.viewModel.auth.ReissueViewModel
+import com.saehyun.a09_android.viewModel.auth.viewModelFactory.ReissueViewModelFactory
+import com.saehyun.a09_android.viewModel.like.PostDeleteLikeViewModel
+import com.saehyun.a09_android.viewModel.like.PostLikeViewModel
+import com.saehyun.a09_android.viewModel.like.viewModelFactory.PostDeleteLikeViewModelFactory
+import com.saehyun.a09_android.viewModel.like.viewModelFactory.PostLikeViewModelFactory
+import com.saehyun.a09_android.viewModel.post.PostViewModel
+import com.saehyun.a09_android.viewModel.post.viewModelFactory.PostViewModelFactory
 import com.saehyun.a09_android.viewModelFactory.*
 
 

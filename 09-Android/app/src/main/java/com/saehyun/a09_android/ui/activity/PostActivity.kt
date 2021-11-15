@@ -3,7 +3,6 @@ package com.saehyun.a09_android.ui.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,8 +17,20 @@ import com.saehyun.a09_android.remote.RcOtherRvAdapter
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
-import com.saehyun.a09_android.viewModel.*
-import com.saehyun.a09_android.viewModelFactory.*
+import com.saehyun.a09_android.viewModel.auth.ReissueViewModel
+import com.saehyun.a09_android.viewModel.auth.viewModelFactory.ReissueViewModelFactory
+import com.saehyun.a09_android.viewModel.like.PostDeleteLikeViewModel
+import com.saehyun.a09_android.viewModel.like.PostLikeViewModel
+import com.saehyun.a09_android.viewModel.like.viewModelFactory.PostDeleteLikeViewModelFactory
+import com.saehyun.a09_android.viewModel.like.viewModelFactory.PostLikeViewModelFactory
+import com.saehyun.a09_android.viewModel.member.MemberShowViewModel
+import com.saehyun.a09_android.viewModel.member.viewModelFactory.MemberShowViewModelFactory
+import com.saehyun.a09_android.viewModel.post.PostDeleteViewModel
+import com.saehyun.a09_android.viewModel.post.PostGetViewModel
+import com.saehyun.a09_android.viewModel.post.PostOtherViewModel
+import com.saehyun.a09_android.viewModel.post.viewModelFactory.PostDeleteViewModelFactory
+import com.saehyun.a09_android.viewModel.post.viewModelFactory.PostGetViewModelFactory
+import com.saehyun.a09_android.viewModel.post.viewModelFactory.PostOtherViewModelFactory
 
 
 class PostActivity : AppCompatActivity() {
