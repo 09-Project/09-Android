@@ -20,8 +20,8 @@
         android:id="@+id/rimageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="160dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/rtextView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_login_login_box" />
@@ -101,24 +101,23 @@
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/rimageView3"
         app:layout_constraintEnd_toEndOf="@+id/rimageView3"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/rimageView3"
-        app:layout_constraintTop_toBottomOf="@+id/registerEtPassword"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="@+id/rimageView3" />
 
     <TextView
         android:id="@+id/rtextView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="124dp"
         android:fontFamily="@font/noto_sans_kr_regular"
         android:text="이미 계정이 있으신가요?"
         android:textColor="#707070"
         android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.422"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rimageView3" />
+        app:layout_constraintHorizontal_bias="0.441"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/rtextView5"
