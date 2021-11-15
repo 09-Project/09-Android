@@ -25,12 +25,9 @@ import com.saehyun.a09_android.viewModel.like.viewModelFactory.PostDeleteLikeVie
 import com.saehyun.a09_android.viewModel.like.viewModelFactory.PostLikeViewModelFactory
 import com.saehyun.a09_android.viewModel.post.PostViewModel
 import com.saehyun.a09_android.viewModel.post.viewModelFactory.PostViewModelFactory
-import com.saehyun.a09_android.viewModelFactory.*
-
 
 class   MainActivity : AppCompatActivity() {
 
-    private val TAG = "MainActivity"
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var postViewModel: PostViewModel
