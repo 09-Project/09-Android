@@ -132,9 +132,17 @@ interface ServerApi {
         @Path("post-id") postId: String
     ) : Response<Void>
 
+    // 프로필 보기
     @GET("member/{member-id}")
     suspend fun memberShow(
         @Header("Authorization") accessToken: String,
         @Path("member-id") memberId: String
     ) : Response<MemberShowResponse>
+
+    // 종료 여부 변경하기
+    @PUT("post/{post-id}")
+    suspend fun postComplete(
+            @Header("Authorization") accessToken: String,
+            @Path("post-id") postId: String
+    ) : Response<Void>
 }
