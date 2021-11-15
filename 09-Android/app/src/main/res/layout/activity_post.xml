@@ -143,38 +143,19 @@
             app:layout_constraintStart_toStartOf="@+id/iv091"
             app:layout_constraintTop_toTopOf="@+id/iv091" />
 
-        <ImageView
-            android:id="@+id/imageView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="180dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivProduct"
-            app:srcCompat="@drawable/ic_post_border" />
-
-        <ImageView
-            android:id="@+id/imageView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
-            app:layout_constraintEnd_toEndOf="@+id/imageView14"
-            app:layout_constraintStart_toStartOf="@+id/imageView14"
-            app:layout_constraintTop_toTopOf="@+id/imageView14"
-            app:srcCompat="@drawable/ic_post_line" />
 
         <TextView
             android:id="@+id/tvPostContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="26dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="72dp"
             android:fontFamily="@font/noto_sans_kr_regular"
             android:text="TextView"
             android:textColor="#232323"
             android:textSize="12dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView14" />
+            app:layout_constraintTop_toBottomOf="@+id/tvPostTransactionRegion" />
 
         <View
             android:id="@+id/view2"
@@ -194,6 +175,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
+        <View
+            android:id="@+id/viewMember"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMemberName"
+            app:layout_constraintEnd_toEndOf="@+id/imageView10"
+            app:layout_constraintStart_toStartOf="@+id/ivMemberProfile"
+            app:layout_constraintTop_toTopOf="@+id/tvMemberName" />
+
         <TextView
             android:fontFamily="@font/noto_sans_kr_bold"
             android:textSize="14dp"
@@ -207,77 +197,87 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view2" />
 
-        <TextView
-            android:id="@+id/textView22"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:fontFamily="@font/noto_sans_kr_regular"
-            android:text="찜하기"
-            android:textColor="#818181"
-            android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/ivPostHeart"
-            app:layout_constraintStart_toEndOf="@+id/ivPostHeart"
-            app:layout_constraintTop_toTopOf="@+id/ivPostHeart" />
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/ic_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPostTransactionRegion">
+            <LinearLayout
+                android:id="@+id/ll1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/ivPostHeart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_post_heart_off"/>
+                <TextView
+                    android:layout_marginLeft="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="찜하기"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/noto_sans_kr_regular"/>
+            </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#707070"/>
+            <LinearLayout
+                android:id="@+id/ll2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/ivMenu2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_post_checked"/>
+                <TextView
+                    android:id="@+id/tvMenu2"
+                    android:layout_marginLeft="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="거래완료"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/noto_sans_kr_regular"/>
+            </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#707070"/>
+            <LinearLayout
+                android:id="@+id/ll3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/ivMenu3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_post_chat_"/>
+                <TextView
+                    android:id="@+id/tvMenu3"
+                    android:layout_marginLeft="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="채팅하기"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/noto_sans_kr_regular"/>
+            </LinearLayout>
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/ivPostHeart"
-            android:layout_width="11dp"
-            android:layout_height="9dp"
-            android:layout_marginStart="56dp"
-            android:src="@drawable/ic_post_heart_off"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
-            app:layout_constraintStart_toStartOf="@+id/imageView14"
-            app:layout_constraintTop_toTopOf="@+id/imageView14" />
-
-        <ImageView
-            android:id="@+id/ivSecond"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="47dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
-            app:layout_constraintStart_toEndOf="@+id/imageView17"
-            app:layout_constraintTop_toTopOf="@+id/imageView14"
-            app:srcCompat="@drawable/ic_post_chat_" />
-
-        <TextView
-            android:id="@+id/tvSecond"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:fontFamily="@font/noto_sans_kr_regular"
-            android:text="채팅하기"
-            android:textColor="#818181"
-            android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/ivSecond"
-            app:layout_constraintStart_toEndOf="@+id/ivSecond"
-            app:layout_constraintTop_toTopOf="@+id/ivSecond" />
-
-        <View
-            android:id="@+id/viewLike"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
-            app:layout_constraintEnd_toStartOf="@+id/imageView17"
-            app:layout_constraintStart_toStartOf="@+id/imageView14"
-            app:layout_constraintTop_toTopOf="@+id/imageView14" />
-
-        <View
-            android:id="@+id/viewChat"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
-            app:layout_constraintEnd_toEndOf="@+id/imageView14"
-            app:layout_constraintStart_toEndOf="@+id/imageView17"
-            app:layout_constraintTop_toTopOf="@+id/imageView14" />
-
-        <View
-            android:id="@+id/viewMember"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvMemberName"
-            app:layout_constraintEnd_toEndOf="@+id/imageView10"
-            app:layout_constraintStart_toStartOf="@+id/ivMemberProfile"
-            app:layout_constraintTop_toTopOf="@+id/tvMemberName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
