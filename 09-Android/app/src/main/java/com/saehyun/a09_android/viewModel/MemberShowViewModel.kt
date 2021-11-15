@@ -3,23 +3,15 @@ package com.saehyun.a09_android.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.saehyun.a09_android.model.data.PostValue
-import com.saehyun.a09_android.model.request.AuthLoginRequest
-import com.saehyun.a09_android.model.response.AuthLoginResponse
-import com.saehyun.a09_android.model.response.MyPageResponse
-import com.saehyun.a09_android.model.response.PostResponse
+import com.saehyun.a09_android.model.response.MemberShowResponse
 import com.saehyun.a09_android.repository.Repository
-import com.saehyun.a09_android.util.REFRESH_TOKEN
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Response
-import java.io.File
 
 class MemberShowViewModel(private val repository: Repository) : ViewModel() {
-    val memberShowResponse : MutableLiveData<Response<MyPageResponse>> = MutableLiveData()
+    val memberShowResponse : MutableLiveData<Response<MemberShowResponse>> = MutableLiveData()
 
-    fun memberShpw(memberId: String) {
+    fun memberShow(memberId: String) {
         viewModelScope.launch {
             val response = repository.memberShow(memberId)
             memberShowResponse.value = response

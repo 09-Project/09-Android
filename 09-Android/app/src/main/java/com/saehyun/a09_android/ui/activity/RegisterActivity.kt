@@ -13,7 +13,9 @@ import com.saehyun.a09_android.databinding.ActivityRegisterBinding
 import com.saehyun.a09_android.repository.Repository
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.RegisterViewModel
+import com.saehyun.a09_android.viewModel.ReissueViewModel
 import com.saehyun.a09_android.viewModelFactory.RegisterViewModelFactory
+import com.saehyun.a09_android.viewModelFactory.ReissueViewModelFactory
 
 class RegisterActivity : AppCompatActivity() {
 
