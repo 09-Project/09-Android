@@ -41,6 +41,7 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>,
         val tvTransactionRegion = itemView?.findViewById<TextView>(R.id.tvTransactionRegion)
         val tvPrice = itemView?.findViewById<TextView>(R.id.tvPrice)
         val ivHeart = itemView?.findViewById<ImageView>(R.id.ivHeart)
+        val ivPurpose = itemView?.findViewById<ImageView>(R.id.ivPurpose)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -59,7 +60,6 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>,
 
         holder.tvTitle?.text = data.title
         holder.tvTransactionRegion?.text = data.transaction_region
-        holder.tvPrice?.text = data.price
 
         holder.ivHeart?.setOnClickListener {
             if(data.liked) {
@@ -77,6 +77,13 @@ class RcProductRvAdapter(val context: Context, val productData: List<PostValue>,
             Glide.with(holder.itemView.context)
                 .load(R.drawable.ic_heart_on)
                 .into(holder.ivHeart)
+        }
+
+        if(data.price.isNullOrEmpty()) {
+            holder.tvPrice?.text = "무료나눔"
+            holder.ivPurpose?.visibility = View.GONE
+        } else {
+            holder.tvPrice?.text = data.price
         }
 
         holder.clRecommendedProduct?.setOnClickListener {
