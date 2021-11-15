@@ -25,8 +25,6 @@ class   MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var reissueViewModel: ReissueViewModel
-
     private lateinit var postViewModel: PostViewModel
     private lateinit var postViewModelFactory: PostViewModelFactory
 
@@ -82,10 +80,9 @@ class   MainActivity : AppCompatActivity() {
                 ToastUtil.print(applicationContext, "찜하기 성공!")
             } else {
                 when(it.code()) {
-                    400 -> ToastUtil.print(applicationContext, "Access 토큰의 형태가 잘못되었습니다.")
-                    401 -> ToastUtil.print(applicationContext, "Access 토큰이 유효하지 않습니다.")
-                    404 -> ToastUtil.print(applicationContext, "상품이나 회원이 존재하지 않습니다.")
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     409 -> ToastUtil.print(applicationContext, "찜이 이미 존재합니다.")
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })
@@ -100,9 +97,7 @@ class   MainActivity : AppCompatActivity() {
             } else {
                 when(it.code()) {
                     401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
-                    404 -> {
-                        ToastUtil.print(applicationContext, "상품 또는 회원이 존재하지 않습니다.")
-                    }
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
        })
@@ -140,6 +135,7 @@ class   MainActivity : AppCompatActivity() {
                 when (it.code()) {
                     401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     404 -> ToastUtil.print(applicationContext, "이미지가 존재하지 않습니다")
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })

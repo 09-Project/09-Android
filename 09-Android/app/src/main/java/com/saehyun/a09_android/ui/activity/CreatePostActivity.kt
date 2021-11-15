@@ -48,9 +48,6 @@ class CreatePostActivity : AppCompatActivity() {
     private lateinit var postSharingViewModel: PostSharingViewModel
     private lateinit var postSharingViewModelFactory: PostSharingViewModelFactory
 
-    private lateinit var reissueViewModelFactory: ReissueViewModelFactory
-    private lateinit var reissueViewModel: ReissueViewModel
-
     private val OPEN_GALLERY = 1
 
     private var productImage: Boolean = false
@@ -89,8 +86,7 @@ class CreatePostActivity : AppCompatActivity() {
             } else {
                 when (it.code()) {
                     401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
-                    404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
-                    500 -> ToastUtil.print(applicationContext, "S3와의 연결이 실패되었습니다.")
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })
@@ -102,8 +98,7 @@ class CreatePostActivity : AppCompatActivity() {
             } else {
                 when (it.code()) {
                     401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
-                    404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
-                    500 -> ToastUtil.print(applicationContext, "S3와의 연결이 실패되었습니다.")
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })
@@ -232,7 +227,7 @@ class CreatePostActivity : AppCompatActivity() {
     }
 
     private fun getFile(mediaPath: String) {
-        val file: File = File(mediaPath)
+        val file = File(mediaPath)
 
         val requestBody: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
         filetoUpload = MultipartBody.Part.createFormData("image", file.name, requestBody)

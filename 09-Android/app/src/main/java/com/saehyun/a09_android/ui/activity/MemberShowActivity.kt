@@ -51,8 +51,6 @@ class MemberShowActivity : AppCompatActivity() {
 
     private var memberId: String ?= null
 
-    private val TAG = "MyPageActivity"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -101,22 +99,18 @@ class MemberShowActivity : AppCompatActivity() {
                 }
 
                 binding.tvMypageAllpostscount.text = it.body()!!.all_posts_count
-
                 binding.tvLikePostsCount.text = it.body()!!.like_posts_count
-
                 binding.tvMypageGetlikescount.text = it.body()!!.get_likes_count
-
                 binding.tvMypageCompletedpostscount.text = it.body()!!.completed_posts_count
+
             } else {
+
                 when(it.code()) {
-                    401 -> {
-                        reissueViewModel.authReissue(REFRESH_TOKEN)
-                    }
-                    404 -> {
-                        ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
-                    }
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
+
         })
 
         memberShowViewModel.memberShow(memberId.toString())
@@ -133,6 +127,7 @@ class MemberShowActivity : AppCompatActivity() {
                     401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     404 -> ToastUtil.print(applicationContext, "상품이나 회원이 존재하지 않습니다.")
                     409 -> ToastUtil.print(applicationContext, "찜이 이미 존재합니다.")
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })
@@ -146,12 +141,8 @@ class MemberShowActivity : AppCompatActivity() {
                 ToastUtil.print(applicationContext, "찜 취소하기 성공")
             } else {
                 when(it.code()) {
-                    401 -> {
-                        reissueViewModel.authReissue(REFRESH_TOKEN)
-                    }
-                    404 -> {
-                        ToastUtil.print(applicationContext, "상품 또는 회원이 존재하지 않습니다.")
-                    }
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })

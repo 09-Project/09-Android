@@ -88,12 +88,8 @@ class PostActivity : AppCompatActivity() {
                 ToastUtil.print(applicationContext, "찜 취소하기 성공")
             } else {
                 when(it.code()) {
-                    401 -> {
-                        reissueViewModel.authReissue(REFRESH_TOKEN)
-                    }
-                    404 -> {
-                        ToastUtil.print(applicationContext, "상품 또는 회원이 존재하지 않습니다.")
-                    }
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })
@@ -109,12 +105,12 @@ class PostActivity : AppCompatActivity() {
             } else {
                 when(it.code()) {
                     401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
-                    404 -> ToastUtil.print(applicationContext, "상품이나 회원이 존재하지 않습니다.")
                     409 -> {
                         ToastUtil.print(applicationContext, "찜 취소하기 성공!")
                         postDeleteLikeViewModel.memberDeleteLike(postId!!)
                         binding.ivPostHeart.setImageResource(R.drawable.ic_heart_off)
                     }
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })
@@ -174,6 +170,7 @@ class PostActivity : AppCompatActivity() {
                 when(it.code()) {
                     401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     404 -> ToastUtil.print(applicationContext,"이미지가 존재하지 않습니다")
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })
@@ -194,13 +191,12 @@ class PostActivity : AppCompatActivity() {
                 productList.clear()
                 for (i: Int in 0..5) {
                     productList.add(it.body()!!.get(i))
-                    Log.d(TAG, "onCreate: ${it.body()}")
                     binding.rvPostOtherProduct.adapter?.notifyDataSetChanged()
                 }
             } else {
                 when (it.code()) {
                     401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
-                    404 -> ToastUtil.print(applicationContext, "회원이 존재하지 않습니다.")
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })
@@ -241,15 +237,9 @@ class PostActivity : AppCompatActivity() {
                 finish()
             } else {
                 when (it.code()) {
-                    401 -> {
-                        reissueViewModel.authReissue(REFRESH_TOKEN)
-                    }
-                    404 -> {
-                        ToastUtil.print(applicationContext, "존재하지 않는 상품입니다.")
-                    }
-                    else -> {
-                        ToastUtil.print(applicationContext, "Error!")
-                    }
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
+                    404 -> ToastUtil.print(applicationContext, "존재하지 않는 상품입니다.")
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })

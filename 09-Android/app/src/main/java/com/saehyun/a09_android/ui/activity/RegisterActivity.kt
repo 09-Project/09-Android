@@ -28,7 +28,7 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var showPw: Boolean = false
+        var showPw = false
 
         binding.ibRegisterShowPw.setOnClickListener {
             showPw = !showPw
@@ -63,7 +63,7 @@ class RegisterActivity : AppCompatActivity() {
                     when(it.code()) {
                         400 -> ToastUtil.print(applicationContext, "닉네임은 최대 10자까지 가능합니다.")
                         409 -> ToastUtil.print(applicationContext, "닉네임 또는 아이디가 이미 존재합니다.")
-                        else -> ToastUtil.print(applicationContext, "예기지 못한 오류가 발생했습니다.\n지속될 시 고객센터에 문의해주세요.")
+                        else -> ToastUtil.errorPrint(applicationContext)
                     }
                 }
             })

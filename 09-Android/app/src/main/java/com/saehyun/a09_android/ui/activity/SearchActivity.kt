@@ -44,9 +44,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var postDeleteLikeViewModel: PostDeleteLikeViewModel
     private lateinit var postDeleteLikeViewModelFactory: PostDeleteLikeViewModelFactory
 
-    private lateinit var reissueViewModelFactory: ReissueViewModelFactory
-    private lateinit var reissueViewModel: ReissueViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,8 +70,8 @@ class SearchActivity : AppCompatActivity() {
             } else {
                 when(it.code()) {
                     401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
-                    404 -> ToastUtil.print(applicationContext, "상품이나 회원이 존재하지 않습니다.")
                     409 -> ToastUtil.print(applicationContext, "찜이 이미 존재합니다.")
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })
@@ -89,12 +86,8 @@ class SearchActivity : AppCompatActivity() {
                 ToastUtil.print(applicationContext, "찜 취소하기 성공")
             } else {
                 when(it.code()) {
-                    401 -> {
-                        reissueViewModel.authReissue(REFRESH_TOKEN)
-                    }
-                    404 -> {
-                        ToastUtil.print(applicationContext, "상품 또는 회원이 존재하지 않습니다.")
-                    }
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
+                    else -> ToastUtil.errorPrint(applicationContext)
                 }
             }
         })
