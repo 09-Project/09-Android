@@ -16,10 +16,7 @@ import com.saehyun.a09_android.databinding.ActivityMainBinding
 import com.saehyun.a09_android.model.data.PostValue
 import com.saehyun.a09_android.remote.RcProductRvAdapter
 import com.saehyun.a09_android.repository.Repository
-import com.saehyun.a09_android.util.ACCESS_TOKEN
-import com.saehyun.a09_android.util.REFRESH_TOKEN
-import com.saehyun.a09_android.util.ToastUtil
-import com.saehyun.a09_android.util.VIEW_SIZE
+import com.saehyun.a09_android.util.*
 import com.saehyun.a09_android.viewModel.*
 import com.saehyun.a09_android.viewModelFactory.*
 
@@ -55,6 +52,10 @@ class   MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val repository = Repository()
+
+        // Token Reissue
+        val reissueViewModelFactory = ReissueViewModelFactory(repository, applicationContext)
+        val reissueViewModel: ReissueViewModel = ViewModelProvider(this, reissueViewModelFactory).get(ReissueViewModel::class.java)
 
         // Page Set
         binding.MainibBack.setOnClickListener {
@@ -99,9 +100,7 @@ class   MainActivity : AppCompatActivity() {
                 ToastUtil.print(applicationContext, "찜 취소하기 성공")
             } else {
                 when(it.code()) {
-                    401 -> {
-                        // 토큰 만료
-                    }
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     404 -> {
                         ToastUtil.print(applicationContext, "상품 또는 회원이 존재하지 않습니다.")
                     }
@@ -120,6 +119,8 @@ class   MainActivity : AppCompatActivity() {
 
         postViewModel.authPostResponse.observe(this, Observer {
             if (it.isSuccessful) {
+                MEMBER_ID = it.body()!!.member_id
+
                 val size = it.body()!!.posts.size
 
                 val count = it.body()!!.count
@@ -138,34 +139,11 @@ class   MainActivity : AppCompatActivity() {
                 }
             } else {
                 when (it.code()) {
+                    401 -> reissueViewModel.authReissue(REFRESH_TOKEN)
                     404 -> ToastUtil.print(applicationContext, "이미지가 존재하지 않습니다")
                 }
             }
         })
-
-        // Token Reissue
-        val reissueViewModelFactory = ReissueViewModelFactory(repository)
-        val reissueViewModel: ReissueViewModel = ViewModelProvider(this, reissueViewModelFactory).get(ReissueViewModel::class.java)
-
-        reissueViewModel.refreshTokenExpiration.observe(this, {
-            if(it == true) {
-                ToastUtil.print(applicationContext, "토큰이 만료되어 로그아웃 됩니다.")
-
-                val intent = Intent(applicationContext, LoginActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                ACCESS_TOKEN = "default"
-                REFRESH_TOKEN = "default"
-                startActivity(intent)
-            }
-        })
-
-        reissueViewModel.toastMessage.observe(this, {
-            ToastUtil.print(applicationContext, "${it}")
-        })
-
-        binding.button.setOnClickListener {
-            reissueViewModel.authReissue(REFRESH_TOKEN)
-        }
 
         // Drawer Menu
         binding.ibMainMenu.setOnClickListener {
@@ -204,7 +182,7 @@ class   MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val intent: Intent = Intent(this, SearchActivity::class.java)
+            val intent = Intent(this, SearchActivity::class.java)
             intent.putExtra("keyword", keyword)
             startActivity(intent)
         }
