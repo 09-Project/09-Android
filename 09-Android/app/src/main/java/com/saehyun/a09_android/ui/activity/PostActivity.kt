@@ -15,6 +15,7 @@ import com.saehyun.a09_android.databinding.ActivityPostBinding
 import com.saehyun.a09_android.model.response.PostOtherResponse
 import com.saehyun.a09_android.remote.RcOtherRvAdapter
 import com.saehyun.a09_android.repository.Repository
+import com.saehyun.a09_android.util.MEMBER_ID
 import com.saehyun.a09_android.util.REFRESH_TOKEN
 import com.saehyun.a09_android.util.ToastUtil
 import com.saehyun.a09_android.viewModel.auth.ReissueViewModel
@@ -126,10 +127,6 @@ class PostActivity : AppCompatActivity() {
             }
         })
 
-        binding.viewLike.setOnClickListener {
-            postLikeViewModel.authPostLikeSearch(postId!!)
-        }
-
         // Post Get
         postGetViewModelFactory = PostGetViewModelFactory(repository)
         postGetViewModel = ViewModelProvider(this, postGetViewModelFactory).get(PostGetViewModel::class.java)
@@ -168,7 +165,7 @@ class PostActivity : AppCompatActivity() {
                         .into(binding.ivPostHeart)
                 }
 
-                if(it.body()!!.mine) {
+                if(MEMBER_ID == it.body()!!.member_info.member_id) {
                     myPost()
                 } else {
                     otherPost()
@@ -222,7 +219,13 @@ class PostActivity : AppCompatActivity() {
     }
 
     private fun otherPost() {
-        binding.viewChat.setOnClickListener {
+        binding.ll2.visibility = View.GONE
+
+        binding.ll1.setOnClickListener {
+            postLikeViewModel.authPostLikeSearch(postId!!)
+        }
+
+        binding.ll3.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setMessage("오픈채팅방으로 이동합니다.")
 
@@ -255,11 +258,19 @@ class PostActivity : AppCompatActivity() {
             }
         })
 
-        binding.tvSecond.text = "삭제하기"
 
-        binding.ivSecond.setImageResource(R.drawable.ic_post_delete_circle)
+        binding.ll1.setOnClickListener {
+            postLikeViewModel.authPostLikeSearch(postId!!)
+        }
 
-        binding.viewChat.setOnClickListener {
+        binding.ll2.setOnClickListener {
+            ToastUtil.print(applicationContext, "완료")
+        }
+
+        binding.tvMenu3.text = "삭제하기"
+        binding.ivMenu3.setImageResource(R.drawable.ic_post_delete_circle)
+
+        binding.ll3.setOnClickListener {
             postDeleteViewModel.postDelete(postId.toString())
         }
     }
