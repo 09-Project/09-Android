@@ -82,5 +82,29 @@
         app:layout_constraintEnd_toEndOf="@+id/ivImage"
         app:layout_constraintTop_toTopOf="@+id/ivImage" />
 
+    <View
+        android:visibility="gone"
+        android:id="@+id/rvisible1"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:background="#80101010"
+        app:layout_constraintBottom_toBottomOf="@+id/ivImage"
+        app:layout_constraintEnd_toEndOf="@+id/ivImage"
+        app:layout_constraintStart_toStartOf="@+id/ivImage"
+        app:layout_constraintTop_toTopOf="@+id/ivImage" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/rvisible2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_kr_bold"
+        android:text="종료"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivImage"
+        app:layout_constraintEnd_toEndOf="@+id/ivImage"
+        app:layout_constraintStart_toStartOf="@+id/ivImage"
+        app:layout_constraintTop_toTopOf="@+id/ivImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
