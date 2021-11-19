@@ -125,7 +125,6 @@ class MemberShowActivity : AppCompatActivity() {
 
         })
 
-        memberShowViewModel.memberShow(memberId.toString())
 
         // Like Post
         postLikeViewModelFactory = PostLikeViewModelFactory(repository)
@@ -192,6 +191,11 @@ class MemberShowActivity : AppCompatActivity() {
                 }
             }
         })
+
+        //
+        binding.imageView9.setOnClickListener {
+            startActivity(Intent(applicationContext, EditProfileActivity::class.java))
+        }
 
         // MemberCompleted
         memberCompletedViewModelFactory = MemberCompletedViewModelFactory(repository)
@@ -295,5 +299,11 @@ class MemberShowActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
 
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        memberShowViewModel.memberShow(memberId.toString())
     }
 }
