@@ -218,8 +218,8 @@ class PostActivity : AppCompatActivity() {
         postOtherViewModel.authPostOtherResponse.observe(this, Observer {
             if (it.isSuccessful) {
                 productList.clear()
-                for (i: Int in 0..5) {
-                    productList.add(it.body()!!.get(i))
+                for (i in it.body()!!) {
+                    productList.add(i)
                     binding.rvPostOtherProduct.adapter?.notifyDataSetChanged()
                 }
             } else {
