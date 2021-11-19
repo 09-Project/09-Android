@@ -11,8 +11,6 @@ import retrofit2.http.*
 
 interface ServerApi {
 
-    // Auth
-
     // 회원가입
     @POST("auth/signup")
     suspend fun authSignUp(
@@ -142,7 +140,17 @@ interface ServerApi {
     // 종료 여부 변경하기
     @PUT("post/{post-id}")
     suspend fun postComplete(
-            @Header("Authorization") accessToken: String,
-            @Path("post-id") postId: String
+        @Header("Authorization") accessToken: String,
+        @Path("post-id") postId: String
+    ) : Response<Void>
+
+    // 회원 정보 변경
+    @Multipart
+    @PATCH("member/information")
+    suspend fun memberInformation(
+        @Header("Authorization") accessToken: String,
+        @Part("name") name: RequestBody?,
+        @Part("introduction") introduction: RequestBody?,
+        @Part profileUrl: MultipartBody.Part?
     ) : Response<Void>
 }
