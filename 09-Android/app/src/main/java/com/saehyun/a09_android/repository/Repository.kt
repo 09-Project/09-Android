@@ -47,6 +47,7 @@ class Repository {
     suspend fun postGroupBuy(title: RequestBody, content: RequestBody, price: RequestBody, transactionRegion: RequestBody,
                              openChatLink: RequestBody, image: MultipartBody.Part): Response<Void> {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
+        println("테스트세$tempToken")
         return ApiProvider.api.postGroupBuy(tempToken, title, content, price, transactionRegion, openChatLink, image)
     }
 
@@ -58,6 +59,7 @@ class Repository {
 
     suspend fun postLike(postId: Int): Response<Void> {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
+        println("테스트세트스$tempToken")
         return ApiProvider.api.likePost(tempToken, postId)
     }
 
@@ -94,5 +96,10 @@ class Repository {
     suspend fun postComplete(postId: String): Response<Void> {
         val tempToken: String = "Bearer " + ACCESS_TOKEN
         return ApiProvider.api.postComplete(tempToken, postId)
+    }
+
+    suspend fun memberInformation(name: RequestBody, introduction: RequestBody, image: MultipartBody.Part): Response<Void> {
+        val tempToken: String = "Bearer " + ACCESS_TOKEN
+        return ApiProvider.api.memberInformation(tempToken, name, introduction, image)
     }
 }

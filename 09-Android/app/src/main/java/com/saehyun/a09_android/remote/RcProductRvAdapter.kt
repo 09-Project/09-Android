@@ -21,7 +21,7 @@ import org.w3c.dom.Text
 
 class RcProductRvAdapter(val context: Context, val productData: List<PostValue>, val postLikeViewModel: PostLikeViewModel, val postDeleteLikeViewModel: PostDeleteLikeViewModel):
     RecyclerView.Adapter<RcProductRvAdapter.Holder>() {
-    
+
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val clRecommendedProduct =
             itemView?.findViewById<ConstraintLayout>(R.id.clRecommendedProduct)
