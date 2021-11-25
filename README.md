@@ -1,4 +1,5 @@
 # 09-Android
 
-* 제작중인 프로젝트
-* 아키텍처 : MVVM
+* 공동구매를 쉽고 편리하게! - Project09
+
+* 사용 기술 : MVVM, Coroutine, AAC ...
