@@ -226,6 +226,8 @@ class MemberShowActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+
+        memberShowViewModel.memberShow(memberId.toString())
     }
 
     private fun myProfile() {
@@ -304,6 +306,6 @@ class MemberShowActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        memberShowViewModel.memberShow(memberId.toString())
+//        memberShowViewModel.memberShow(memberId.toString())
     }
 }
