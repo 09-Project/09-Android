@@ -9,6 +9,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.core.app.ActivityCompat
@@ -54,6 +56,32 @@ class EditProfileActivity : AppCompatActivity() {
         verifyStoragePermissions(this)
 
         val repository = Repository()
+
+        binding.editText.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.tvNicknameLength.text = "(${binding.editText.text.length}/40)"
+            }
+        })
+
+        binding.etIntroduce.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.tvLoreLength.text = "(${binding.etIntroduce.text.length}/40)"
+            }
+        })
 
         reissueViewModelFactory = ReissueViewModelFactory(repository, applicationContext)
         reissueViewModel = ViewModelProvider(this, reissueViewModelFactory).get(ReissueViewModel::class.java)
