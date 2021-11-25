@@ -11,7 +11,10 @@
         android:layout_height="wrap_content"
         tools:context=".ui.activity.CreatePostActivity">
 
-        <ImageView
+        <ImageButton
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
             android:id="@+id/ibCreatePostBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

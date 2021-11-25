@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/ibMainSearch"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
@@ -150,8 +150,8 @@
 
             <ImageButton
                 android:id="@+id/MainibBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginEnd="53dp"
                 app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -163,8 +163,8 @@
 
             <ImageButton
                 android:id="@+id/MainibNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginStart="8dp"
                 android:src="@drawable/ic_main_next"
                 android:scaleType="fitCenter"

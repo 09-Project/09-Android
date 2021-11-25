@@ -7,7 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.EditProfileActivity">
 
-    <ImageView
+    <ImageButton
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
         android:id="@+id/imageView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -150,6 +153,7 @@
         tools:layout_editor_absoluteX="-16dp" />
 
     <TextView
+        android:id="@+id/tvLoreLength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="18dp"
@@ -162,6 +166,7 @@
         app:layout_constraintEnd_toEndOf="@+id/etIntroduce" />
 
     <TextView
+        android:id="@+id/tvNicknameLength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="18dp"
