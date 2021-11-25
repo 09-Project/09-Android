@@ -99,17 +99,19 @@ class SearchActivity : AppCompatActivity() {
 
         // Page Set
         binding.ibSearchPageBack.setOnClickListener {
-            --currentPage
-            if(currentPage <= 1) {
-                currentPage = maxPage-1
+            if(currentPage <= 0) {
+                ToastUtil.print(applicationContext, "첫 페이지입니다!")
+                return@setOnClickListener
             }
+            currentPage--
             searchViewModel.authPostSearch(keyword, currentPage, VIEW_SIZE)
         }
 
         binding.ibSearchPageNext.setOnClickListener {
             ++currentPage
             if(currentPage >= maxPage) {
-                currentPage = 0
+                ToastUtil.print(applicationContext, "마지막 페이지입니다!")
+                return@setOnClickListener
             }
             searchViewModel.authPostSearch(keyword, currentPage, VIEW_SIZE)
         }

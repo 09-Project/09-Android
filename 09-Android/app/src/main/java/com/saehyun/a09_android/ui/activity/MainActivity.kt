@@ -61,17 +61,19 @@ class   MainActivity : AppCompatActivity() {
 
         // Page Set
         binding.MainibBack.setOnClickListener {
-            --currentPage
-            if(currentPage <= 1) {
-                currentPage = maxPage-1
+            if(currentPage <= 0) {
+                ToastUtil.print(applicationContext, "첫 페이지입니다!")
+                return@setOnClickListener
             }
+            currentPage--
             postViewModel.authPost(currentPage, VIEW_SIZE)
         }
 
         binding.MainibNext.setOnClickListener {
             ++currentPage
             if(currentPage >= maxPage) {
-                currentPage = 0
+                ToastUtil.print(applicationContext, "마지막 페이지입니다!")
+                return@setOnClickListener
             }
             postViewModel.authPost(currentPage, VIEW_SIZE)
         }
